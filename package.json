@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hdborelli/DSW-2024-305-Borelli-Coyle-Faulin-Nunez.git#main"
+    "url": "git+https://github.com/efaulin/DSW-2024-305-Borelli-Cilfone-Coyle-Faulin.git#main"
   },
-  "author": "Borelli, Hernán Darío; Coyle, Virginia Mariel; Faulin, Eugenio Pandu; Nuñez, Mateo Nicolás",
+  "author": "Borelli, Hernán Darío; Cilfone, Angel David Carlos; Coyle, Virginia Mariel; Faulin, Eugenio Pandu",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hdborelli/DSW-2024-305-Borelli-Coyle-Faulin-Nunez/issues"
+    "url": "https://github.com/efaulin/DSW-2024-305-Borelli-Cilfone-Coyle-Faulin/issues"
   },
-  "homepage": "https://github.com/hdborelli/DSW-2024-305-Borelli-Coyle-Faulin-Nunez/tree/main#readme",
+  "homepage": "https://github.com/efaulin/DSW-2024-305-Borelli-Cilfone-Coyle-Faulin/tree/main#readme",
   "devDependencies": {
     "@eslint/js": "^9.2.0",
     "eslint": "^9.2.0",
