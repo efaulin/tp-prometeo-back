@@ -1,5 +1,5 @@
 import express from "express";
-import { Usuario } from "./Models/usuarioModel.js";
+import { Usuario } from "./Classes/usuarioClass.js";
 
 const port = 3000;
 const app = express();
