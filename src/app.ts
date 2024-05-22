@@ -4,7 +4,8 @@ import { Usuario } from "./Models/usuario.js";
 const port = 3000;
 const app = express();
 
-//#region AAA
+app.use(express.json());
+
 //        get -> obtener recurso
 //       post -> crear nuevo recurso
 //     delete -> borrar recurso
@@ -27,34 +28,60 @@ if (logger > 0) {
     });
 }
 
-app.route("/api/xd/")
+app.route("/api/usuario/")
     //READ
     .get(function(req, res) {
-        res.json(usuarios);
+        return res.json(usuarios);
     })
     //CREATE
     .post(function(req, res) {
-        res.send("POST request");
+        const {usuario, contraseña, email, tipo} = req.body;
+        if (!usuario || !contraseña || !email || !tipo) {
+            return res.status(400).send("Que pones?????")
+        }
+        //const maxId = usuarios.reduce((max, obj) => (obj.idusuario > max ? obj.idusuario), usuarios[0].idusuario);
+        let maxId = 0;
+        usuarios.forEach((usr) => {if (usr.idusuario > maxId) {maxId = usr.idusuario}});
+        const idusuario = maxId + 1;
+        const newUsr = new Usuario(idusuario, usuario, contraseña, email, tipo);
+
+        usuarios.push(newUsr);
+
+        return res.status(201).send(newUsr);
     })
-    //UPDATE
-    .put()
-    //DELETE
-    .delete()
 ;//END usuario
 
-app.route("/api/xd/:id")
+app.route("/api/usuario/:id")
     .get(function(req, res) {
-        const oneUsr:Usuario|undefined = usuarios.find((usr)=>{usr.idusuario == Number.parseInt(req.params.id)})
+        const oneUsr:Usuario|undefined = usuarios.find((usr) => usr.idusuario === Number.parseInt(req.params.id));
         if (oneUsr === undefined) {
-            res.status(400).send("Error en la solicitud");
+            return res.status(404).send("No se encontro ID");
         }
-        res.json(oneUsr);
+        return res.json(oneUsr);
     })
-    .post()
-    .put()
-    .delete()
+    .put(function(req, res) {
+        const indUsr = usuarios.findIndex((usr) => usr.idusuario === Number.parseInt(req.params.id));
+        if (indUsr === -1) {
+            return res.status(404).send("No se encontro ID")
+        }
+
+        const {usuario, contraseña, email, tipo} = req.body;
+        if (!usuario || !contraseña || !email || !tipo) {
+            return res.status(400).send("Que pones?????")
+        }
+
+        usuarios[indUsr] = {...usuarios[indUsr], ...{usuario, contraseña, email, tipo}};
+        res.status(200).send(usuarios[indUsr]);
+    })
+    .delete(function(req, res) {
+        const oneUsr:Usuario|undefined = usuarios.find((usr) => usr.idusuario === Number.parseInt(req.params.id));
+        if (oneUsr === undefined) {
+            return res.status(404).send("No se encontro ID");
+        }
+        usuarios.splice(usuarios.indexOf(oneUsr),1);
+        return res.status(202).json(usuarios);
+    })
 ;//END usuario/:id
-//#endregion
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
@@ -83,4 +110,4 @@ const usuarios = [
         "vcoyle@frro.utn.edu.ar",
         "type3"
     ),
-]
+];
