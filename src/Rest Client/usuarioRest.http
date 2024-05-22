@@ -1,0 +1,34 @@
+## Comandos para la extension Rest Client
+
+## CRUD Usuarios
+
+### Obtener todos los Usuarios
+GET http://localhost:3000/api/usuario
+
+### Obtener uno
+GET http://localhost:3000/api/usuario/101
+
+### Crear un nuevo recurso
+POST http://localhost:3000/api/usuario
+Content-Type: application/json
+
+{
+    "usuario": "Angel",
+    "contraseña": "pass",
+    "email":"aaa@cc.bb",
+    "tipo":"Admin"
+}
+
+### Modificar un recurso
+PUT http://localhost:3000/api/usuario/101
+Content-Type: application/json
+
+{
+    "usuario": "Not418",
+    "contraseña": "I'm not in a teapot",
+    "email":"mbarletta@hcdn.gob.ar",
+    "tipo":"Diputado"
+}
+
+### Eliminar un recurso
+DELETE http://localhost:3000/api/usuario/101
