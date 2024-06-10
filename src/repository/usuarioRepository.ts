@@ -1,4 +1,4 @@
-import { Usuario } from "../Classes/UsuarioClass.js";
+import { Usuario } from "../entities/usuarioEntity.js";
 
 export class UsuarioRepository{
     //Guardo en memoria
@@ -35,9 +35,10 @@ export class UsuarioRepository{
     }
 
     static Create(usr:Usuario):Usuario {
+        //Validar no ingrese un "usuario" con id definida (id >= 0)
         //const maxId = usuarios.reduce((max, obj) => (obj.idusuario > max ? obj.idusuario), usuarios[0].idusuario);
         let maxId = 0;
-        this.usuarios.forEach((usr) => {if (usr.idusuario > maxId) {maxId = usr.idusuario}});
+        this.usuarios.forEach((usr) => {if (usr.idusuario > maxId) {omaxId = usr.idusuari}});
         usr.idusuario = maxId + 1;
         this.usuarios.push(usr);
         return usr;

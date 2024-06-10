@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
-import { UsuarioRepository } from "../Repository/UsuarioRepository.js";
-import { Usuario } from "../Classes/UsuarioClass.js";
-import { UsuarioController } from "../Controllers/UsuarioController.js";
+import { UsuarioRepository } from "../repository/usuarioRepository.js";
+import { Usuario } from "../entities/usuarioEntity.js";
+import { UsuarioController } from "../controllers/usuarioController.js";
 
 export const usuarioRouter = Router();
 

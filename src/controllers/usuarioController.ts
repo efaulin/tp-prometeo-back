@@ -1,4 +1,4 @@
-import { Usuario } from "../Classes/UsuarioClass.js";
+import { Usuario } from "../entities/usuarioEntity.js";
 
 export class UsuarioController{
     static NewUsuario(id:number=-1, usr:string ,pass:string ,email:string ,tipo:string ):Usuario {

@@ -1,6 +1,6 @@
 import express from "express";
-import { Usuario } from "./Classes/UsuarioClass.js";
-import { usuarioRouter } from "./Routes/UsuarioRoute.js";
+import { Usuario } from "../entities/usuarioEntity.js";
+import { usuarioRouter } from "./routes/usuarioRoute.js";
 
 const port = 3000;
 const app = express();
