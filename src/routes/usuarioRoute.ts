@@ -12,14 +12,14 @@ usuarioRouter.route("/")
     })
     //CREATE
     .post(function(req, res) {
-        const {usuario, contraseña, email, tipo} = req.body;
+        const {usuario, contra, email, tipo} = req.body;
 
         //Verifico inputs
-        if (!usuario || !contraseña || !email || !tipo) {
+        if (!usuario || !contra || !email || !tipo) {
             return res.status(400).send("Que pones?????");
         }
 
-        const newUsr = UsuarioController.NewUsuario(undefined, usuario, contraseña, email, tipo);
+        const newUsr = UsuarioController.New(undefined, usuario, contra, email, tipo);
         return res.status(201).send(UsuarioRepository.Create(newUsr));
     })
 ;//END usuario
@@ -42,17 +42,17 @@ usuarioRouter.route("/:id")
     })
     .put(function(req, res) {
         const id = Number.parseInt(req.params.id);
-        const {usuario, contraseña, email, tipo} = req.body;
+        const {usuario, contra, email, tipo} = req.body;
 
         //Verifico inputs
-        if (isNaN(id) || !usuario || !contraseña || !email || !tipo) {
+        if (isNaN(id) || !usuario || !contra || !email || !tipo) {
             return res.status(400).send("Que pones?????");
         }
 
         //¿Existe ID?
         const tmpUsr = UsuarioRepository.GetOne(id);
         if (tmpUsr) {
-            const updUsr = UsuarioController.NewUsuario(id, usuario, contraseña, email, tipo);
+            const updUsr = UsuarioController.New(id, usuario, contra, email, tipo);
             if (UsuarioRepository.Update(updUsr)) {
                 return res.status(200).send("Usuario Actualizado");
             }
@@ -71,7 +71,7 @@ usuarioRouter.route("/:id")
         //¿Existe ID?
         const tmpUsr = UsuarioRepository.GetOne(id);
         if (tmpUsr) {
-            if (UsuarioRepository.Delete(tmpUsr.idusuario)) {
+            if (UsuarioRepository.Delete(tmpUsr.id)) {
                 return res.status(202).send("Usuario Borrado");
             }
         }

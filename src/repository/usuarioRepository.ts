@@ -27,27 +27,28 @@ export class UsuarioRepository{
     ];
 
     static GetOne(id:number):Usuario|undefined {
-        return this.usuarios.find((usr) => usr.idusuario === id);
+        return this.usuarios.find((usr) => usr.id === id);
     }
 
-    static GetAll():Usuario[] {
+    static GetAll():Usuario[]|undefined{
+        //En caso de error mandar "Undefined"
         return this.usuarios;
     }
 
-    static Create(usr:Usuario):Usuario {
+    static Create(usr:Usuario):Usuario|undefined {
         //Validar no ingrese un "usuario" con id definida (id >= 0)
-        //const maxId = usuarios.reduce((max, obj) => (obj.idusuario > max ? obj.idusuario), usuarios[0].idusuario);
+        //En caso de error mandar "Undefined"
         let maxId = 0;
-        this.usuarios.forEach((usr) => {if (usr.idusuario > maxId) {omaxId = usr.idusuari}});
-        usr.idusuario = maxId + 1;
+        this.usuarios.forEach((usr) => {if (usr.id > maxId) {maxId = usr.id}});
+        usr.id = maxId + 1;
         this.usuarios.push(usr);
         return usr;
     }
 
     static Update(usr:Usuario):boolean {
-        const indUsr = this.usuarios.findIndex((tmpUsr) => tmpUsr.idusuario === usr.idusuario);
+        const indUsr = this.usuarios.findIndex((tmpUsr) => tmpUsr.id === usr.id);
         if (indUsr != -1) {
-            usr.idusuario = this.usuarios[indUsr].idusuario;
+            usr.id = this.usuarios[indUsr].id;
             this.usuarios[indUsr] = usr;
             return true;
         }
@@ -57,7 +58,7 @@ export class UsuarioRepository{
     }
 
     static Delete(id:number):boolean {
-        const oneUsr:Usuario|undefined = this.usuarios.find((usr) => usr.idusuario === id);
+        const oneUsr:Usuario|undefined = this.usuarios.find((usr) => usr.id === id);
         if (oneUsr) {
             this.usuarios.splice(this.usuarios.indexOf(oneUsr),1);
             return true;
