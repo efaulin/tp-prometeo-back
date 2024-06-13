@@ -1,8 +1,12 @@
+import { ObjectId } from "mongodb";
 import { Usuario } from "../entities/usuarioEntity.js";
+import { db } from "../shared/db/conn.js";
+import { UsuarioController } from "../controllers/usuarioController.js";
+
 
 export class UsuarioRepository{
     //Guardo en memoria
-    static usuarios = [
+    /*static usuarios = [
         new Usuario(
             101,
             "pandugat",
@@ -24,47 +28,51 @@ export class UsuarioRepository{
             "vcoyle@frro.utn.edu.ar",
             "type3"
         ),
-    ];
+    ];*/
 
-    static GetOne(id:number):Usuario|undefined {
-        return this.usuarios.find((usr) => usr.id === id);
+    static usuarios = db.collection<Usuario>('usuarios');
+
+    static async GetOne(id:string):Promise<Usuario|undefined> {
+        const _id = new ObjectId(id);
+        const result = await this.usuarios.findOne(_id);
+        if (result) {
+            const usuario = UsuarioController.New(result.usuario, result.contra, result.email, result.tipo, result._id.toString());
+            return usuario;
+        }
+        return undefined;
     }
 
-    static GetAll():Usuario[]|undefined{
+    static async GetAll():Promise<Usuario[]|undefined>{
         //En caso de error mandar "Undefined"
-        return this.usuarios;
+        return await this.usuarios.find().toArray();
     }
 
-    static Create(usr:Usuario):Usuario|undefined {
+    static async Create(usr:Usuario):Promise<number|undefined> {
         //Validar no ingrese un "usuario" con id definida (id >= 0)
         //En caso de error mandar "Undefined"
-        let maxId = 0;
-        this.usuarios.forEach((usr) => {if (usr.id > maxId) {maxId = usr.id}});
-        usr.id = maxId + 1;
-        this.usuarios.push(usr);
-        return usr;
+        const usuario = this.usuarios.insertOne();
     }
 
-    static Update(usr:Usuario):boolean {
+    static async Update(usr:Usuario):Promise<boolean> {
         const indUsr = this.usuarios.findIndex((tmpUsr) => tmpUsr.id === usr.id);
         if (indUsr != -1) {
             usr.id = this.usuarios[indUsr].id;
             this.usuarios[indUsr] = usr;
-            return true;
+            return await true;
         }
         else {
-            return false;
+            return await false;
         }
     }
 
-    static Delete(id:number):boolean {
+    static async Delete(id:number):Promise<boolean> {
         const oneUsr:Usuario|undefined = this.usuarios.find((usr) => usr.id === id);
         if (oneUsr) {
             this.usuarios.splice(this.usuarios.indexOf(oneUsr),1);
-            return true;
+            return await true;
         }
         else {
-            return false;
+            return await false;
         }
     }
 }

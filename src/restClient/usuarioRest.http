@@ -14,7 +14,7 @@ Content-Type: application/json
 
 {
     "usuario": "Angel",
-    "contraseña": "pass",
+    "contra": "pass",
     "email":"aaa@cc.bb",
     "tipo":"Admin"
 }
@@ -25,7 +25,7 @@ Content-Type: application/json
 
 {
     "usuario": "Not418",
-    "contraseña": "I'm not in a teapot",
+    "contra": "I'm not in a teapot",
     "email":"mbarletta@hcdn.gob.ar",
     "tipo":"Diputado"
 }

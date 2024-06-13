@@ -6,12 +6,14 @@ import { UsuarioController } from "../controllers/usuarioController.js";
 export const usuarioRouter = Router();
 
 usuarioRouter.route("/")
-    //READ
-    .get(function(req, res) {
-        return res.json(UsuarioRepository.GetAll());
+    //GetAll
+    .get(async function(req, res) {
+        const usuarios = await UsuarioController.GetAll();
+        //Falta validar error
+        return res.json(usuarios);
     })
-    //CREATE
-    .post(function(req, res) {
+    //Create
+    .post(async function(req, res) {
         const {usuario, contra, email, tipo} = req.body;
 
         //Verifico inputs
@@ -19,59 +21,68 @@ usuarioRouter.route("/")
             return res.status(400).send("Que pones?????");
         }
 
-        const newUsr = UsuarioController.New(undefined, usuario, contra, email, tipo);
-        return res.status(201).send(UsuarioRepository.Create(newUsr));
+        const newUsr = UsuarioController.New(usuario, contra, email, tipo);
+        const result = await UsuarioController.Create(newUsr);
+
+        //Falta validar error
+        return res.status(201).send(result);
     })
 ;//END usuario
 
 usuarioRouter.route("/:id")
-    .get(function(req, res) {
-        const id = Number.parseInt(req.params.id);
+    //GetOne
+    .get(async function(req, res) {
+        //const id = Number.parseInt(req.params.id);
+        const id = req.params.id;
 
         //Verifico inputs
-        if (isNaN(id)) {
+        /*if (isNaN(id)) {
             return res.status(400).send("Que pones?????");
-        }
+        }*/
 
         //¿Existe ID?
-        const tmpUsr = UsuarioRepository.GetOne(id);
+        const tmpUsr = await UsuarioController.GetOne(id);
         if (tmpUsr) {
             return res.status(201).json(tmpUsr);
         }
         return res.status(404).send("No se encontro ID");
     })
-    .put(function(req, res) {
-        const id = Number.parseInt(req.params.id);
+    //Update
+    .put(async function(req, res) {
+        //const id = Number.parseInt(req.params.id);
+        const id = req.params.id;
         const {usuario, contra, email, tipo} = req.body;
 
         //Verifico inputs
-        if (isNaN(id) || !usuario || !contra || !email || !tipo) {
+        if (!usuario || !contra || !email || !tipo) {
             return res.status(400).send("Que pones?????");
         }
 
         //¿Existe ID?
-        const tmpUsr = UsuarioRepository.GetOne(id);
+        const tmpUsr = await UsuarioController.GetOne(id);
         if (tmpUsr) {
             const updUsr = UsuarioController.New(id, usuario, contra, email, tipo);
-            if (UsuarioRepository.Update(updUsr)) {
+            if (await UsuarioController.Update(updUsr)) {
                 return res.status(200).send("Usuario Actualizado");
             }
             return res.status(500).send("(。_。)");
         }
         return res.status(404).send("No se encontro ID");
     })
-    .delete(function(req, res) {
-        const id = Number.parseInt(req.params.id);
+    //Delete
+    .delete(async function(req, res) {
+        //const id = Number.parseInt(req.params.id);
+        const id = req.params.id;
 
         //Verifico inputs
-        if (isNaN(id)) {
+        /*if (isNaN(id)) {
             return res.status(400).send("Que pones?????");
-        }
+        }*/
 
         //¿Existe ID?
-        const tmpUsr = UsuarioRepository.GetOne(id);
+        const tmpUsr = await UsuarioController.GetOne(id);
         if (tmpUsr) {
-            if (UsuarioRepository.Delete(tmpUsr.id)) {
+            if (await UsuarioController.Delete(id)) {
                 return res.status(202).send("Usuario Borrado");
             }
         }
