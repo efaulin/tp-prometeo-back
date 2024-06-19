@@ -6,6 +6,6 @@ export class Usuario{
         public contra:string,
         public email:string,
         public tipo:string,
-        public id?:ObjectId
+        public _id?:ObjectId
     ) {};
 };

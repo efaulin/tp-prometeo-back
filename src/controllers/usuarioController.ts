@@ -29,7 +29,7 @@ export class UsuarioController{
         return result;
     }
 
-    static async Delete(id:number){
+    static async Delete(id:string){
         const result = await UsuarioRepository.Delete(id);
         return result;
     }

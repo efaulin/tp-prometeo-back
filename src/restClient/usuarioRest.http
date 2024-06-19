@@ -6,7 +6,7 @@
 GET http://localhost:3000/api/usuario
 
 ### Obtener uno
-GET http://localhost:3000/api/usuario/101
+GET http://localhost:3000/api/usuario/667221387abd545ec8a6ffa7
 
 ### Crear un nuevo recurso
 POST http://localhost:3000/api/usuario
@@ -20,7 +20,7 @@ Content-Type: application/json
 }
 
 ### Modificar un recurso
-PUT http://localhost:3000/api/usuario/101
+PUT http://localhost:3000/api/usuario/667221387abd545ec8a6ffa7
 Content-Type: application/json
 
 {
