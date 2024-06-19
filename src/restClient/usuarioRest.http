@@ -6,7 +6,7 @@
 GET http://localhost:3000/api/usuario
 
 ### Obtener uno
-GET http://localhost:3000/api/usuario/101
+GET http://localhost:3000/api/usuario/667221387abd545ec8a6ffa7
 
 ### Crear un nuevo recurso
 POST http://localhost:3000/api/usuario
@@ -14,21 +14,21 @@ Content-Type: application/json
 
 {
     "usuario": "Angel",
-    "contraseña": "pass",
+    "contra": "pass",
     "email":"aaa@cc.bb",
     "tipo":"Admin"
 }
 
 ### Modificar un recurso
-PUT http://localhost:3000/api/usuario/101
+PUT http://localhost:3000/api/usuario/667221387abd545ec8a6ffa7
 Content-Type: application/json
 
 {
     "usuario": "Not418",
-    "contraseña": "I'm not in a teapot",
+    "contra": "I'm not in a teapot",
     "email":"mbarletta@hcdn.gob.ar",
     "tipo":"Diputado"
 }
 
 ### Eliminar un recurso
-DELETE http://localhost:3000/api/usuario/101
+DELETE http://localhost:3000/api/usuario/6672475d5404e2469abdb3b5
