@@ -52,7 +52,7 @@ export class UsuarioRepository{
 
     static async Update(usr:Usuario):Promise<Usuario|undefined> {
         const obj = usr._id;
-        return (await this.controller.findOneAndUpdate({obj}, { $set:usr }, {returnDocument:"after"})) || undefined;
+        return (await this.controller.findOneAndUpdate({_id: obj}, { $set:usr }, {returnDocument:"after"})) || undefined;
     }
 
     static async Delete(id:string):Promise<Usuario|undefined> {

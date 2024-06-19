@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb";
 
 export class UsuarioController{
     static New(usuario:string ,contra:string ,email:string ,tipo:string ,id:string|undefined=undefined):Usuario {
-        return new Usuario(usuario,contra,email,tipo,new ObjectId(id));
+        return new Usuario(usuario,contra,email,tipo,new ObjectId(id)||undefined);
     }
 
     static async GetAll(){

@@ -31,4 +31,4 @@ Content-Type: application/json
 }
 
 ### Eliminar un recurso
-DELETE http://localhost:3000/api/usuario/101
+DELETE http://localhost:3000/api/usuario/6672475d5404e2469abdb3b5

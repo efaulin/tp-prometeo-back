@@ -61,7 +61,7 @@ usuarioRouter.route("/:id")
         //¿Existe ID?
         const tmpUsr = await UsuarioController.GetOne(id);
         if (tmpUsr) {
-            const updUsr = UsuarioController.New(id, usuario, contra, email, tipo);
+            const updUsr = UsuarioController.New(usuario, contra, email, tipo, id);
             if (await UsuarioController.Update(updUsr)) {
                 return res.status(200).send("Usuario Actualizado");
             }
