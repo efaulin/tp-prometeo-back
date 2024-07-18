@@ -1,13 +1,14 @@
-import { Console } from "console";
 import { Usuario } from "../entities/usuarioEntity.js";
 import { UsuarioRepository } from "../repository/usuarioRepository.js";
 import { ObjectId } from "mongodb";
+import { Controller } from "./abstractController.js";
 
-export class UsuarioController{
+//TODO Manejo de errores GetOne GetAll y Create
+export class UsuarioController extends Controller<Usuario>() {
     static New(usuario:string ,contra:string ,email:string ,tipo:string ,id:string|undefined=undefined):Usuario {
         return new Usuario(usuario,contra,email,tipo,new ObjectId(id)||undefined);
     }
-
+    
     static async GetAll(){
         const usuarios = await UsuarioRepository.GetAll();
         return usuarios;
@@ -20,7 +21,6 @@ export class UsuarioController{
 
     static async Create(usr:Usuario){
         const idUsuario = await UsuarioRepository.Create(usr);
-        //Falta validar error
         return usr;
     }
 
