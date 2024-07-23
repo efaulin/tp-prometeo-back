@@ -1,5 +1,6 @@
 import express from "express";
 import { usuarioRouter } from "./routes/usuarioRoute.js";
+import { categoriaRouter } from "./routes/categoriaRoute.js";
 
 const port = 3000;
 const app = express();
@@ -29,6 +30,7 @@ if (logger > 0) {
 }
 
 app.use("/api/usuario/", usuarioRouter);
+app.use("/api/categoria/", categoriaRouter);
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
