@@ -1,0 +1,28 @@
+## Comandos para la extension Rest Client
+
+## CRUD Categorias
+
+### Obtener todos las categorias
+GET http://localhost:3000/api/categoria
+
+### Obtener uno
+GET http://localhost:3000/api/categoria/66a039b2673dcca8c561f8fe
+
+### Crear un nuevo recurso
+POST http://localhost:3000/api/categoria
+Content-Type: application/json
+
+{
+    "nombre": "PHP Hater"
+}
+
+### Modificar un recurso
+PUT http://localhost:3000/api/categoria/66a039b2673dcca8c561f8fe
+Content-Type: application/json
+
+{
+    "nombre": "Humor"
+}
+
+### Eliminar un recurso
+DELETE http://localhost:3000/api/categoria/66a039b2673dcca8c561f8fe

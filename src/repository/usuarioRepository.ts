@@ -1,7 +1,6 @@
 import { ObjectId } from "mongodb";
 import { Usuario } from "../entities/usuarioEntity.js";
 import { db } from "../shared/db/conn.js";
-import { UsuarioController } from "../controllers/usuarioController.js";
 import { Repository } from "./abstractRepository.js";
 
 //TODO Manejo de errores GetOne GetAll y Create
