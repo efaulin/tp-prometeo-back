@@ -1,6 +1,6 @@
 import { Response } from "express";
 
-export class Return {
+export class HandleResponse {
     constructor(
         private updatetxt:string,
         private deletetxt:string,

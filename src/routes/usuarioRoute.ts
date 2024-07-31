@@ -1,10 +1,16 @@
 import { Router, Request, Response } from "express";
 import { UsuarioController } from "../controllers/usuarioController.js";
-import { Return } from "./interfaceReturn.js";
+import { HandleResponse } from "./interfaceReturn.js";
 
 export const usuarioRouter = Router();
 
-const result = new Return("Usuario Actualizado", "Usuario Borrado", "Que pones?????", "No se encontro ID", "(。_。)");
+const handleResponse = new HandleResponse(
+    "Usuario Actualizado",
+    "Usuario Borrado",
+    "Que pones?????",
+    "No se encontro ID",
+    "(。_。)"
+);
 
 usuarioRouter.route("/")
     //GetAll
@@ -13,14 +19,14 @@ usuarioRouter.route("/")
             const usuarios = await UsuarioController.GetAll();
             return res.json(usuarios);
         } catch {
-            return result.generic(res);
+            return handleResponse.generic(res);
         }
     })
     //Create
     .post(async function(req, res) {
         //Verifico inputs
         if (!UsuarioController.Inputs(req)) {
-            return result.badInput(res);
+            return handleResponse.badInput(res);
         }
 
         const {usuario, contra, email, tipo} = req.body;
@@ -31,7 +37,7 @@ usuarioRouter.route("/")
 
             return res.status(201).send(result);
         } catch {
-            return result.generic(res);
+            return handleResponse.generic(res);
         }
     })
 ;//END usuario
@@ -47,16 +53,16 @@ usuarioRouter.route("/:id")
             if (tmpUsr) {
                 return res.status(201).json(tmpUsr);
             }
-            return result.notFound(res);
+            return handleResponse.notFound(res);
         } catch {
-            return result.generic(res);
+            return handleResponse.generic(res);
         }
     })
     //Update
     .put(async function(req, res) {
         //Verifico inputs
         if (!UsuarioController.Inputs(req)) {
-            return result.badInput(res);
+            return handleResponse.badInput(res);
         }
 
         const id = req.params.id;
@@ -68,13 +74,13 @@ usuarioRouter.route("/:id")
             if (tmpUsr) {
                 const updUsr = UsuarioController.New(usuario, contra, email, tipo, id);
                 if (await UsuarioController.Update(updUsr)) {
-                    return result.update(res);
+                    return handleResponse.update(res);
                 }
-                return result.generic(res);
+                return handleResponse.generic(res);
             }
-            return result.notFound(res);
+            return handleResponse.notFound(res);
         } catch {
-            return result.generic(res);
+            return handleResponse.generic(res);
         }
     })
     //Delete
@@ -86,12 +92,12 @@ usuarioRouter.route("/:id")
             const tmpUsr = await UsuarioController.GetOne(id);
             if (tmpUsr) {
                 if (await UsuarioController.Delete(id)) {
-                    return result.delete(res);
+                    return handleResponse.delete(res);
                 }
             }
-            return result.notFound(res);
+            return handleResponse.notFound(res);
         } catch {
-            return result.generic(res);
+            return handleResponse.generic(res);
         }
     })
 ;//END usuario/:id
