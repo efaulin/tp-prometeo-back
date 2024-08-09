@@ -33,6 +33,7 @@
     "extends": "standard"
   },
   "dependencies": {
-    "mongodb": "^6.7.0"
+    "mongodb": "^6.7.0",
+    "mongoose": "^8.5.2"
   }
 }

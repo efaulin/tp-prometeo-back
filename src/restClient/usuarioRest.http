@@ -3,32 +3,32 @@
 ## CRUD Usuarios
 
 ### Obtener todos los Usuarios
-GET http://localhost:3000/api/usuario
+GET http://localhost:3005/api/usuario
 
 ### Obtener uno
-GET http://localhost:3000/api/usuario/667221387abd545ec8a6ffa7
+GET http://localhost:3005/api/usuario/66b5954bf8925423aa283012
 
 ### Crear un nuevo recurso
-POST http://localhost:3000/api/usuario
+POST http://localhost:3005/api/usuario
 Content-Type: application/json
 
 {
-    "usuario": "Angel",
+    "usuario": "Pedro",
     "contra": "pass",
-    "email":"aaa@cc.bb",
-    "tipo":"Admin"
+    "email":"dasda@cc.bb",
+    "tipo":"Cliente"
 }
 
 ### Modificar un recurso
-PUT http://localhost:3000/api/usuario/667221387abd545ec8a6ffa7
+PUT http://localhost:3005/api/usuario/66b5954bf8925423aa283012
 Content-Type: application/json
 
 {
-    "usuario": "Not418",
+    "usuario": "Pedro Pascal",
     "contra": "I'm not in a teapot",
-    "email":"mbarletta@hcdn.gob.ar",
-    "tipo":"Diputado"
+    "email":"dasda@cc.bb",
+    "tipo":"Cliente"
 }
 
 ### Eliminar un recurso
-DELETE http://localhost:3000/api/usuario/6672475d5404e2469abdb3b5
+DELETE http://localhost:3005/api/usuario/6695b405754f295c28475aae

@@ -1,11 +1,13 @@
 import express from "express";
 import { usuarioRouter } from "./routes/usuarioRoute.js";
+import {connectToDatabase} from "./dbMiddleware.js";
 
-const port = 3000;
+const port = 3005;
 const app = express();
 
 app.use(express.json());
 
+//app.use(dbMiddleware);
 //        get -> obtener recurso
 //       post -> crear nuevo recurso
 //     delete -> borrar recurso
@@ -30,6 +32,11 @@ if (logger > 0) {
 
 app.use("/api/usuario/", usuarioRouter);
 
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}/`);
+connectToDatabase().then(() => {
+    app.listen(port, () => {
+        console.log(`Servidor corriendo en el puerto ${port}`);
+    });
+}).catch(err => {
+    console.error('Error al conectar a la base de datos:', err);
+    process.exit(1); // Salir del proceso si no se puede conectar a la base de datos
 });
