@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { UsuarioRepository } from "../repository/usuarioRepository.js";
 import { Request, Response } from 'express';
 
@@ -47,23 +46,6 @@ export class UsuarioController{
             console.error("Error al crear usuario:", error);
             return res.status(500).send("[Error] Create User");
         }
-=======
-import { Usuario } from "../entities/usuarioEntity.js";
-import { UsuarioRepository } from "../repository/usuarioRepository.js";
-import { ObjectId } from "mongodb";
-import { Controller } from "./abstractController.js";
-import { Request } from "express";
-
-//TODO Manejo de errores GetOne GetAll y Create
-export class UsuarioController extends Controller<Usuario>() {
-    static New(usuario:string ,contra:string ,email:string ,tipo:string ,id:string|undefined=undefined):Usuario {
-        return new Usuario(usuario,contra,email,tipo,new ObjectId(id)||undefined);
-    }
-    
-    static async GetAll(){
-        const usuarios = await UsuarioRepository.GetAll();
-        return usuarios;
->>>>>>> 312a9b89def48b4c6d9bb29c0f4b591d38781a20
     }
 
     static async Update(req: Request, res: Response): Promise<Response> {
@@ -88,7 +70,6 @@ export class UsuarioController extends Controller<Usuario>() {
         }
     }
 
-<<<<<<< HEAD
     static async Delete(req: Request, res: Response){
         try {
             const id = req.params.id;
@@ -101,21 +82,7 @@ export class UsuarioController extends Controller<Usuario>() {
             console.error("Error al eliminar usuario:", error);
             return res.status(500).send("[Error] Delete User");
         }
-=======
-    static async Create(usr:Usuario){
-        const idUsuario = await UsuarioRepository.Create(usr);
-        return usr;
-    }
 
-    static async Update(usr:Usuario){
-        const result = await UsuarioRepository.Update(usr)
-        return result;
-    }
-
-    static async Delete(id:string){
-        const result = await UsuarioRepository.Delete(id);
-        return result;
->>>>>>> 312a9b89def48b4c6d9bb29c0f4b591d38781a20
     }
 
     //TODO Ver "Sanitizacion de input", mientras queda temporalmente
