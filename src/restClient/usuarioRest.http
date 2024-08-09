@@ -21,6 +21,7 @@ Content-Type: application/json
 
 ### Modificar un recurso
 PUT http://localhost:3005/api/usuario/66b5954bf8925423aa283012
+
 Content-Type: application/json
 
 {
@@ -32,3 +33,4 @@ Content-Type: application/json
 
 ### Eliminar un recurso
 DELETE http://localhost:3005/api/usuario/6695b405754f295c28475aae
+

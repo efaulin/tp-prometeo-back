@@ -1,6 +1,5 @@
 import { Usuario } from "../schemas/usuarioSchema.js";
 import { HydratedDocument, Document } from 'mongoose';
-
 interface UsuarioDocument extends Document {
     username: string;
     password: string;
