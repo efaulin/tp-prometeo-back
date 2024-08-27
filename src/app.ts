@@ -5,7 +5,7 @@ import {connectToDatabase} from "./dbMiddleware.js";
 import { categoriaRouter } from "./routes/categoriaRoute.js";
 
 
-const port = 3000;
+const port = 3005;
 const app = express();
 
 app.use(express.json());
