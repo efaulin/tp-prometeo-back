@@ -1,11 +1,11 @@
-import { ObjectId } from "mongodb";
-import { db } from "../shared/db/conn.js";
-import { Repository } from "./abstractRepository.js";
-import { Categoria } from "../entities/categoriaEntity.js";
+import { Categoria } from "../schemas/categoriaSchema.js";
+import { HydratedDocument, Document } from "mongoose";
 
-//TODO Manejo de errores GetOne GetAll y Create
-export class CategoriaRepository extends Repository<Categoria>(){
-    static controller = db.collection<Categoria>('categoria');
+interface CategoriaDocument extends Document{
+    name: string;
+}
+
+export class CategoriaRepository{
 
     /**
      * Busca una **Categoria** por ID.
@@ -13,10 +13,14 @@ export class CategoriaRepository extends Repository<Categoria>(){
      * @returns En caso de encontrar una **Categoria** con el mismo `id` lo devuelve. Caso contrario, devuelve **undefined**.
      * @async
      */
-    static async GetOne(id:string):Promise<Categoria|undefined> {
-        const _id = new ObjectId(id);
-        const result = await this.controller.findOne({_id});
-        return result || undefined;
+    static async GetOne(id:string): Promise<HydratedDocument<CategoriaDocument> | null> {
+        try {
+            const result = await Categoria.findById(id);
+            return result;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
     }
 
     /**
@@ -24,31 +28,66 @@ export class CategoriaRepository extends Repository<Categoria>(){
      * @returns Colleccion de **Categoria**'s. En caso de error, devuelve **undefined**.
      * @async
      */
-    static async GetAll():Promise<Categoria[]|undefined>{
-        //En caso de error mandar "Undefined"
-        return await this.controller.find().toArray();
+    static async GetAll(): Promise<CategoriaDocument[] | undefined>{
+        try {
+            const categorias = await Categoria.find().exec();
+            return categorias;
+        } catch (error) {
+            console.error("Error al obtener las categorias:", error);
+            return undefined;
+        }
     }
 
     /**
      * Carga una **Categoria** a la BBDD.
-     * @param usr Objeto **Categoria** a subir.
+     * @param categoryName Nombre de la **Categoria** a subir.
      * @returns En caso de haber cargado, devuelve la **Categoria** con `id`. Caso contrario, devuelve **undefined**.
      * @async
      */
-    static async Create(ctg:Categoria):Promise<Categoria|undefined> {
-        //Validar no ingrese un "usuario" con id definida (id >= 0)
-        //En caso de error mandar "Undefined"
-        ctg._id = (await this.controller.insertOne(ctg)).insertedId;
-        return ctg;
+    static async Create(categoryName:string): Promise<HydratedDocument<CategoriaDocument>|undefined> {
+        try {
+            const newCategory = new Categoria({
+                name: categoryName
+            });
+            const result = await newCategory.save();
+            return result;
+        } catch (error) {
+            console.error("Error al crear la categoria:", error);
+            return undefined;
+        }
     }
 
-    static async Update(ctg:Categoria):Promise<Categoria|undefined> {
-        const obj = ctg._id;
-        return (await this.controller.findOneAndUpdate({_id: obj}, { $set:ctg }, {returnDocument:"after"})) || undefined;
+    /**
+     * Modifica una **Categoria** de la BBDD.
+     * @param id de la **Categoria** a subir.
+     * @param updateFields Objeto Partial<CategoriaDocument> con los valores a modificar.
+     * @returns En caso de haber cargado, devuelve la **Categoria** con los cambios. Caso contrario, devuelve **null**.
+     * @async
+     */
+    static async Update(id:string, updateFields: Partial<CategoriaDocument>): Promise<HydratedDocument<CategoriaDocument>|null> {
+        try {
+            // Usa findByIdAndUpdate para actualizar solo los campos proporcionados
+            const updatedCategory = await Categoria.findByIdAndUpdate(id, updateFields, { new: true });
+            return updatedCategory;
+        } catch (error) {
+            console.error("Error al actualizar la categoria en la base de datos:", error);
+            return null;
+        }
     }
 
-    static async Delete(id:string):Promise<Categoria|undefined> {
-        const _id = new ObjectId(id);
-        return (await this.controller.findOneAndDelete({_id})) || undefined;
+    /**
+     * Elimina una **Categoria** de la BBDD.
+     * @param id de la **Categoria** a eliminar.
+     * @returns En caso de exito, devuelve la **Categoria** eliminada. Caso contrario, devuelve **undefined**.
+     * @async
+     */
+    static async Delete(id:string):Promise<HydratedDocument<CategoriaDocument> | null> {
+        try {
+            const result = await Categoria.findByIdAndDelete(id);
+            return result;
+        } catch (error) {
+            console.error("Error al eliminar la categoria:", error);
+            return null;
+        }
     }
 }
