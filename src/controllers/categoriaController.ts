@@ -11,7 +11,6 @@ export class CategoriaController{
             if (categorias) {
                 return res.status(200).json(categorias);
             } else {
-                //ASK Si repo.GetAll no encuentra nada, ¿No devolveria una colleccion vacia en vez de null? ¿Esta condicion abarca el arreglo vacio?
                 return res.status(404).send("No se encontraron categorias.");
             }
         } catch (error) {
