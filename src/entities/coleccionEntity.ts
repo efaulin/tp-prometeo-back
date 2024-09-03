@@ -1,8 +1,8 @@
 import { ObjectId } from "mongodb";
 
-export class Categoria{
+export class Coleccion{
     constructor(
-        public nombre:string,
+        public name:string,
         public _id?:ObjectId
     ) {};
 };

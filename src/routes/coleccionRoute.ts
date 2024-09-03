@@ -1,27 +1,27 @@
 import { Router } from "express";
-import { UsuarioController } from "../controllers/usuarioController.js";
+import { ColeccionControler } from "../controllers/coleccionController.js";
 import { HandleResponse } from "./interfaceReturn.js";
 
-//RUTAS /api/usuario
-export const usuarioRouter = Router();
+//RUTAS /api/Coleccion
+export const coleccionRouter = Router();
 
 const handleResponse = new HandleResponse(
-    "Usuario Actualizado",
-    "Usuario Borrado",
+    "Colección Actualizada",
+    "Colección Borrada",
     "Que pones?????",
     "No se encontro ID",
     "(。_。)"
 );
 
-usuarioRouter.route("/")
+coleccionRouter.route("/")
     //GETALL
-    .get(UsuarioController.GetAll)
+    .get(ColeccionControler.GetAll)
     //CREATE
-    .post(UsuarioController.Create)
+    .post(ColeccionControler.Create)
 ;
 
-usuarioRouter.route("/:id")
-    .get(UsuarioController.GetOne)
-    .put(UsuarioController.Update)
-    .delete(UsuarioController.Delete)
+coleccionRouter.route("/:id")
+    .get(ColeccionControler.GetOne)
+    .put(ColeccionControler.Update)
+    .delete(ColeccionControler.Delete)
 

@@ -1,36 +1,32 @@
 ## Comandos para la extension Rest Client
 
-## CRUD Usuarios
+## CRUD Colecciones
 
-### Obtener todos los Usuarios
-GET http://localhost:3005/api/usuario
+### Obtener todos las categorias
+GET http://localhost:3005/api/coleccion
 
 ### Obtener uno
-GET http://localhost:3005/api/usuario/66b5954bf8925423aa283012
+GET http://localhost:3005/api/coleccion/66b5954bf8925423aa283015
 
 ### Crear un nuevo recurso
-POST http://localhost:3005/api/usuario
+POST http://localhost:3005/api/coleccion
 Content-Type: application/json
 
 {
-    "usuario": "Pedro",
-    "contra": "pass",
-    "email":"dasda@cc.bb",
-    "tipo":"Cliente"
+    "name": "Game of thrones",
+    
 }
 
 ### Modificar un recurso
-PUT http://localhost:3005/api/usuario/66b5954bf8925423aa283012
+PUT http://localhost:3005/api/coleccion/66b5954bf8925423aa283015
 
 Content-Type: application/json
 
 {
-    "usuario": "Pedro Pascal",
-    "contra": "I'm not in a teapot",
-    "email":"dasda@cc.bb",
-    "tipo":"Cliente"
+    "name": "house of the dragon",
+    
 }
 
 ### Eliminar un recurso
-DELETE http://localhost:3005/api/usuario/6695b405754f295c28475aae
+DELETE http://localhost:3005/api/coleccion/6695b405754f295c28475aay
 
