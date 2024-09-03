@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
 const suscripcionPrecioSchema = new mongoose.Schema({
     startDate: { type: Date, required: true, unique: true },
