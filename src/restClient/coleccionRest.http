@@ -13,18 +13,15 @@ POST http://localhost:3005/api/coleccion
 Content-Type: application/json
 
 {
-    "name": "Game of thrones",
-    
+    "name": "Game of thrones"
 }
 
 ### Modificar un recurso
 PUT http://localhost:3005/api/coleccion/66b5954bf8925423aa283015
-
 Content-Type: application/json
 
 {
     "name": "house of the dragon",
-    
 }
 
 ### Eliminar un recurso
