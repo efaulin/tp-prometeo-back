@@ -13,7 +13,7 @@ POST http://localhost:3005/api/suscripcion
 Content-Type: application/json
 
 {
-    "nombre": "Systems"
+    "type": "Premiun"
 }
 
 ### Modificar un recurso

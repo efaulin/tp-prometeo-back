@@ -51,10 +51,10 @@ export class SuscripcionController{
     //TODO Revisar inputs
     static async Update(req: Request, res: Response) {
         const id = req.params.id;
-        const { nombre } = req.body;
+        const { type } = req.body;
         // Crear un objeto con solo los campos que se han proporcionado
         const updateFields: any = {};
-        if (nombre) updateFields.name = nombre;
+        if (type) updateFields.type = type;
         //Se deja de esta manera en caso de agregar mas atributos en el futuro
 
         try {

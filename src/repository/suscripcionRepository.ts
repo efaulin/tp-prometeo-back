@@ -1,15 +1,5 @@
-import { Suscripcion } from "../schemas/suscripcionSchema.js";
+import { Suscripcion, SuscripcionModel } from "../schemas/suscripcionSchema.js";
 import { HydratedDocument, Document } from "mongoose";
-
-interface SuscripcionPrecioDocument extends Document{
-    startDate: Date;
-    amount: Number;
-};
-
-interface SuscripcionDocument extends Document{
-    type: string;
-    prices: SuscripcionPrecioDocument[];
-};
 
 export class SuscripcionRepository{
 
@@ -19,9 +9,9 @@ export class SuscripcionRepository{
      * @returns En caso de encontrar una **Suscripcion** con el mismo `id` lo devuelve. Caso contrario, devuelve **undefined**.
      * @async
      */
-    static async GetOne(id:string): Promise<HydratedDocument<SuscripcionDocument> | null> {
+    static async GetOne(id:string): Promise<HydratedDocument<Suscripcion> | null> {
         try {
-            const result = await Suscripcion.findById(id);
+            const result = await SuscripcionModel.findById(id);
             return result;
         } catch (error) {
             console.error(error);
@@ -34,9 +24,9 @@ export class SuscripcionRepository{
      * @returns Colleccion de **Suscripcion**'s. En caso de error, devuelve **undefined**.
      * @async
      */
-    static async GetAll(): Promise<SuscripcionDocument[] | undefined>{
+    static async GetAll(): Promise<Suscripcion[] | undefined>{
         try {
-            const suscripciones = await Suscripcion.find().exec();
+            const suscripciones = await SuscripcionModel.find().exec();
             return suscripciones;
         } catch (error) {
             console.error("Error al obtener las suscripciones:", error);
@@ -46,16 +36,16 @@ export class SuscripcionRepository{
 
     /**
      * Carga una **Suscripcion** a la BBDD.
-     * @param categoryName Nombre de la **Suscripcion** a subir.
+     * @param subscriptionName Nombre de la **Suscripcion** a subir.
      * @returns En caso de haber cargado, devuelve la **Suscripcion** con `id`. Caso contrario, devuelve **undefined**.
      * @async
      */
-    static async Create(categoryName:string): Promise<HydratedDocument<SuscripcionDocument>|undefined> {
+    static async Create(subscriptionName:string): Promise<HydratedDocument<Suscripcion>|undefined> {
         try {
-            const newCategory = new Suscripcion({
-                name: categoryName
+            const newSubscription = new SuscripcionModel({
+                type: subscriptionName
             });
-            const result = await newCategory.save();
+            const result = await newSubscription.save();
             return result;
         } catch (error) {
             console.error("Error al crear la suscripcion:", error);
@@ -66,15 +56,15 @@ export class SuscripcionRepository{
     /**
      * Modifica una **Suscripcion** de la BBDD.
      * @param id de la **Suscripcion** a subir.
-     * @param updateFields Objeto Partial<SuscripcionDocument> con los valores a modificar.
+     * @param updateFields Objeto Partial<Suscripcion> con los valores a modificar.
      * @returns En caso de haber cargado, devuelve la **Suscripcion** con los cambios. Caso contrario, devuelve **null**.
      * @async
      */
-    static async Update(id:string, updateFields: Partial<SuscripcionDocument>): Promise<HydratedDocument<SuscripcionDocument>|null> {
+    static async Update(id:string, updateFields: Partial<Suscripcion>): Promise<HydratedDocument<Suscripcion>|null> {
         try {
             // Usa findByIdAndUpdate para actualizar solo los campos proporcionados
-            const updatedCategory = await Suscripcion.findByIdAndUpdate(id, updateFields, { new: true });
-            return updatedCategory;
+            const updatedSubscription = await SuscripcionModel.findByIdAndUpdate(id, updateFields, { new: true });
+            return updatedSubscription;
         } catch (error) {
             console.error("Error al actualizar la suscripcion en la base de datos:", error);
             return null;
@@ -87,9 +77,9 @@ export class SuscripcionRepository{
      * @returns En caso de exito, devuelve la **Suscripcion** eliminada. Caso contrario, devuelve **undefined**.
      * @async
      */
-    static async Delete(id:string):Promise<HydratedDocument<SuscripcionDocument> | null> {
+    static async Delete(id:string):Promise<HydratedDocument<Suscripcion> | null> {
         try {
-            const result = await Suscripcion.findByIdAndDelete(id);
+            const result = await SuscripcionModel.findByIdAndDelete(id);
             return result;
         } catch (error) {
             console.error("Error al eliminar la suscripcion:", error);

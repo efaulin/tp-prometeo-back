@@ -1,17 +1,22 @@
+import { getModelForClass, prop } from '@typegoose/typegoose';
 import mongoose from 'mongoose';
 
 //Para las relaciones debiles se utiliza un enfoque de one-to-many como subdocumentos
-const suscripcionPrecioSchema = new mongoose.Schema({
-    startDate: { type: Date, required: true, unique: true },
-    amount: { type: Number, required: true },
-    _id: { type: mongoose.Schema.Types.ObjectId, auto: true }
-});
+class SuscripcionPrecio {
+    @prop({ required: true, unique: true })
+    public startDate!: Date;
 
-const suscripcionSchema = new mongoose.Schema({
-    type: { type: String, required: true },
-    prices: [suscripcionPrecioSchema],
-    _id: { type: mongoose.Schema.Types.ObjectId, auto: true }
-});
+    @prop({ required: true })
+    public amount!: Number;
+}
 
-const Suscripcion = mongoose.model('Suscripcion', suscripcionSchema);
-export { Suscripcion };
+class Suscripcion {
+    @prop({ required: true })
+    public type!: string;
+
+    @prop({ type: () => [SuscripcionPrecio] })
+    public prices?: SuscripcionPrecio[];
+}
+
+const SuscripcionModel = getModelForClass(Suscripcion);
+export { Suscripcion, SuscripcionModel };
