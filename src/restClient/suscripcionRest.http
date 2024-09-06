@@ -6,7 +6,7 @@
 GET http://localhost:3005/api/suscripcion
 
 ### Obtener uno
-GET http://localhost:3005/api/suscripcion/66ce19e19f252479b19f3301
+GET http://localhost:3005/api/suscripcion/66db3fa1b66d55f95c2b3593
 
 ### Crear un nuevo recurso
 POST http://localhost:3005/api/suscripcion
@@ -25,4 +25,4 @@ Content-Type: application/json
 }
 
 ### Eliminar un recurso
-DELETE http://localhost:3005/api/suscripcion/66ce19e19f252479b19f3300
+DELETE http://localhost:3005/api/suscripcion/66db44d161342d7818bb6735

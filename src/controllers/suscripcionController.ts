@@ -1,5 +1,6 @@
 import { SuscripcionRepository } from "../repository/suscripcionRepository.js";
 import { Request, Response } from "express";
+import { Suscripcion, SuscripcionPrecio } from "../schemas/suscripcionSchema.js";
 
 export class SuscripcionController{
     static async GetAll(req: Request, res: Response){

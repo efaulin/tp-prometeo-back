@@ -1,4 +1,4 @@
-import { Suscripcion, SuscripcionModel } from "../schemas/suscripcionSchema.js";
+import { Suscripcion, SuscripcionModel, SuscripcionPrecio, SuscripcionPrecioModel } from "../schemas/suscripcionSchema.js";
 import { HydratedDocument, Document } from "mongoose";
 
 export class SuscripcionRepository{
@@ -45,6 +45,7 @@ export class SuscripcionRepository{
             const newSubscription = new SuscripcionModel({
                 type: subscriptionName
             });
+            newSubscription.prices?.push(new SuscripcionPrecioModel);
             const result = await newSubscription.save();
             return result;
         } catch (error) {
