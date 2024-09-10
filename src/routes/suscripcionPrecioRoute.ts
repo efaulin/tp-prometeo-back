@@ -1,14 +1,14 @@
 import { Router } from "express";
 import { SuscripcionController } from "../controllers/suscripcionController.js";
 
-export const suscripcionRouter = Router();
+export const suscripcionPrecioRouter = Router();
 
-suscripcionRouter.route("/")
+suscripcionPrecioRouter.route("/")
     .get(SuscripcionController.GetAll)
     .post(SuscripcionController.Create)
 ;
 
-suscripcionRouter.route("/:id")
+suscripcionPrecioRouter.route("/:id")
     .get(SuscripcionController.GetOne)
     .put(SuscripcionController.Update)
     .delete(SuscripcionController.Delete)

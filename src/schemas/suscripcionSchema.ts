@@ -1,8 +1,8 @@
-import { getModelForClass, prop } from '@typegoose/typegoose';
+import { getModelForClass, getName, prop, Ref } from '@typegoose/typegoose';
 import { time } from 'console';
 import mongoose from 'mongoose';
 
-//Para las relaciones debiles se utiliza un enfoque de one-to-many como subdocumentos
+//Para las relaciones debiles se utiliza un enfoque de one-to-many como referencia, para evitar mal rendimiento en caso de un gran historico de precios
 class SuscripcionPrecio {
     @prop({ required: true, default: new Date() })
     public startDate!: Date;
@@ -15,12 +15,8 @@ class Suscripcion {
     @prop({ required: true })
     public type!: string;
 
-    @prop({ type: () => [SuscripcionPrecio] })
-    public prices?: SuscripcionPrecio[];
-
-    constructor(){
-        this.prices = new Array<SuscripcionPrecio>;
-    };
+    @prop({ ref: getName(SuscripcionPrecio) })
+    public prices?: Ref<SuscripcionPrecio>[];
 }
 
 const SuscripcionModel = getModelForClass(Suscripcion);

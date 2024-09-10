@@ -20,9 +20,10 @@ export class SuscripcionController{
     static async GetOne(req: Request, res: Response){
         const id = req.params.id;
         try {
-            const user = await SuscripcionRepository.GetOne(id);
-            if (user) {
-                return res.status(200).json(user);
+            const result = await SuscripcionRepository.GetOne(id);
+            if (result) {
+                result.populate("prices");
+                return res.status(200).json(result);
             }
             return res.status(404).send("No se encontró la suscripcion.");
         } catch (error) {
@@ -33,6 +34,7 @@ export class SuscripcionController{
 
     static async Create(req: Request, res: Response){
         const validateUserInput = (req: Request):boolean => {
+            //ASK ¿Y los precios?
             const { type } = req.body;
             return type ? true : false;
         }
