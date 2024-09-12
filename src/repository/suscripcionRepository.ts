@@ -45,9 +45,8 @@ export class SuscripcionRepository{
             const newSubscription = new SuscripcionModel({
                 type: subscriptionName
             });
-            newSubscription.prices?.push(new SuscripcionPrecioModel);
-            const result = await newSubscription.save();
-            return result;
+            await newSubscription.save();
+            return newSubscription;
         } catch (error) {
             console.error("Error al crear la suscripcion:", error);
             return undefined;

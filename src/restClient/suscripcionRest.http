@@ -6,14 +6,14 @@
 GET http://localhost:3005/api/suscripcion
 
 ### Obtener uno
-GET http://localhost:3005/api/suscripcion/66e0937d2ee1f5b81248ff50
+GET http://localhost:3005/api/suscripcion/66e25d6be1df0bfe4b0d14f9
 
 ### Crear un nuevo recurso
 POST http://localhost:3005/api/suscripcion
 Content-Type: application/json
 
 {
-    "type": "A"
+    "type": "New"
 }
 
 ### Modificar un recurso
