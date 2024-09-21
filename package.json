@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc -p ./tsconfig.json",
-    "start:dev": "npx tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/app.js\""
+    "start:dev": "npx tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node --env-file=.env ./dist/app.js\""
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
     "extends": "standard"
   },
   "dependencies": {
+    "@typegoose/typegoose": "^12.7.0",
     "mongodb": "^6.7.0",
     "mongoose": "^8.5.2"
   }

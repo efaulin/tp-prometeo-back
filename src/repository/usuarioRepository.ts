@@ -7,7 +7,7 @@ interface UsuarioDocument extends Document {
     role: string;
 }
 export class UsuarioRepository{
-    static async GetOne(id: string): Promise<HydratedDocument<UsuarioDocument> | null> {
+    static async GetOne(id: string): Promise<UsuarioDocument | null> {
         try {
             const result = await Usuario.findById(id);
             return result;

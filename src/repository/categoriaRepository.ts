@@ -13,7 +13,7 @@ export class CategoriaRepository{
      * @returns En caso de encontrar una **Categoria** con el mismo `id` lo devuelve. Caso contrario, devuelve **undefined**.
      * @async
      */
-    static async GetOne(id:string): Promise<HydratedDocument<CategoriaDocument> | null> {
+    static async GetOne(id:string): Promise<CategoriaDocument | null> {
         try {
             const result = await Categoria.findById(id);
             return result;
@@ -44,7 +44,7 @@ export class CategoriaRepository{
      * @returns En caso de haber cargado, devuelve la **Categoria** con `id`. Caso contrario, devuelve **undefined**.
      * @async
      */
-    static async Create(categoryName:string): Promise<HydratedDocument<CategoriaDocument>|undefined> {
+    static async Create(categoryName:string): Promise<CategoriaDocument|undefined> {
         try {
             const newCategory = new Categoria({
                 name: categoryName
@@ -64,7 +64,7 @@ export class CategoriaRepository{
      * @returns En caso de haber cargado, devuelve la **Categoria** con los cambios. Caso contrario, devuelve **null**.
      * @async
      */
-    static async Update(id:string, updateFields: Partial<CategoriaDocument>): Promise<HydratedDocument<CategoriaDocument>|null> {
+    static async Update(id:string, updateFields: Partial<CategoriaDocument>): Promise<CategoriaDocument|null> {
         try {
             // Usa findByIdAndUpdate para actualizar solo los campos proporcionados
             const updatedCategory = await Categoria.findByIdAndUpdate(id, updateFields, { new: true });
@@ -81,7 +81,7 @@ export class CategoriaRepository{
      * @returns En caso de exito, devuelve la **Categoria** eliminada. Caso contrario, devuelve **undefined**.
      * @async
      */
-    static async Delete(id:string):Promise<HydratedDocument<CategoriaDocument> | null> {
+    static async Delete(id:string):Promise<CategoriaDocument | null> {
         try {
             const result = await Categoria.findByIdAndDelete(id);
             return result;

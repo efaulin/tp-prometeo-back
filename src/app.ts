@@ -3,6 +3,8 @@ import { logger } from "./logger.js";
 import { usuarioRouter } from "./routes/usuarioRoute.js";
 import {connectToDatabase} from "./dbMiddleware.js";
 import { categoriaRouter } from "./routes/categoriaRoute.js";
+import { suscripcionRouter } from "./routes/suscripcionRoute.js";
+import { suscripcionPrecioRouter } from "./routes/suscripcionPrecioRoute.js";
 
 
 const port = 3005;
@@ -15,6 +17,8 @@ logger(1, app);
 
 app.use("/api/usuario/", usuarioRouter);
 app.use("/api/categoria/", categoriaRouter);
+app.use("/api/suscripcion/", suscripcionRouter);
+app.use("/api/suscripcionprecio/", suscripcionPrecioRouter);
 
 connectToDatabase().then(() => {
     app.listen(port, () => {
