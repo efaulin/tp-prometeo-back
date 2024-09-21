@@ -1,5 +1,6 @@
 import { Suscripcion, SuscripcionModel, SuscripcionPrecio, SuscripcionPrecioModel } from "../schemas/suscripcionSchema.js";
 import { HydratedDocument, Document } from "mongoose";
+import { SuscripcionPrecioRepository } from "./suscripcionPrecioRepository.js";
 
 export class SuscripcionRepository{
 
@@ -44,17 +45,11 @@ export class SuscripcionRepository{
         try {
             const newSubscription = new SuscripcionModel({
                 type: subscriptionName,
-                prices: fullPrices
             });
             await newSubscription.save();
             if (subscriptionPrices) {
                 subscriptionPrices.forEach(async onePrice => {
-                    //ASK mmm...
-                    const unsavePrice = new SuscripcionPrecioModel({
-                        startDate: onePrice.startDate,
-                        amount: onePrice.amount,
-                        suscripcionId: new
-                    });
+                    await SuscripcionPrecioRepository.Create(onePrice.startDate!, onePrice.amount!, newSubscription);
                 })
             }
             return newSubscription;

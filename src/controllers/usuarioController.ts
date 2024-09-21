@@ -84,20 +84,4 @@ export class UsuarioController{
         }
 
     }
-
-    //TODO Ver "Sanitizacion de input", mientras queda temporalmente
-    /**
-     * Funcion para verificar las entradas para un objeto Usuario
-     * @param req Objeto **Request**
-     * @returns Si pasa la verificacion devuelve **TRUE**, en caso de algun error **FALSE**.
-     */
-    static Inputs(req:Request){
-        const {usuario, contra, email, tipo} = req.body;
-
-        if (!usuario || !contra || !email || !tipo) {
-            return false;
-        } else {
-            return true;
-        }
-    }
 }

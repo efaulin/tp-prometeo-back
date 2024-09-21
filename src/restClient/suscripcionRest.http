@@ -6,7 +6,7 @@
 GET http://localhost:3005/api/suscripcion
 
 ### Obtener uno
-GET http://localhost:3005/api/suscripcion/66e2200e9e6b7fc6686057b0
+GET http://localhost:3005/api/suscripcion/66ef07ceda26aa43a1db40ca
 
 ### Crear un nuevo recurso
 POST http://localhost:3005/api/suscripcion
@@ -17,7 +17,7 @@ Content-Type: application/json
 }
 
 ### Crear un nuevo recurso con relaciones debiles
-GET http://localhost:3005/api/suscripcion
+POST http://localhost:3005/api/suscripcion
 Content-Type: application/json
 
 {
@@ -25,13 +25,13 @@ Content-Type: application/json
     "prices": [
         {
             "startDate": "2024-09-17T22:56:01.513Z",
-            "amount": 0,
-        },
+            "amount": 1000
+        }
     ]
 }
 
 ### Modificar un recurso
-PUT http://localhost:3005/api/suscripcion/66e0907b0da73b3a64602837
+PUT http://localhost:3005/api/suscripcion/66e2200e9e6b7fc6686057b0
 Content-Type: application/json
 
 {
@@ -39,4 +39,4 @@ Content-Type: application/json
 }
 
 ### Eliminar un recurso
-DELETE http://localhost:3005/api/suscripcion/66e084096f592eb21fbe4d80
+DELETE http://localhost:3005/api/suscripcion/66e9cdc2822d9d5e461e2853

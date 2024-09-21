@@ -43,7 +43,7 @@ export class SuscripcionPrecioRepository{
      * @returns En caso de haber cargado, devuelve la **SuscripcionPrecio** con `id`, y asigna lo asigna al array de prices de su **Suscripcion**. Caso contrario, devuelve **undefined**.
      * @async
      */
-    static async Create(startdate:Date, amount:number, suscripcion:HydratedDocument<Suscripcion>): Promise<HydratedDocument<SuscripcionPrecio>|undefined> {
+    static async Create(startdate:Date, amount:Number, suscripcion:HydratedDocument<Suscripcion>): Promise<HydratedDocument<SuscripcionPrecio>|undefined> {
         try {
             const newSubscriptionPrice = new SuscripcionPrecioModel({
                 startDate: startdate,

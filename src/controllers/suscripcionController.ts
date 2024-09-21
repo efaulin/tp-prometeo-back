@@ -1,6 +1,6 @@
 import { SuscripcionRepository } from "../repository/suscripcionRepository.js";
 import { Request, Response } from "express";
-import { Suscripcion, SuscripcionPrecio } from "../schemas/suscripcionSchema.js";
+import { Suscripcion, SuscripcionPrecio, SuscripcionPrecioModel } from "../schemas/suscripcionSchema.js";
 //TODO Revisar que los cambios hechos en el Schema no hayan roto alguna de las operaciones CRUD, mas que nada las operaciones READ
 export class SuscripcionController{
     static async GetAll(req: Request, res: Response){
@@ -34,15 +34,23 @@ export class SuscripcionController{
 
     static async Create(req: Request, res: Response){
         const validateUserInput = (req: Request):boolean => {
-            //ASK ¿Y los precios?
             const { type } = req.body;
             return type ? true : false;
         }
         if (!validateUserInput(req)) {
             return res.status(400).send("Datos de entrada invalidos");
         }
+        type partialPrice = Partial<SuscripcionPrecio>;
+        const arrayPrices = new Array<partialPrice>;
         const { type, prices } = req.body;
         try {
+            prices.forEach((prc: { startDate: any; amount: any; }) => {
+                const tmp : partialPrice = {
+                    startDate: prc.startDate,
+                    amount: prc.amount,
+                }
+                arrayPrices.push(tmp);
+            });
             const result = await SuscripcionRepository.Create(type, prices);
             return res.status(201).json(result);
         } catch (error) {
@@ -51,7 +59,6 @@ export class SuscripcionController{
         }
     }
 
-    //TODO Revisar inputs
     static async Update(req: Request, res: Response) {
         const id = req.params.id;
         const { type } = req.body;
@@ -72,6 +79,7 @@ export class SuscripcionController{
         }
     }
 
+    //TODO CRUDscrp - Si borro una sucripcion, tengo que borrar sus precios.
     static async Delete(req: Request, res: Response){
         try {
             const id = req.params.id;
