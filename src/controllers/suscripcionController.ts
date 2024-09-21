@@ -1,7 +1,7 @@
 import { SuscripcionRepository } from "../repository/suscripcionRepository.js";
 import { Request, Response } from "express";
 import { Suscripcion, SuscripcionPrecio, SuscripcionPrecioModel } from "../schemas/suscripcionSchema.js";
-//TODO Revisar que los cambios hechos en el Schema no hayan roto alguna de las operaciones CRUD, mas que nada las operaciones READ
+
 export class SuscripcionController{
     static async GetAll(req: Request, res: Response){
         try {
