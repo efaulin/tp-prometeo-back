@@ -41,9 +41,9 @@ export class SuscripcionController{
         if (!validateUserInput(req)) {
             return res.status(400).send("Datos de entrada invalidos");
         }
-        const type = req.body.type;
+        const { type, prices } = req.body;
         try {
-            const result = await SuscripcionRepository.Create(type);
+            const result = await SuscripcionRepository.Create(type, prices);
             return res.status(201).json(result);
         } catch (error) {
             console.error("Error al crear suscripcion:", error);

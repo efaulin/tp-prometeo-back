@@ -40,12 +40,23 @@ export class SuscripcionRepository{
      * @returns En caso de haber cargado, devuelve la **Suscripcion** con `id`. Caso contrario, devuelve **undefined**.
      * @async
      */
-    static async Create(subscriptionName:string): Promise<HydratedDocument<Suscripcion>|undefined> {
+    static async Create(subscriptionName:string, subscriptionPrices:Array<Partial<SuscripcionPrecio>>): Promise<HydratedDocument<Suscripcion>|undefined> {
         try {
             const newSubscription = new SuscripcionModel({
-                type: subscriptionName
+                type: subscriptionName,
+                prices: fullPrices
             });
             await newSubscription.save();
+            if (subscriptionPrices) {
+                subscriptionPrices.forEach(async onePrice => {
+                    //ASK mmm...
+                    const unsavePrice = new SuscripcionPrecioModel({
+                        startDate: onePrice.startDate,
+                        amount: onePrice.amount,
+                        suscripcionId: new
+                    });
+                })
+            }
             return newSubscription;
         } catch (error) {
             console.error("Error al crear la suscripcion:", error);

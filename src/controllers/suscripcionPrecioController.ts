@@ -54,7 +54,7 @@ export class SuscripcionPrecioController{
             return res.status(500).send("Error interno del servidor.");
         }
     }
-
+    //TODO Agregar discriminacion por error de index repetido
     static async Create(req: Request, res: Response){
         const urlSuscripcionId = req.params.suscripcionId;
         const validateUserInput = (req: Request):boolean => {
