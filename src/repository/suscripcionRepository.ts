@@ -86,6 +86,7 @@ export class SuscripcionRepository{
     static async Delete(id:string):Promise<HydratedDocument<Suscripcion> | null> {
         try {
             const result = await SuscripcionModel.findByIdAndDelete(id);
+            await SuscripcionPrecioModel.deleteMany({suscripcionId:id});
             return result;
         } catch (error) {
             console.error("Error al eliminar la suscripcion:", error);

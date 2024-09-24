@@ -31,7 +31,7 @@ export class SuscripcionController{
             return res.status(500).send("Error interno del servidor.");
         }
     }
-
+    //TODO Validar fechas de los precios antes de guardar (no pueden haber dos precios con la misma fecha).
     static async Create(req: Request, res: Response){
         const validateUserInput = (req: Request):boolean => {
             const { type } = req.body;
@@ -44,13 +44,15 @@ export class SuscripcionController{
         const arrayPrices = new Array<partialPrice>;
         const { type, prices } = req.body;
         try {
-            prices.forEach((prc: { startDate: any; amount: any; }) => {
-                const tmp : partialPrice = {
-                    startDate: prc.startDate,
-                    amount: prc.amount,
-                }
-                arrayPrices.push(tmp);
-            });
+            if (prices) {
+                prices.forEach((prc: { startDate: any; amount: any; }) => {
+                    const tmp : partialPrice = {
+                        startDate: prc.startDate,
+                        amount: prc.amount,
+                    }
+                    arrayPrices.push(tmp);
+                });
+            }
             const result = await SuscripcionRepository.Create(type, prices);
             return res.status(201).json(result);
         } catch (error) {

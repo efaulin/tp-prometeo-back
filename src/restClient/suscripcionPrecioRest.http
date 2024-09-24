@@ -6,17 +6,17 @@
 GET http://localhost:3005/api/suscripcionprecio
 
 ### Obtener todos los precios de una suscripcion
-GET http://localhost:3005/api/suscripcionprecio/66e2200e9e6b7fc6686057b0
+GET http://localhost:3005/api/suscripcionprecio/66f2b6d08d6516a2432b5195
 
 ### Crear un nuevo recurso
-POST http://localhost:3005/api/suscripcionprecio/66e25d6be1df0bfe4b0d14f9
+POST http://localhost:3005/api/suscripcionprecio/66f2b4402a02dc4980521cc6
 Content-Type: application/json
 
 {
     "startDate": "2024-09-12T15:30:00Z",
     "amount": 2000,
-    "suscripcionId": "66e25d6be1df0bfe4b0d14f9"
+    "suscripcionId": "66f2b4402a02dc4980521cc6"
 }
 
 ### Eliminar un recurso
-DELETE http://localhost:3005/api/suscripcionprecio/se_ignora/66e2200e9e6b7fc6686057b1
+DELETE http://localhost:3005/api/suscripcionprecio/se_ignora/66ef0a1081b62c092e2f9672
