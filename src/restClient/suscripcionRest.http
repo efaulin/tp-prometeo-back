@@ -43,4 +43,4 @@ Content-Type: application/json
 }
 
 ### Eliminar un recurso
-DELETE http://localhost:3005/api/suscripcion/66e25d6be1df0bfe4b0d14f9
+DELETE http://localhost:3005/api/suscripcion/670475aa7afe2582774c7593

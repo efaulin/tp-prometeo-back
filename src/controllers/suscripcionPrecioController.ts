@@ -2,6 +2,7 @@ import { SuscripcionRepository } from "../repository/suscripcionRepository.js";
 import { Request, Response } from "express";
 import { Suscripcion, SuscripcionPrecio, SuscripcionPrecioModel } from "../schemas/suscripcionSchema.js";
 import { SuscripcionPrecioRepository } from "../repository/suscripcionPrecioRepository.js";
+import { MongoError, MongoServerError } from "mongodb";
 
 export class SuscripcionPrecioController{
     static async GetAll(req: Request, res: Response){
@@ -54,7 +55,7 @@ export class SuscripcionPrecioController{
             return res.status(500).send("Error interno del servidor.");
         }
     }
-    //TODO Agregar discriminacion por error de index repetido
+    
     static async Create(req: Request, res: Response){
         const urlSuscripcionId = req.params.suscripcionId;
         const validateUserInput = (req: Request):boolean => {
@@ -69,26 +70,44 @@ export class SuscripcionPrecioController{
             let suscripcion = await SuscripcionRepository.GetOne(suscripcionId);
             if (suscripcion) {
                 const result = await SuscripcionPrecioRepository.Create(startDate, amount, suscripcion);
-                return res.status(200).json(result);
+                if (result) {
+                    return res.status(200).json(result);
+                }
             }
             return res.status(404).send("No se encontró la suscripcion.");
         } catch (error) {
-            console.error("Error al obtener suscripcion", error)
+            console.error("Error al obtener suscripcion: ", error);
+            if (error instanceof MongoError && error.code == 11000) {
+                return res.status(406).send("Dos Precios tienen la misma fecha.");
+            }
             return res.status(500).send("Error interno del servidor.");
         }
     }
 
     static async Delete(req: Request, res: Response){
         try {
-            const suscripcionId = req.params.suscripcionId;
-            const id = req.params.id;
-            const result = await SuscripcionPrecioRepository.Delete(id);
-            if (result) {
-                return res.status(202).send("Precio Borrado");
+            const {suscripcionId, id } = req.params;
+            const onePrice = await SuscripcionPrecioRepository.GetOne(id);
+            if (onePrice) {
+                if (onePrice.suscripcionId == suscripcionId) {
+                    const oneSuscripcion = await SuscripcionRepository.GetOne(suscripcionId);
+                    if (oneSuscripcion) {
+                        //FIXME No borra de el precioID de la coleccion.
+                        const result = await SuscripcionPrecioRepository.Delete(id);
+                        if (result) {
+                            const index = oneSuscripcion.prices!.indexOf(onePrice._id);
+                            oneSuscripcion.prices!.slice(index, index + 1);
+                            await oneSuscripcion.save();
+                            return res.status(202).send("Precio Borrado.");
+                        }
+                    }
+                    return res.status(404).send("No se encontró la suscripcion.");
+                }
+                return res.status(406).send("El Precio no corresponde a la suscripcion dada.");
             }
-            return res.status(404).send("No se encontró el suscripcionPrecio");
+            return res.status(404).send("No se encontró el Precio.");
         } catch (error) {
-            console.error("Error al eliminar suscripcionPrecio:", error);
+            console.error("Error al eliminar el Precio:", error);
             return res.status(500).send("[Error] Delete SubscriptionPrice");
         }
 

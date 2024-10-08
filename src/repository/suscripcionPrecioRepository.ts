@@ -56,7 +56,7 @@ export class SuscripcionPrecioRepository{
             return newSubscriptionPrice;
         } catch (error) {
             console.error("Error al crear la suscripcionPrecio:", error);
-            return undefined;
+            throw error;
         }
     }
 

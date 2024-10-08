@@ -31,7 +31,7 @@ export class SuscripcionController{
             return res.status(500).send("Error interno del servidor.");
         }
     }
-    //TODO Validar fechas de los precios antes de guardar (no pueden haber dos precios con la misma fecha).
+    
     static async Create(req: Request, res: Response){
         const validateUserInput = (req: Request):boolean => {
             const { type } = req.body;
@@ -52,6 +52,16 @@ export class SuscripcionController{
                     }
                     arrayPrices.push(tmp);
                 });
+                const control = arrayPrices.some((elemnt, index, prices) => {
+                    let control = false;
+                    for (let i = index + 1; i < prices.length && control == false; i++) {
+                        if (elemnt.startDate! == prices[i].startDate!) { control = true }
+                    }
+                    return control;
+                });
+                if (control) {
+                    return res.status(406).send("Dos Precios tienen la misma fecha.");
+                }
             }
             const result = await SuscripcionRepository.Create(type, prices);
             return res.status(201).json(result);

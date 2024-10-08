@@ -15,7 +15,7 @@ export class SuscripcionRepository{
             const result = await SuscripcionModel.findById(id);
             return result;
         } catch (error) {
-            console.error(error);
+            console.error("Error al consultar la suscripcion: ",error);
             return null;
         }
     }
