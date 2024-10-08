@@ -13,7 +13,7 @@ POST http://localhost:3005/api/categoria
 Content-Type: application/json
 
 {
-    "nombre": "Systems"
+    "name": "Systems"
 }
 
 ### Modificar un recurso

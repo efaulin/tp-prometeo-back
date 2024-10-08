@@ -1,6 +1,4 @@
 import { getModelForClass, getName, prop, Ref, index } from '@typegoose/typegoose';
-import { time } from 'console';
-import mongoose from 'mongoose';
 
 //Para las relaciones debiles se utiliza un enfoque de one-to-many como referencia, para evitar mal rendimiento en caso de un gran historico de precios
 @index({ startDate: 1, suscripcionId: 1 }, { unique: true })

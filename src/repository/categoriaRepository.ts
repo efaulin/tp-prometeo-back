@@ -1,9 +1,5 @@
-import { Categoria } from "../schemas/categoriaSchema.js";
+import { Categoria, CategoriaModel } from "../schemas/categoriaSchema.js";
 import { HydratedDocument, Document } from "mongoose";
-
-interface CategoriaDocument extends Document{
-    name: string;
-}
 
 export class CategoriaRepository{
 
@@ -13,9 +9,9 @@ export class CategoriaRepository{
      * @returns En caso de encontrar una **Categoria** con el mismo `id` lo devuelve. Caso contrario, devuelve **undefined**.
      * @async
      */
-    static async GetOne(id:string): Promise<CategoriaDocument | null> {
+    static async GetOne(id:string): Promise<HydratedDocument<Categoria> | null> {
         try {
-            const result = await Categoria.findById(id);
+            const result = await CategoriaModel.findById(id);
             return result;
         } catch (error) {
             console.error(error);
@@ -28,9 +24,9 @@ export class CategoriaRepository{
      * @returns Colleccion de **Categoria**'s. En caso de error, devuelve **undefined**.
      * @async
      */
-    static async GetAll(): Promise<CategoriaDocument[] | undefined>{
+    static async GetAll(): Promise<Categoria[] | undefined>{
         try {
-            const categorias = await Categoria.find().exec();
+            const categorias = await CategoriaModel.find().exec();
             return categorias;
         } catch (error) {
             console.error("Error al obtener las categorias:", error);
@@ -44,9 +40,9 @@ export class CategoriaRepository{
      * @returns En caso de haber cargado, devuelve la **Categoria** con `id`. Caso contrario, devuelve **undefined**.
      * @async
      */
-    static async Create(categoryName:string): Promise<CategoriaDocument|undefined> {
+    static async Create(categoryName:string): Promise<HydratedDocument<Categoria> | undefined> {
         try {
-            const newCategory = new Categoria({
+            const newCategory = new CategoriaModel({
                 name: categoryName
             });
             const result = await newCategory.save();
@@ -64,10 +60,10 @@ export class CategoriaRepository{
      * @returns En caso de haber cargado, devuelve la **Categoria** con los cambios. Caso contrario, devuelve **null**.
      * @async
      */
-    static async Update(id:string, updateFields: Partial<CategoriaDocument>): Promise<CategoriaDocument|null> {
+    static async Update(id:string, updateFields: Partial<Categoria>): Promise<HydratedDocument<Categoria> | null> {
         try {
             // Usa findByIdAndUpdate para actualizar solo los campos proporcionados
-            const updatedCategory = await Categoria.findByIdAndUpdate(id, updateFields, { new: true });
+            const updatedCategory = await CategoriaModel.findByIdAndUpdate(id, updateFields, { new: true });
             return updatedCategory;
         } catch (error) {
             console.error("Error al actualizar la categoria en la base de datos:", error);
@@ -81,9 +77,9 @@ export class CategoriaRepository{
      * @returns En caso de exito, devuelve la **Categoria** eliminada. Caso contrario, devuelve **undefined**.
      * @async
      */
-    static async Delete(id:string):Promise<CategoriaDocument | null> {
+    static async Delete(id:string):Promise<HydratedDocument<Categoria> | null> {
         try {
-            const result = await Categoria.findByIdAndDelete(id);
+            const result = await CategoriaModel.findByIdAndDelete(id);
             return result;
         } catch (error) {
             console.error("Error al eliminar la categoria:", error);

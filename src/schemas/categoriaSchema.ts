@@ -1,9 +1,10 @@
-import mongoose from 'mongoose';
-//TODO ctgrSchema - Adaptar a TYPEGOOSE
-const categoriaSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    _id: { type: mongoose.Schema.Types.ObjectId, auto: true }
-});
+import { getModelForClass, prop } from '@typegoose/typegoose';
 
-const Categoria = mongoose.model('Categoria', categoriaSchema);
-export { Categoria };
+class Categoria {
+    @prop({ required: true })
+    public name!: string;
+}
+
+const CategoriaModel = getModelForClass(Categoria);
+
+export { Categoria, CategoriaModel };

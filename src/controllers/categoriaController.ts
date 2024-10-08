@@ -35,15 +35,15 @@ export class CategoriaController{
 
     static async Create(req: Request, res: Response){
         const validateUserInput = (req: Request):boolean => {
-            const {nombre} = req.body;
-            return nombre ? true : false;
+            const {name} = req.body;
+            return name ? true : false;
         }
         if (!validateUserInput(req)) {
             return res.status(400).send("Datos de entrada invalidos");
         }
-        const nombre = req.body.nombre;
+        const name = req.body.name;
         try {
-            const result = await CategoriaRepository.Create(nombre);
+            const result = await CategoriaRepository.Create(name);
             return res.status(201).json(result);
         } catch (error) {
             console.error("Error al crear categoria:", error);
@@ -53,10 +53,10 @@ export class CategoriaController{
 
     static async Update(req: Request, res: Response) {
         const id = req.params.id;
-        const { nombre } = req.body;
+        const { name } = req.body;
         // Crear un objeto con solo los campos que se han proporcionado
         const updateFields: any = {};
-        if (nombre) updateFields.name = nombre;
+        if (name) updateFields.name = name;
         //Se deja de esta manera en caso de agregar mas atributos en el futuro
 
         try {
