@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "incremental": true,
-    "target": "es2020",
+    "target": "ES2022",
     "module": "ES2022",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "./dist",
     "esModuleInterop": true,
@@ -15,6 +15,6 @@
     "experimentalDecorators": true,
     "typeRoots": ["./node_modules/@types", "./src/types"]
   },
-  "include": ["src/**/*", "**/*.ts"],
+  "include": ["src/**/*", "**/*.ts", "jest.setup.js"],
   "exclude": ["node_modules"]
 }

@@ -1,10 +1,10 @@
 import express from "express";
-import { logger } from "./logger.js";
-import { usuarioRouter } from "./routes/usuarioRoute.js";
-import {connectToDatabase} from "./dbMiddleware.js";
-import { categoriaRouter } from "./routes/categoriaRoute.js";
-import { suscripcionRouter } from "./routes/suscripcionRoute.js";
-import { suscripcionPrecioRouter } from "./routes/suscripcionPrecioRoute.js";
+import { logger } from "./logger";
+import { usuarioRouter } from "./routes/usuarioRoute";
+import {connectToDatabase} from "./dbMiddleware";
+import { categoriaRouter } from "./routes/categoriaRoute";
+import { suscripcionRouter } from "./routes/suscripcionRoute";
+import { suscripcionPrecioRouter } from "./routes/suscripcionPrecioRoute";
 
 const app = express();
 
@@ -16,10 +16,5 @@ app.use("/api/usuario/", usuarioRouter);
 app.use("/api/categoria/", categoriaRouter);
 app.use("/api/suscripcion/", suscripcionRouter);
 app.use("/api/suscripcionprecio/", suscripcionPrecioRouter);
-
-connectToDatabase().catch(err => {
-    console.error('[X] Error al conectar a la base de datos: ', err);
-    process.exit(1); // Salir del proceso si no se puede conectar a la base de datos
-});
 
 export default app;

@@ -1,8 +1,5 @@
-import { ObjectId } from "mongodb";
-import { Categoria } from "../entities/categoriaEntity.js";
-import { CategoriaRepository } from "../repository/categoriaRepository.js";
+import { CategoriaRepository } from "../repository/categoriaRepository";
 import { Request, Response } from "express";
-import { error } from "console";
 
 export class CategoriaController{
     static async GetAll(req: Request, res: Response){
