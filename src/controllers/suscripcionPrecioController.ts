@@ -22,8 +22,8 @@ export class SuscripcionPrecioController{
         try {
             const suscripcion = await SuscripcionRepository.GetOne(suscripcionId);
             if (suscripcion) {
-                await suscripcion.populate("prices");
-                return res.status(200).json(suscripcion.prices);
+                const prices = await SuscripcionPrecioRepository.GetAllOfOne(suscripcionId);
+                return res.status(200).json(prices);
             }
             return res.status(404).send("No se encontró la suscripcion.");
         } catch (error) {
@@ -38,15 +38,11 @@ export class SuscripcionPrecioController{
         try {
             let suscripcion = await SuscripcionRepository.GetOne(suscripcionId);
             if (suscripcion) {
-                const existPrice = suscripcion.prices!.find(prc => prc._id.toString() == id);
+                const existPrice = await SuscripcionPrecioRepository.GetOne(id);
                 if (existPrice) {
-                    const result = await SuscripcionPrecioRepository.GetOne(id);
-                    if (result) {
-                        return res.status(200).json(result);
-                    }
-                    return res.status(404).send("No se encontro el precio en la base de datos")
+                    return res.status(200).json(existPrice);
                 }
-                return res.status(404).send("No se encontro el precio en la suscripcion [" + suscripcion.type + "]");
+                return res.status(404).send("No se encontro el precio en la base de datos");
             }
             return res.status(404).send("No se encontró la suscripcion.");
         } catch (error) {
@@ -70,7 +66,7 @@ export class SuscripcionPrecioController{
             if (suscripcion) {
                 const result = await SuscripcionPrecioRepository.Create(startDate, amount, suscripcion);
                 if (result) {
-                    return res.status(200).json(result);
+                    return res.status(201).json(result);
                 }
             }
             return res.status(404).send("No se encontró la suscripcion.");
@@ -88,21 +84,18 @@ export class SuscripcionPrecioController{
             const {suscripcionId, id } = req.params;
             const onePrice = await SuscripcionPrecioRepository.GetOne(id);
             if (onePrice) {
-                if (onePrice.suscripcionId == suscripcionId) {
-                    const oneSuscripcion = await SuscripcionRepository.GetOne(suscripcionId);
-                    if (oneSuscripcion) {
-                        //FIXME No borra de el precioID de la coleccion.
+                try {
+                    await onePrice.populate('suscripcionId');
+                    if (onePrice.suscripcionId.toString() == suscripcionId) {
                         const result = await SuscripcionPrecioRepository.Delete(id);
                         if (result) {
-                            const index = oneSuscripcion.prices!.indexOf(onePrice._id);
-                            oneSuscripcion.prices!.slice(index, index + 1);
-                            await oneSuscripcion.save();
                             return res.status(202).send("Precio Borrado.");
                         }
                     }
+                    return res.status(406).send("El Precio no corresponde a la suscripcion dada.");
+                } catch (error) {
                     return res.status(404).send("No se encontró la suscripcion.");
                 }
-                return res.status(406).send("El Precio no corresponde a la suscripcion dada.");
             }
             return res.status(404).send("No se encontró el Precio.");
         } catch (error) {

@@ -36,6 +36,21 @@ export class SuscripcionPrecioRepository{
     }
 
     /**
+     * Devuelve todas las **SuscripcionPrecio** de la BBDD.
+     * @returns Colleccion de **SuscripcionPrecio**'s. En caso de error, devuelve **undefined**.
+     * @async
+     */
+    static async GetAllOfOne(suscripcionid : string): Promise<SuscripcionPrecio[] | undefined>{
+        try {
+            const suscripciones = await SuscripcionPrecioModel.find({suscripcionId:suscripcionid}).exec();
+            return suscripciones;
+        } catch (error) {
+            console.error("Error al obtener las suscripcionesPrecio:", error);
+            return undefined;
+        }
+    }
+
+    /**
      * Carga una **SuscripcionPrecio** a la BBDD.
      * @param startdate Fecha desde que entra en vigor el nuevo precio.
      * @param amount Monto del precio.
@@ -48,11 +63,9 @@ export class SuscripcionPrecioRepository{
             const newSubscriptionPrice = new SuscripcionPrecioModel({
                 startDate: startdate,
                 amount: amount,
-                suscripcionId: suscripcion._id.toString()
+                suscripcionId: suscripcion._id
             });
-            suscripcion.prices?.push(newSubscriptionPrice);
             await newSubscriptionPrice.save();
-            await suscripcion.save();
             return newSubscriptionPrice;
         } catch (error) {
             console.error("Error al crear la suscripcionPrecio:", error);

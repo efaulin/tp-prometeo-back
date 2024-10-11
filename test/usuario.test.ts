@@ -10,7 +10,7 @@ describe('GET /api/usuario/', () => {
 
         //Act (Actuar)
         const res = await request(app).get('/api/usuario');
-        const content = JSON.parse(res.text);
+        const content = res.body;
 
         //Assert (Afirmar)
         expect(res.status).toBe(expectedStatus);

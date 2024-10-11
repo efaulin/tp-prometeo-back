@@ -6,20 +6,20 @@
 GET http://localhost:3005/api/suscripcionprecio
 
 ### Obtener todos los precios de una suscripcion
-GET http://localhost:3005/api/suscripcionprecio/670474817afe2582774c758e
+GET http://localhost:3005/api/suscripcionprecio/67098e5bd3399aad0ae0935d
 
 ### Obtener uno los precios de una suscripcion
-GET http://localhost:3005/api/suscripcionprecio/670475aa7afe2582774c7593/670475aa7afe2582774c7595
+GET http://localhost:3005/api/suscripcionprecio/67098e5bd3399aad0ae0935d/670475aa7afe2582774c7595
 
 ### Crear un nuevo recurso
-POST http://localhost:3005/api/suscripcionprecio/670474817afe2582774c758e
+POST http://localhost:3005/api/suscripcionprecio/67098e5bd3399aad0ae0935d
 Content-Type: application/json
 
 {
     "startDate": "2024-09-13T16:30:00Z",
     "amount": 2000,
-    "suscripcionId": "670474817afe2582774c758e"
+    "suscripcionId": "67098e5bd3399aad0ae0935d"
 }
 
 ### Eliminar un recurso
-DELETE http://localhost:3005/api/suscripcionprecio/670474817afe2582774c758e/67057eb643bf03f93c3ce0a7
+DELETE http://localhost:3005/api/suscripcionprecio/67098e5bd3399aad0ae0935d/67098e9cd3399aad0ae09365
