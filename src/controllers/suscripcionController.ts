@@ -1,6 +1,6 @@
-import { SuscripcionRepository } from "../repository/suscripcionRepository.js";
+import { SuscripcionRepository } from "../repository/suscripcionRepository";
 import { Request, Response } from "express";
-import { Suscripcion, SuscripcionPrecio, SuscripcionPrecioModel } from "../schemas/suscripcionSchema.js";
+import { Suscripcion, SuscripcionPrecio, SuscripcionPrecioModel } from "../schemas/suscripcionSchema";
 
 export class SuscripcionController{
     static async GetAll(req: Request, res: Response){
