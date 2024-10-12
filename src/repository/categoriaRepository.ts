@@ -1,4 +1,4 @@
-import { Categoria, CategoriaModel } from "../schemas/categoriaSchema";
+import { Categoria, CategoriaModel } from "../schemas/categoriaSchema.js";
 import { HydratedDocument, Document } from "mongoose";
 
 export class CategoriaRepository{

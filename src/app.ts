@@ -1,10 +1,9 @@
 import express from "express";
-import { logger } from "./logger";
-import { usuarioRouter } from "./routes/usuarioRoute";
-import {connectToDatabase} from "./dbMiddleware";
-import { categoriaRouter } from "./routes/categoriaRoute";
-import { suscripcionRouter } from "./routes/suscripcionRoute";
-import { suscripcionPrecioRouter } from "./routes/suscripcionPrecioRoute";
+import { logger } from "./logger.js";
+import { usuarioRouter } from "./routes/usuarioRoute.js";
+import { categoriaRouter } from "./routes/categoriaRoute.js";
+import { suscripcionRouter } from "./routes/suscripcionRoute.js";
+import { suscripcionPrecioRouter } from "./routes/suscripcionPrecioRoute.js";
 
 const app = express();
 

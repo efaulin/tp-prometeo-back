@@ -1,5 +1,5 @@
-import app from "./app";
-import { connectToDatabase } from "./dbMiddleware";
+import app from "./app.js";
+import { connectToDatabase } from "./dbMiddleware.js";
 
 const port = 3005;
 

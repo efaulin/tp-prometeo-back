@@ -1,4 +1,4 @@
-import { Suscripcion, SuscripcionModel, SuscripcionPrecio, SuscripcionPrecioModel } from "../schemas/suscripcionSchema";
+import { Suscripcion, SuscripcionModel, SuscripcionPrecio, SuscripcionPrecioModel } from "../schemas/suscripcionSchema.js";
 import { HydratedDocument, Document } from "mongoose";
 
 //ASK ¿Como popular los precios? Se me ocurre que podemos devolver siempre las suscripciones con el ultimo precio del arreglo "populado" por defecto, y opcionalmente con todos, o permitimos un metodo para recuperar un precio por id

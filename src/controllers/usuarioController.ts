@@ -1,4 +1,4 @@
-import { UsuarioRepository } from "../repository/usuarioRepository";
+import { UsuarioRepository } from "../repository/usuarioRepository.js";
 import { Request, Response } from 'express';
 
 export class UsuarioController{
