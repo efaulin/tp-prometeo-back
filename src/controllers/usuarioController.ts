@@ -1,4 +1,4 @@
-import { UsuarioRepository } from "../repository/usuarioRepository.js";
+import { UsuarioRepository } from "../repository/usuarioRepository";
 import { Request, Response } from 'express';
 
 export class UsuarioController{
@@ -83,21 +83,5 @@ export class UsuarioController{
             return res.status(500).send("[Error] Delete User");
         }
 
-    }
-
-    //TODO Ver "Sanitizacion de input", mientras queda temporalmente
-    /**
-     * Funcion para verificar las entradas para un objeto Usuario
-     * @param req Objeto **Request**
-     * @returns Si pasa la verificacion devuelve **TRUE**, en caso de algun error **FALSE**.
-     */
-    static Inputs(req:Request){
-        const {usuario, contra, email, tipo} = req.body;
-
-        if (!usuario || !contra || !email || !tipo) {
-            return false;
-        } else {
-            return true;
-        }
     }
 }

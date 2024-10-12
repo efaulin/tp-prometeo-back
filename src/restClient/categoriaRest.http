@@ -3,21 +3,21 @@
 ## CRUD Categorias
 
 ### Obtener todos las categorias
-GET http://localhost:3000/api/categoria
+GET http://localhost:3005/api/categoria
 
 ### Obtener uno
-GET http://localhost:3000/api/categoria/66a039b2673dcca8c561f8fe
+GET http://localhost:3005/api/categoria/66ce19e19f252479b19f3301
 
 ### Crear un nuevo recurso
-POST http://localhost:3000/api/categoria
+POST http://localhost:3005/api/categoria
 Content-Type: application/json
 
 {
-    "nombre": "PHP Hater"
+    "name": "Systems"
 }
 
 ### Modificar un recurso
-PUT http://localhost:3000/api/categoria/66a039b2673dcca8c561f8fe
+PUT http://localhost:3005/api/categoria/66ce19e19f252479b19f3300
 Content-Type: application/json
 
 {
@@ -25,4 +25,4 @@ Content-Type: application/json
 }
 
 ### Eliminar un recurso
-DELETE http://localhost:3000/api/categoria/66a039b2673dcca8c561f8fe
+DELETE http://localhost:3005/api/categoria/66ce19e19f252479b19f3300

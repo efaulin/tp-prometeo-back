@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const connStr = process.env.MONGODB_URI || 'mongodb+srv://iamateapot:iamnotateapot1234@cluster0.uuzhuwz.mongodb.net/prometeo?retryWrites=true&w=majority&appName=Cluster0';
+const connStr = process.env.MONGODB_URI;
 
 export const connectToDatabase = async () => {
     try {
