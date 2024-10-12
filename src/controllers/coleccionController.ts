@@ -51,11 +51,12 @@ export class ColeccionControler{
 
     static async Update(req: Request, res: Response): Promise<Response> {
         const id = req.params.id;
-        const { name } = req.body;
+        const { name, categories } = req.body;
+        
         // Crear un objeto con solo los campos que se han proporcionado
         const updateFields: any = {};
         if (name) updateFields.name = name;
-        
+        if (categories) updateFields.categories = categories;
 
         try {
             const result = await ColeccionRepository.Update(id, updateFields);

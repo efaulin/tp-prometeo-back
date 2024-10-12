@@ -1,17 +1,8 @@
 import { Router } from "express";
-import { ColeccionControler } from "../controllers/coleccionController.js";
-import { HandleResponse } from "./interfaceReturn.js";
+import { ColeccionControler } from "../controllers/coleccionController";
 
 //RUTAS /api/Coleccion
 export const coleccionRouter = Router();
-
-const handleResponse = new HandleResponse(
-    "Colección Actualizada",
-    "Colección Borrada",
-    "Que pones?????",
-    "No se encontro ID",
-    "(。_。)"
-);
 
 coleccionRouter.route("/")
     //GETALL

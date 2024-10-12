@@ -5,6 +5,7 @@ import {connectToDatabase} from "./dbMiddleware";
 import { categoriaRouter } from "./routes/categoriaRoute";
 import { suscripcionRouter } from "./routes/suscripcionRoute";
 import { suscripcionPrecioRouter } from "./routes/suscripcionPrecioRoute";
+import { coleccionRouter } from "./routes/coleccionRoute";
 
 const app = express();
 

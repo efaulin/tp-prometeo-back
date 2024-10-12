@@ -1,31 +1,28 @@
-import { Coleccion } from "../schemas/coleccionSchema.js";
-import { HydratedDocument, Document } from 'mongoose';
-interface ColeccionDocument extends Document {
-    name: string;
-   
-}
+import { Coleccion, ColeccionModel } from "../schemas/coleccionSchema";
+import { HydratedDocument } from 'mongoose';
+
 export class ColeccionRepository{
-    static async GetOne(id: string): Promise<HydratedDocument<ColeccionDocument> | null> {
+    static async GetOne(id: string): Promise<HydratedDocument<Coleccion> | null> {
         try {
-            const result = await Coleccion.findById(id);
+            const result = await ColeccionModel.findById(id);
             return result;
         } catch (error) {
             console.error(error);
             return null;
         }
     }
-    static async GetAll(): Promise<ColeccionDocument[] | undefined> {
+    static async GetAll(): Promise<Coleccion[] | undefined> {
         try {
-            const Colecciones = await Coleccion.find().exec();
+            const Colecciones = await ColeccionModel.find().exec();
             return Colecciones;
         } catch (error) {
             console.error('Error al obtener las colecciones:', error);
             return undefined;
         }
     }
-    static async Create(name:String): Promise<ColeccionDocument | undefined> {
+    static async Create(name:String): Promise<HydratedDocument<Coleccion> | undefined> {
         try {
-            const newCol = new Coleccion({
+            const newCol = new ColeccionModel({
                 name: name,
             
             });
@@ -36,19 +33,19 @@ export class ColeccionRepository{
             return undefined;
         }
     }
-    static async Update(id: string, updateFields: Partial<ColeccionDocument>): Promise<ColeccionDocument | null> {
+    static async Update(id: string, updateFields: Partial<Coleccion>): Promise<HydratedDocument<Coleccion> | null> {
         try {
             // Usa findByIdAndUpdate para actualizar solo los campos proporcionados
-            const updatedCol = await Coleccion.findByIdAndUpdate(id, updateFields, { new: true });
+            const updatedCol = await ColeccionModel.findByIdAndUpdate(id, updateFields, { new: true });
             return updatedCol;
         } catch (error) {
             console.error("Error al actualizar colección en la base de datos:", error);
             return null;
         }
     }
-    static async Delete(id: string): Promise<ColeccionDocument | null> {
+    static async Delete(id: string): Promise<HydratedDocument<Coleccion> | null> {
         try {
-            const result = await Coleccion.findByIdAndDelete(id);
+            const result = await ColeccionModel.findByIdAndDelete(id);
             return result;
         } catch (error) {
             console.error("Error al eliminar colección:", error);

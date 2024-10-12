@@ -1,10 +1,14 @@
-import mongoose from 'mongoose';
+import { getModelForClass, getName, prop, Ref } from '@typegoose/typegoose';
+import { Categoria } from './categoriaSchema';
 
-const coleccionSchema = new mongoose.Schema({
-    name: { type: String, required: true },
+class Coleccion {
+    @prop({ required: true })
+    public name!: string;
 
-    _id: { type: mongoose.Schema.Types.ObjectId, auto: true }
-});
+    @prop({ required: true, ref: getName(Categoria) })
+    public categories!: Ref<Categoria>[];
+}
 
-const Coleccion = mongoose.model('Coleccion', coleccionSchema);
-export { Coleccion };
+const ColeccionModel = getModelForClass(Coleccion);
+
+export { Coleccion, ColeccionModel };
