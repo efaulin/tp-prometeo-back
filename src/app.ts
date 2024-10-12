@@ -14,6 +14,7 @@ logger(1, app);
 
 app.use("/api/usuario/", usuarioRouter);
 app.use("/api/categoria/", categoriaRouter);
+app.use("/api/coleccion/", coleccionRouter);
 app.use("/api/suscripcion/", suscripcionRouter);
 app.use("/api/suscripcionprecio/", suscripcionPrecioRouter);
 
