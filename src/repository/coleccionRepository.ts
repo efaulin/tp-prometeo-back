@@ -1,8 +1,6 @@
-import { Ref } from "@typegoose/typegoose";
-import { Categoria } from "../schemas/categoriaSchema.js";
 import { Coleccion, ColeccionModel } from "../schemas/coleccionSchema";
 import { HydratedDocument } from 'mongoose';
-import { CategoriaRepository } from "./categoriaRepository.js";
+import { CategoriaRepository } from "./categoriaRepository";
 
 export class ColeccionRepository{
     static async GetOne(id: string): Promise<HydratedDocument<Coleccion> | null> {

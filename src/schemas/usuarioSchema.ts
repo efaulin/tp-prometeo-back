@@ -26,7 +26,7 @@ class Usuario {
     @prop({ required: true })
     public role!: string;
 
-    @prop({ required: true })
+    @prop({ required: true, type: () => [UsuarioSuscripcion] })
     public suscripcions!: UsuarioSuscripcion[];
 }
 
