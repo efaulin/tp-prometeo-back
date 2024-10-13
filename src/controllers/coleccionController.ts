@@ -1,6 +1,7 @@
-import { ColeccionRepository } from "../repository/coleccionRepository.js";
+import { ColeccionRepository } from "../repository/coleccionRepository";
 import { Request, Response } from 'express';
-import { Coleccion } from "../schemas/coleccionSchema.js";
+import { Coleccion } from "../schemas/coleccionSchema";
+import mongoose, { HydratedDocument } from "mongoose";
 
 export class ColeccionControler{
     static async GetAll(req: Request, res: Response){
@@ -13,15 +14,15 @@ export class ColeccionControler{
             }
         } catch (error) {
             console.error(error);
-            return res.status(500).send("[Error] GetAll Cols");
+            return res.status(500).send("[Error] GetAll Collection");
         }
     }
     static async GetOne(req: Request, res: Response){
         const id = req.params.id;
         try {
-            const Col = await ColeccionRepository.GetOne(id);
-            if (Col) {
-                return res.status(200).json(Col);
+            const Collection = await ColeccionRepository.GetOne(id);
+            if (Collection) {
+                return res.status(200).json(Collection);
             }
             return res.status(404).send("No se encontró la colección.");
         } catch (error) {
@@ -33,19 +34,28 @@ export class ColeccionControler{
     static async Create(req: Request, res: Response){
         // Método para validar los datos de entrada
         const validateColInput = (req: Request): boolean => {
-            const { name } = req.body;
-            return name ? true : false;
+            const { name, categories } = req.body;
+            let control = true;
+            if (categories.length >= 1) {
+                for (let i = 0; i < categories.length && control == true; i++) {
+                    control = mongoose.isValidObjectId(categories[i]);
+                }
+            }
+            return name && categories && control ? true : false;
         };
         if (!validateColInput(req)) {
             return res.status(400).send("Datos de entrada inválidos.");
         }
-        const { name } = req.body;
+        const { name, categories } = req.body;
         try {
-            const result = await ColeccionRepository.Create(name);
+            const result = await ColeccionRepository.Create(name, categories);
+            if (typeof result == "string") {
+                return res.status(406).send("Una coleccion dada no existe <" + result + ">");
+            }
             return res.status(201).json(result);
         } catch (error) {
             console.error("Error al crear colección:", error);
-            return res.status(500).send("[Error] Create Col");
+            return res.status(500).send("[Error] Create Collection");
         }
     }
 
@@ -60,13 +70,15 @@ export class ColeccionControler{
 
         try {
             const result = await ColeccionRepository.Update(id, updateFields);
-            if (result) {
-                return res.status(200).json(result);
+            if (!result) {
+                return res.status(404).send("No se encontró la colección para actualizar.");
+            } else if (typeof result == "string") {
+                return res.status(406).send("Una coleccion dada no existe <" + result + ">");
             }
-            return res.status(404).send("No se encontró la colección para actualizar.");
+            return res.status(200).json(result);
         } catch (error) {
             console.error("Error al actualizar colección:", error);
-            return res.status(500).send("[Error] Update Col");
+            return res.status(500).send("[Error] Update Collection");
         }
     }
 
@@ -80,24 +92,7 @@ export class ColeccionControler{
             return res.status(404).send("No se encontró la colección");
         } catch (error) {
             console.error("Error al eliminar la colección:", error);
-            return res.status(500).send("[Error] Delete Col");
-        }
-
-    }
-
-    //TODO Ver "Sanitizacion de input", mientras queda temporalmente
-    /**
-     * Funcion para verificar las entradas para un objeto Coleccion
-     * @param req Objeto **Request**
-     * @returns Si pasa la verificacion devuelve **TRUE**, en caso de algun error **FALSE**.
-     */
-    static Inputs(req:Request){
-        const {name} = req.body;
-
-        if (!name) {
-            return false;
-        } else {
-            return true;
+            return res.status(500).send("[Error] Delete Collection");
         }
     }
 }

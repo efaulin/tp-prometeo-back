@@ -16,7 +16,7 @@ export class SuscripcionRepository{
             return result;
         } catch (error) {
             console.error("Error al consultar la suscripcion: ",error);
-            return null;
+            throw error;
         }
     }
 
@@ -31,7 +31,7 @@ export class SuscripcionRepository{
             return suscripciones;
         } catch (error) {
             console.error("Error al obtener las suscripciones:", error);
-            return undefined;
+            throw error;
         }
     }
 
@@ -55,7 +55,7 @@ export class SuscripcionRepository{
             return newSubscription;
         } catch (error) {
             console.error("Error al crear la suscripcion:", error);
-            return undefined;
+            throw error;
         }
     }
 
@@ -73,7 +73,7 @@ export class SuscripcionRepository{
             return updatedSubscription;
         } catch (error) {
             console.error("Error al actualizar la suscripcion en la base de datos:", error);
-            return null;
+            throw error;
         }
     }
 
@@ -90,7 +90,7 @@ export class SuscripcionRepository{
             return result;
         } catch (error) {
             console.error("Error al eliminar la suscripcion:", error);
-            return null;
+            throw error;
         }
     }
 }

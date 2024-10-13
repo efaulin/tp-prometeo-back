@@ -15,7 +15,7 @@ export class CategoriaRepository{
             return result;
         } catch (error) {
             console.error(error);
-            return null;
+            throw error;
         }
     }
 
@@ -30,7 +30,7 @@ export class CategoriaRepository{
             return categorias;
         } catch (error) {
             console.error("Error al obtener las categorias:", error);
-            return undefined;
+            throw error;
         }
     }
 
@@ -49,7 +49,7 @@ export class CategoriaRepository{
             return result;
         } catch (error) {
             console.error("Error al crear la categoria:", error);
-            return undefined;
+            throw error;
         }
     }
 
@@ -67,7 +67,7 @@ export class CategoriaRepository{
             return updatedCategory;
         } catch (error) {
             console.error("Error al actualizar la categoria en la base de datos:", error);
-            return null;
+            throw error;
         }
     }
 
@@ -83,7 +83,7 @@ export class CategoriaRepository{
             return result;
         } catch (error) {
             console.error("Error al eliminar la categoria:", error);
-            return null;
+            throw error;
         }
     }
 }

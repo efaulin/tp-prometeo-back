@@ -8,7 +8,7 @@ export class UsuarioRepository{
             return result;
         } catch (error) {
             console.error(error);
-            return null;
+            throw error;
         }
     }
     static async GetAll(): Promise<Usuario[] | undefined> {
@@ -17,7 +17,7 @@ export class UsuarioRepository{
             return usuarios;
         } catch (error) {
             console.error('Error al obtener los usuarios:', error);
-            return undefined;
+            throw error;
         }
     }
     static async Create(name:String, pass: String, email:String, tipo:String): Promise<HydratedDocument<Usuario> | undefined> {
@@ -32,7 +32,7 @@ export class UsuarioRepository{
             return resultado;
         } catch (error) {
             console.error('Error al crear el usuario:', error);
-            return undefined;
+            throw error;
         }
     }
     static async Update(id: string, updateFields: Partial<Usuario>): Promise<HydratedDocument<Usuario> | null> {
@@ -42,7 +42,7 @@ export class UsuarioRepository{
             return updatedUser;
         } catch (error) {
             console.error("Error al actualizar usuario en la base de datos:", error);
-            return null;
+            throw error;
         }
     }
     static async Delete(id: string): Promise<HydratedDocument<Usuario> | null> {
@@ -51,7 +51,7 @@ export class UsuarioRepository{
             return result;
         } catch (error) {
             console.error("Error al eliminar usuario:", error);
-            return null;
+            throw error;
         }
     }
 }
