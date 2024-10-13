@@ -1,6 +1,6 @@
-import { Suscripcion, SuscripcionModel, SuscripcionPrecio, SuscripcionPrecioModel } from "../schemas/suscripcionSchema.js";
+import { Suscripcion, SuscripcionModel, SuscripcionPrecio, SuscripcionPrecioModel } from "../schemas/suscripcionSchema";
 import { HydratedDocument, Document } from "mongoose";
-import { SuscripcionPrecioRepository } from "./suscripcionPrecioRepository.js";
+import { SuscripcionPrecioRepository } from "./suscripcionPrecioRepository";
 
 export class SuscripcionRepository{
 
