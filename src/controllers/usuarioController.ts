@@ -1,3 +1,4 @@
+import { mongoose } from "@typegoose/typegoose";
 import { UsuarioRepository } from "../repository/usuarioRepository";
 import { Request, Response } from 'express';
 
@@ -28,42 +29,64 @@ export class UsuarioController{
             return res.status(500).send("Error interno del servidor.");
         }
     }
-
+    
     static async Create(req: Request, res: Response){
         // Método para validar los datos de entrada
         const validateUserInput = (req: Request): boolean => {
-            const { usuario, contra, email, tipo } = req.body;
-            return usuario && contra && email && tipo ? true : false;
+            let emptySuscripcion = false;
+            const { username, password, email, role, suscripcions } = req.body;
+            if (!suscripcions || suscripcions.length < 1) {
+                return false;   
+            }
+            for (let i=0; i < suscripcions.length && !emptySuscripcion; i++) {
+                const tmp = suscripcions[i];
+                emptySuscripcion = !(mongoose.isValidObjectId(tmp.suscripcionId) && tmp.startDate && tmp.endDate)
+            }
+            return username && password && email && role && !emptySuscripcion ? true : false;
         };
         if (!validateUserInput(req)) {
             return res.status(400).send("Datos de entrada inválidos.");
         }
-        const { usuario, contra, email, tipo } = req.body;
+        const { username, password, email, role, suscripcions } = req.body;
         try {
-            const result = await UsuarioRepository.Create(usuario, contra, email, tipo);
+            const result = await UsuarioRepository.Create(username, password, email, role, suscripcions);
+            if (!result) {
+                return res.status(406).send("Los datos del usuario no cumplen alguna validacion");
+            } else if (typeof result == "string") {
+                return res.status(406).send("Una suscripcion dada no existe <" + result + ">");
+            }
             return res.status(201).json(result);
         } catch (error) {
             console.error("Error al crear usuario:", error);
             return res.status(500).send("[Error] Create User");
         }
     }
-
+    
     static async Update(req: Request, res: Response): Promise<Response> {
         const id = req.params.id;
-        const { usuario, contra, email, tipo } = req.body;
+        const { username, password, email, role, suscripcions } = req.body;
         // Crear un objeto con solo los campos que se han proporcionado
         const updateFields: any = {};
-        if (usuario) updateFields.username = usuario;
-        if (contra) updateFields.password = contra;
+        if (username) updateFields.username = username;
+        if (password) updateFields.password = password;
         if (email) updateFields.email = email;
-        if (tipo) updateFields.role = tipo;
+        if (role) updateFields.role = role;
+        if (suscripcions) {
+            if (suscripcions.length < 1) {
+                return res.status(400).send("Datos de entrada inválidos.");   
+            }
+            updateFields.suscripcions = suscripcions;
+        };
 
         try {
             const result = await UsuarioRepository.Update(id, updateFields);
-            if (result) {
-                return res.status(200).json(result);
+            if (!result) {
+                return res.status(404).send("No se encontró el usuario para actualizar.");
+            } else if (typeof result == "string") {
+                if (result == "isNotValid") { return res.status(406).send("Los datos del usuario no cumplen alguna validacion"); }
+                else { return res.status(406).send("Una suscripcion dada no existe <" + result + ">"); }
             }
-            return res.status(404).send("No se encontró el usuario para actualizar.");
+            return res.status(200).json(result);
         } catch (error) {
             console.error("Error al actualizar usuario:", error);
             return res.status(500).send("[Error] Update User");
