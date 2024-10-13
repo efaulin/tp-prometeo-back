@@ -2,7 +2,7 @@
   "name": "prometeo",
   "version": "1.0.0",
   "description": "Sistema de streaming de podcast y audiolibros",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles",
     "build": "npx tsc -p ./tsconfig.json",

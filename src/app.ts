@@ -4,6 +4,7 @@ import { usuarioRouter } from "./routes/usuarioRoute";
 import { categoriaRouter } from "./routes/categoriaRoute";
 import { suscripcionRouter } from "./routes/suscripcionRoute";
 import { suscripcionPrecioRouter } from "./routes/suscripcionPrecioRoute";
+import { coleccionRouter } from "./routes/coleccionRoute";
 
 const app = express();
 
@@ -13,6 +14,7 @@ logger(1, app);
 
 app.use("/api/usuario/", usuarioRouter);
 app.use("/api/categoria/", categoriaRouter);
+app.use("/api/coleccion/", coleccionRouter);
 app.use("/api/suscripcion/", suscripcionRouter);
 app.use("/api/suscripcionprecio/", suscripcionPrecioRouter);
 

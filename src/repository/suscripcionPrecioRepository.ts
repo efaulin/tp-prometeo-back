@@ -16,7 +16,7 @@ export class SuscripcionPrecioRepository{
             return result;
         } catch (error) {
             console.error(error);
-            return null;
+            throw error;
         }
     }
 
@@ -31,7 +31,7 @@ export class SuscripcionPrecioRepository{
             return suscripciones;
         } catch (error) {
             console.error("Error al obtener las suscripcionesPrecio:", error);
-            return undefined;
+            throw error;
         }
     }
 
@@ -46,7 +46,7 @@ export class SuscripcionPrecioRepository{
             return suscripciones;
         } catch (error) {
             console.error("Error al obtener las suscripcionesPrecio:", error);
-            return undefined;
+            throw error;
         }
     }
 
@@ -85,7 +85,7 @@ export class SuscripcionPrecioRepository{
             return result;
         } catch (error) {
             console.error("Error al eliminar la suscripcionPrecio:", error);
-            return null;
+            throw error;
         }
     }
 }
