@@ -1,11 +1,10 @@
 {
   "name": "prometeo",
-  "type": "module",
   "version": "1.0.0",
   "description": "Sistema de streaming de podcast y audiolibros",
   "main": "index.js",
   "scripts": {
-    "test": "npx jest --detectOpenHandles",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles",
     "build": "npx tsc -p ./tsconfig.json",
     "start:dev": "npx tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node --env-file=.env ./dist/index.js\""
   },
@@ -20,11 +19,14 @@
   },
   "homepage": "https://github.com/efaulin/DSW-2024-305-Borelli-Cilfone-Coyle-Faulin/tree/main#readme",
   "devDependencies": {
+    "@babel/core": "^7.25.8",
+    "@babel/preset-env": "^7.25.8",
     "@eslint/js": "^9.2.0",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.13",
     "@types/node": "^20.12.12",
     "@types/supertest": "^6.0.2",
+    "babel-jest": "^29.7.0",
     "dotenv": "^16.4.5",
     "eslint": "^9.2.0",
     "express": "^4.19.2",
