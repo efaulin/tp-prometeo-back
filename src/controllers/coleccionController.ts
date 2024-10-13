@@ -1,7 +1,7 @@
 import { ColeccionRepository } from "../repository/coleccionRepository";
 import { Request, Response } from 'express';
 import { Coleccion } from "../schemas/coleccionSchema";
-import mongoose, { HydratedDocument } from "mongoose";
+import { mongoose } from "@typegoose/typegoose";
 
 export class ColeccionControler{
     static async GetAll(req: Request, res: Response){
@@ -37,7 +37,7 @@ export class ColeccionControler{
             const { name, categories } = req.body;
             let control = true;
             if (categories.length >= 1) {
-                for (let i = 0; i < categories.length && control == true; i++) {
+                for (let i = 0; i < categories.length && control ; i++) {
                     control = mongoose.isValidObjectId(categories[i]);
                 }
             }

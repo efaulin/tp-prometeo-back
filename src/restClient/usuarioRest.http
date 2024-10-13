@@ -8,6 +8,7 @@ GET http://localhost:3005/api/usuario
 ### Obtener uno
 GET http://localhost:3005/api/usuario/66b5954bf8925423aa283012
 
+//WARNING ojo con los inputs
 ### Crear un nuevo recurso
 POST http://localhost:3005/api/usuario
 Content-Type: application/json
@@ -16,7 +17,7 @@ Content-Type: application/json
     "usuario": "Pedro",
     "contra": "pass",
     "email":"dasda@cc.bb",
-    "tipo":"Cliente"
+    "role":"Cliente"
 }
 
 ### Modificar un recurso
@@ -28,7 +29,7 @@ Content-Type: application/json
     "usuario": "Pedro Pascal",
     "contra": "I'm not in a teapot",
     "email":"dasda@cc.bb",
-    "tipo":"Cliente"
+    "role":"Cliente"
 }
 
 ### Eliminar un recurso
