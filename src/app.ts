@@ -1,9 +1,9 @@
 import express from "express";
-import { logger } from "./logger.js";
-import { usuarioRouter } from "./routes/usuarioRoute.js";
-import { categoriaRouter } from "./routes/categoriaRoute.js";
-import { suscripcionRouter } from "./routes/suscripcionRoute.js";
-import { suscripcionPrecioRouter } from "./routes/suscripcionPrecioRoute.js";
+import { logger } from "./logger";
+import { usuarioRouter } from "./routes/usuarioRoute";
+import { categoriaRouter } from "./routes/categoriaRoute";
+import { suscripcionRouter } from "./routes/suscripcionRoute";
+import { suscripcionPrecioRouter } from "./routes/suscripcionPrecioRoute";
 
 const app = express();
 

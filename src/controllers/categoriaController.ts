@@ -1,4 +1,4 @@
-import { CategoriaRepository } from "../repository/categoriaRepository.js";
+import { CategoriaRepository } from "../repository/categoriaRepository";
 import { Request, Response } from "express";
 
 export class CategoriaController{

@@ -1,5 +1,6 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} **/
 export default {
+  preset: "ts-jest",
   testEnvironment: "node",
   testPathIgnorePatterns: [
     '<rootDir>/dist/', // Ignora la carpeta dist
@@ -11,4 +12,5 @@ export default {
     "^.+.tsx?$": ["ts-jest",{}],
   },
   verbose: true,
+  moduleFileExtensions: ['ts', 'js', 'json', 'jsx', 'tsx'],
 };

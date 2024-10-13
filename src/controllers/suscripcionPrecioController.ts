@@ -1,6 +1,6 @@
-import { SuscripcionRepository } from "../repository/suscripcionRepository.js";
+import { SuscripcionRepository } from "../repository/suscripcionRepository";
 import { Request, Response } from "express";
-import { SuscripcionPrecioRepository } from "../repository/suscripcionPrecioRepository.js";
+import { SuscripcionPrecioRepository } from "../repository/suscripcionPrecioRepository";
 import { MongoError, MongoServerError } from "mongodb";
 
 export class SuscripcionPrecioController{
