@@ -2,8 +2,10 @@
 import { connectToDatabase } from "./src/dbMiddleware";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
+import app from "./src/app";
 
 const mongoServer = MongoMemoryServer.create();
+let server = app.listen(3005, "127.0.0.1");
 
 beforeAll(async () => {
     try {
@@ -20,4 +22,5 @@ beforeAll(async () => {
 afterAll(async () => {
     await mongoose.connection.close();
     await (await mongoServer).stop();
+    server.close();
 });

@@ -22,7 +22,6 @@ export class SuscripcionController{
         try {
             const result = await SuscripcionRepository.GetOne(id);
             if (result) {
-                await result.populate("prices");
                 return res.status(200).json(result);
             }
             return res.status(404).send("No se encontró la suscripcion.");

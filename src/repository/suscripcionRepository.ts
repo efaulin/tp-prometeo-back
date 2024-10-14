@@ -48,9 +48,9 @@ export class SuscripcionRepository{
             });
             await newSubscription.save();
             if (subscriptionPrices) {
-                subscriptionPrices.forEach(async onePrice => {
-                    await SuscripcionPrecioRepository.Create(onePrice.startDate!, onePrice.amount!, newSubscription);
-                })
+                for (let i=0; i < subscriptionPrices.length; i++) {
+                    await SuscripcionPrecioRepository.Create(subscriptionPrices[i].startDate!, subscriptionPrices[i].amount!, newSubscription);
+                }
             }
             return newSubscription;
         } catch (error) {
