@@ -2,7 +2,7 @@
 
 ## CRUD Colecciones
 
-### Obtener todos las categorias
+### Obtener todas las colecciones
 GET http://localhost:3005/api/coleccion
 
 ### Obtener uno

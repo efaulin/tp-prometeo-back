@@ -13,7 +13,7 @@ export function logger(lvl:number, app:Express):void {
     if (lvl > 0) {
         app.use(function(req, res, next) {
             if (lvl == 1) {
-                console.log("Acceso -> " + req.path);
+                console.log("Acceso -> " + req.method + " " + req.path);
             } else {
                 console.log(`Acceso -> ${req.protocol}://${req.get('host')}${req.originalUrl}`);
             }
