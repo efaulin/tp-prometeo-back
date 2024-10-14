@@ -91,7 +91,6 @@ export class SuscripcionController{
         }
     }
 
-    //TODO CRUDscrp - Si borro una sucripcion, tengo que borrar sus precios.
     static async Delete(req: Request, res: Response){
         try {
             const id = req.params.id;
