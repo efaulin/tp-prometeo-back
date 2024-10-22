@@ -34,7 +34,6 @@ export class ReproduccionControler{
 
     static async GetAllOfOne(req: Request, res: Response){
         const id = req.params.id;
-        //TODO Hacer un metodo GetAllOfOne en repository que busque si el id es de usuario o capitulo.
         try {
             const replays = await ReproduccionRepository.GetAllOfOne(id);
             if (replays) {

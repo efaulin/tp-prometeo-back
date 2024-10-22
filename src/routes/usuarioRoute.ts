@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { UsuarioController } from "../controllers/usuarioController";
+import { ReproduccionControler } from "../controllers/reproduccionController";
 
 //RUTAS /api/usuario
 export const usuarioRouter = Router();
@@ -16,4 +17,7 @@ usuarioRouter.route("/:id")
     .put(UsuarioController.Update)
     .delete(UsuarioController.Delete)
 ;
-//TODO En caso de exito agregar /:id/replays
+
+usuarioRouter.route("/:id/replays")
+    .get(ReproduccionControler.GetAllOfOne)
+;

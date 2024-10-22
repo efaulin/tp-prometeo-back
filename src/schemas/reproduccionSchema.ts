@@ -13,10 +13,10 @@ class Reproduccion {
     public watchedTimeInSec!: number;
 
     @prop({ })
-    public rating!: number | undefined;
+    public rating?: number;
 
     @prop({ })
-    public review!: string | undefined;
+    public review?: string;
 }
 
 const ReproduccionModel = getModelForClass(Reproduccion);

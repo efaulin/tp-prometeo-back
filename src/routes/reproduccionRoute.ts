@@ -10,7 +10,7 @@ reproduccionRouter.route("/")
     //CREATE
     .post(ReproduccionControler.Create)
 ;
-//TODO GetOneOf
+
 reproduccionRouter.route("/:id")
     .get(ReproduccionControler.GetOne)
     .put(ReproduccionControler.Update)

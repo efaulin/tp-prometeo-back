@@ -17,7 +17,7 @@ capituloRouter.route("/:id")
     .put(CapituloControler.Update)
     .delete(CapituloControler.Delete)
 ;
-//TODO Testear
+
 capituloRouter.route("/:id/replays")
     .get(ReproduccionControler.GetAllOfOne)
 ;
