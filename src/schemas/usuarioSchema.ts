@@ -22,7 +22,6 @@ class Usuario {
     @prop({ required: true })
     public email!: string;
 
-    //TODO CRUDusr: Role o Type lo podemos hacer por referencia (ej. Ref<Role>) para estandarizar y evitar depender de poner el mismo string.
     @prop({ required: true })
     public role!: string;
 
