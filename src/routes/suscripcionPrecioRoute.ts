@@ -7,12 +7,7 @@ suscripcionPrecioRouter.route("/")
     .get(SuscripcionPrecioController.GetAll)
 ;
 
-suscripcionPrecioRouter.route("/:suscripcionId")
-    .get(SuscripcionPrecioController.GetAllOfOne)
-    .post(SuscripcionPrecioController.Create)
-;
-
-suscripcionPrecioRouter.route("/:suscripcionId/:id")
+suscripcionPrecioRouter.route("/:id")
     .get(SuscripcionPrecioController.GetOne)
     .delete(SuscripcionPrecioController.Delete)
 ;

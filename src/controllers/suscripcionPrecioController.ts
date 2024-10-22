@@ -33,18 +33,13 @@ export class SuscripcionPrecioController{
     }
 
     static async GetOne(req: Request, res: Response){
-        const suscripcionId = req.params.suscripcionId;
         const id = req.params.id;
         try {
-            let suscripcion = await SuscripcionRepository.GetOne(suscripcionId);
-            if (suscripcion) {
-                const existPrice = await SuscripcionPrecioRepository.GetOne(id);
-                if (existPrice) {
-                    return res.status(200).json(existPrice);
-                }
-                return res.status(404).send("No se encontro el precio en la base de datos");
+            const existPrice = await SuscripcionPrecioRepository.GetOne(id);
+            if (existPrice) {
+                return res.status(200).json(existPrice);
             }
-            return res.status(404).send("No se encontró la suscripcion.");
+            return res.status(404).send("No se encontro el precio en la base de datos");
         } catch (error) {
             console.error("Error al obtener suscripcion", error)
             return res.status(500).send("Error interno del servidor.");
@@ -81,20 +76,12 @@ export class SuscripcionPrecioController{
 
     static async Delete(req: Request, res: Response){
         try {
-            const {suscripcionId, id } = req.params;
+            const { id } = req.params;
             const onePrice = await SuscripcionPrecioRepository.GetOne(id);
             if (onePrice) {
-                try {
-                    await onePrice.populate('suscripcionId');
-                    if (onePrice.suscripcionId.toString() == suscripcionId) {
-                        const result = await SuscripcionPrecioRepository.Delete(id);
-                        if (result) {
-                            return res.status(202).send("Precio Borrado.");
-                        }
-                    }
-                    return res.status(406).send("El Precio no corresponde a la suscripcion dada.");
-                } catch (error) {
-                    return res.status(404).send("No se encontró la suscripcion.");
+                const result = await SuscripcionPrecioRepository.Delete(id);
+                if (result) {
+                    return res.status(202).send("Precio Borrado.");
                 }
             }
             return res.status(404).send("No se encontró el Precio.");

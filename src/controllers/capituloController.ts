@@ -29,7 +29,7 @@ export class CapituloControler{
             return res.status(500).send("Error interno del servidor.");
         }
     }
-    //TODO Create
+    
     static async Create(req: Request, res: Response){
         const validateColInput = (req: Request): boolean => {
             const { coleccionId, name, author, host, producer, durationInSeconds, language, description, narrator, publisher, uploadDate, publicationDate } = req.body;
@@ -63,7 +63,7 @@ export class CapituloControler{
             return res.status(500).send("[Error] Create Chapter");
         }
     }
-    //TODO Update
+    
     static async Update(req: Request, res: Response): Promise<Response> {
         const id = req.params.id;
         const {
