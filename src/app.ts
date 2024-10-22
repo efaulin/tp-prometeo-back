@@ -5,6 +5,7 @@ import { suscripcionRouter } from "./routes/suscripcionRoute";
 import { suscripcionPrecioRouter } from "./routes/suscripcionPrecioRoute";
 import { coleccionRouter } from "./routes/coleccionRoute";
 import { capituloRouter } from "./routes/capituloRoute";
+import { reproduccionRouter } from "./routes/reproduccionRoute";
 import { logger } from "./logger";
 
 const app = express();
@@ -19,5 +20,6 @@ app.use("/api/coleccion/", coleccionRouter);
 app.use("/api/suscripcion/", suscripcionRouter);
 app.use("/api/suscripcionprecio/", suscripcionPrecioRouter);
 app.use("/api/capitulo/", capituloRouter);
+app.use("/api/reproduccion/", reproduccionRouter);
 
 export default app;

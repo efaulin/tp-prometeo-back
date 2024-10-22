@@ -15,4 +15,5 @@ usuarioRouter.route("/:id")
     .get(UsuarioController.GetOne)
     .put(UsuarioController.Update)
     .delete(UsuarioController.Delete)
-
+;
+//TODO En caso de exito agregar /:id/replays
