@@ -66,7 +66,7 @@ describe('[ Route / Suscripcion ]', () => {
         const expectedStatus = 200;
         const expectedContent = prices;
         //Act (Actuar)
-        const res = await request(app).get('/api/suscripcionprecio/' + suscripcionId);
+        const res = await request(app).get('/api/suscripcion/' + suscripcionId + '/prices');
         const content = res.body;
 
         //Assert (Afirmar)

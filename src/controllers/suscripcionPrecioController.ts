@@ -18,7 +18,7 @@ export class SuscripcionPrecioController{
     }
 
     static async GetAllOfOne(req: Request, res: Response){
-        const suscripcionId = req.params.suscripcionId;
+        const suscripcionId = req.params.id;
         try {
             const suscripcion = await SuscripcionRepository.GetOne(suscripcionId);
             if (suscripcion) {
