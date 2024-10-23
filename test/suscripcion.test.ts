@@ -54,8 +54,6 @@ describe('[ Route / Suscripcion ]', () => {
         const content = res.body;
         suscripcionId = content._id;
 
-        //TODO Revisar SuscripcionPrecio
-
         //Assert (Afirmar)
         expect(res.status).toBe(expectedStatus);
         expect(content.type).toContain(expectedContent.type);
@@ -118,4 +116,8 @@ describe('[ Route / Suscripcion ]', () => {
         expect(res.status).toBe(expectedStatus);
         expect(content).toBe(expectedContent);
     });
+});
+
+describe('[ Validations / Suscripcion ]', () => {
+    //TODO Probar validaciones de inputs, con sus retornos de la API.
 });

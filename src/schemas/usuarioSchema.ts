@@ -1,6 +1,7 @@
 import { getModelForClass, getName, index, prop, Ref } from '@typegoose/typegoose';
 import { Suscripcion } from './suscripcionSchema';
 
+@index({ suscripcionId: 1, startDate: 1 }, { unique: true })
 class UsuarioSuscripcion {
     @prop({ required: true, ref: getName(Suscripcion) })
     public suscripcionId!: Ref<Suscripcion>;
