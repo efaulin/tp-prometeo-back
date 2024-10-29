@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { CapituloControler } from "../controllers/capituloController";
-import { ReproduccionControler } from "../controllers/reproduccionController.js";
+import { ReproduccionControler } from "../controllers/reproduccionController";
 
 //RUTAS /api/Capitulo
 export const capituloRouter = Router();

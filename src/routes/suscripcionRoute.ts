@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { SuscripcionController } from "../controllers/suscripcionController";
-import { SuscripcionPrecioController } from "../controllers/suscripcionPrecioController.js";
+import { SuscripcionPrecioController } from "../controllers/suscripcionPrecioController";
 
 export const suscripcionRouter = Router();
 

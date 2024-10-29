@@ -14,10 +14,22 @@ POST http://localhost:3005/api/usuario
 Content-Type: application/json
 
 {
-    "usuario": "Pedro",
-    "contra": "pass",
+    "username": "Pedro",
+    "password": "pass",
     "email":"dasda@cc.bb",
-    "role":"Cliente"
+    "role":"Cliente",
+    "suscripcions": [
+        {
+            "suscripcionId":"670c3b7ef2006065e2583600",
+            "startDate":"2024-09-17T22:56:01.513Z",
+            "endDate":"2024-09-17T22:56:01.513Z"
+        },
+        {
+            "suscripcionId":"670c3b7ef2006065e258366c",
+            "startDate":"2024-09-18T22:56:01.513Z",
+            "endDate":"2024-09-17T22:56:01.513Z"
+        }
+    ]
 }
 
 ### Modificar un recurso
