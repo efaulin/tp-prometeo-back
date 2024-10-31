@@ -1,6 +1,12 @@
 import { getModelForClass, getName, index, prop, Ref } from '@typegoose/typegoose';
 import { Suscripcion } from './suscripcionSchema';
 
+//Los TipoUsuarios se agregaran a mano a la base de datos, debido a que solo seran "Admin" y "Client"
+class TipoUsuario {
+    @prop({ required: true })
+    public name!: string;
+}
+
 @index({ suscripcionId: 1, startDate: 1 }, { unique: true })
 class UsuarioSuscripcion {
     @prop({ required: true, ref: getName(Suscripcion) })
@@ -14,7 +20,7 @@ class UsuarioSuscripcion {
 }
 
 class Usuario {
-    @prop({ required: true })
+    @prop({ required: true, unique: true })
     public username!: string;
 
     @prop({ required: true })
@@ -23,8 +29,8 @@ class Usuario {
     @prop({ required: true })
     public email!: string;
 
-    @prop({ required: true })
-    public role!: string;
+    @prop({ required: true, ref: getName(TipoUsuario) })
+    public role!: Ref<TipoUsuario>;
 
     @prop({ required: true, type: () => [UsuarioSuscripcion] })
     public suscripcions!: UsuarioSuscripcion[];
