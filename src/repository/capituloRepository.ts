@@ -1,7 +1,7 @@
 import { Capitulo, CapituloModel } from "../schemas/capituloSchema";
 import { HydratedDocument } from 'mongoose';
 import { ColeccionRepository } from "./coleccionRepository";
-
+//TODO Implementar los cambios DBv2
 export class CapituloRepository{
     static async GetOne(id: string): Promise<HydratedDocument<Capitulo> | null> {
         try {

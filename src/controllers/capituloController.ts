@@ -1,7 +1,7 @@
 import { CapituloRepository } from "../repository/capituloRepository";
 import { Request, Response } from 'express';
 import { mongoose } from "@typegoose/typegoose";
-
+//TODO Implementar los cambios DBv2
 export class CapituloControler{
     static async GetAll(req: Request, res: Response){
         try {
@@ -38,19 +38,17 @@ export class CapituloControler{
         if (!validateColInput(req)) {
             return res.status(400).send("Datos de entrada inválidos.");
         }
-        const { coleccionId, name, author, host, producer, durationInSeconds, language, description, narrator, publisher, uploadDate, publicationDate } = req.body;
+        const { coleccionId, name, author, host, durationInSeconds, language, description, narrator, uploadDate, publicationDate } = req.body;
         try {
             const result = await CapituloRepository.Create({
                 coleccionId,
                 name,
                 author, 
                 host,
-                producer,
                 durationInSeconds,
                 language,
                 description,
                 narrator,
-                publisher,
                 uploadDate,
                 publicationDate
             });

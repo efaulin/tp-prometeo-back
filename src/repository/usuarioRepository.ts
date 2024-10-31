@@ -1,7 +1,7 @@
 import { Usuario, UsuarioModel, UsuarioSuscripcion } from "../schemas/usuarioSchema";
 import { HydratedDocument, Document } from 'mongoose';
 import { SuscripcionRepository } from "./suscripcionRepository";
-
+//TODO Implementar los cambios DBv2
 export class UsuarioRepository{
     static async GetOne(id: string): Promise<HydratedDocument<Usuario> | null> {
         try {

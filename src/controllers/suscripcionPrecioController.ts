@@ -47,7 +47,7 @@ export class SuscripcionPrecioController{
     }
     
     static async Create(req: Request, res: Response){
-        const urlSuscripcionId = req.params.suscripcionId;
+        const urlSuscripcionId = req.params.id;
         const validateUserInput = (req: Request):boolean => {
             const { startDate, amount, suscripcionId } = req.body;
             return startDate && amount && suscripcionId && suscripcionId == urlSuscripcionId ? true : false;
