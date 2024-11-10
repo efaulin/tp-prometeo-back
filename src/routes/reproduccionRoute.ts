@@ -1,18 +1,18 @@
 import { Router } from "express";
-import { ReproduccionControler } from "../controllers/reproduccionController";
+import { ReproduccionController } from "../controllers/reproduccionController";
 
 //RUTAS /api/Reproduccion
 export const reproduccionRouter = Router();
 
 reproduccionRouter.route("/")
     //GETALL
-    .get(ReproduccionControler.GetAll)
+    .get(ReproduccionController.GetAll)
     //CREATE
-    .post(ReproduccionControler.Create)
+    .post(ReproduccionController.Create)
 ;
 
 reproduccionRouter.route("/:id")
-    .get(ReproduccionControler.GetOne)
-    .put(ReproduccionControler.Update)
-    .delete(ReproduccionControler.Delete)
+    .get(ReproduccionController.GetOne)
+    .put(ReproduccionController.Update)
+    .delete(ReproduccionController.Delete)
 

@@ -1,23 +1,31 @@
 import { Router } from "express";
-import { CapituloControler } from "../controllers/capituloController";
-import { ReproduccionControler } from "../controllers/reproduccionController";
+import { CapituloController } from "../controllers/capituloController";
+import { ReproduccionController } from "../controllers/reproduccionController";
 
 //RUTAS /api/Capitulo
 export const capituloRouter = Router();
 
 capituloRouter.route("/")
     //GETALL
-    .get(CapituloControler.GetAll)
+    .get(CapituloController.GetAll)
     //CREATE
-    .post(CapituloControler.Create)
+    .post(CapituloController.Create)
 ;
 
 capituloRouter.route("/:id")
-    .get(CapituloControler.GetOne)
-    .put(CapituloControler.Update)
-    .delete(CapituloControler.Delete)
+    .get(CapituloController.GetOne)
+    .put(CapituloController.Update)
+    .delete(CapituloController.Delete)
 ;
 
 capituloRouter.route("/:id/replays")
-    .get(ReproduccionControler.GetAllOfOne)
+    .get(ReproduccionController.GetAllOfOne)
+;
+
+capituloRouter.route("/:id/authors")
+    .get() //TODO Traer coleccion de autores del capitulo
+;
+
+capituloRouter.route("/:id/hosts")
+    .get() //TODO Traer coleccion de conductores del capitulo
 ;

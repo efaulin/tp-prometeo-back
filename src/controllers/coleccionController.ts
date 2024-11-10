@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { Coleccion } from "../schemas/coleccionSchema";
 import { mongoose } from "@typegoose/typegoose";
 
-export class ColeccionControler{
+export class ColeccionController{
     static async GetAll(req: Request, res: Response){
         try {
             const colecciones = await ColeccionRepository.GetAll();

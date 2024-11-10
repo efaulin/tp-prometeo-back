@@ -37,4 +37,6 @@ class Usuario {
 }
 
 const UsuarioModel = getModelForClass(Usuario);
-export { Usuario, UsuarioSuscripcion, UsuarioModel };
+const TipoUsuarioModel = getModelForClass(TipoUsuario);
+
+export { Usuario, UsuarioSuscripcion, TipoUsuario, UsuarioModel, TipoUsuarioModel };

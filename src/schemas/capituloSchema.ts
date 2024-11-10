@@ -3,12 +3,7 @@ import { Coleccion } from './coleccionSchema';
 import { Autor } from './autorSchema';
 import { Narrador } from './narradorSchema';
 import { Conductor } from './conductorSchema';
-
-//Esta clase sera cargada por "Admin"
-class Idioma {
-    @prop({ required: true })
-    public name!: string;
-}
+import { Idioma } from './idiomaSchema';
 
 class Capitulo {
     @prop({ required: true, ref: getName(Coleccion) })

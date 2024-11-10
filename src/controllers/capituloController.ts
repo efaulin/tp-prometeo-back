@@ -1,8 +1,9 @@
 import { CapituloRepository } from "../repository/capituloRepository";
 import { Request, Response } from 'express';
 import { mongoose } from "@typegoose/typegoose";
-//TODO Implementar los cambios DBv2
-export class CapituloControler{
+import { Capitulo } from "../schemas/capituloSchema.js";
+
+export class CapituloController{
     static async GetAll(req: Request, res: Response){
         try {
             const chapters = await CapituloRepository.GetAll();
@@ -31,31 +32,33 @@ export class CapituloControler{
     }
     
     static async Create(req: Request, res: Response){
-        const validateColInput = (req: Request): boolean => {
-            const { coleccionId, name, author, host, producer, durationInSeconds, language, description, narrator, publisher, uploadDate, publicationDate } = req.body;
-            return coleccionId && mongoose.isValidObjectId(coleccionId) && name && author && host && producer && durationInSeconds && language && description && narrator && publisher && uploadDate && publicationDate ? true : false;
+        const validateInput = (req: Request): boolean => {
+            const tmpCap : Partial<Capitulo> = { ...req.body };
+            let isPodcast;
+            let isAudiobook;
+            
+            //Valido la division total.
+            if (tmpCap.narrator && tmpCap.author && mongoose.isValidObjectId(tmpCap.narrator) && mongoose.isValidObjectId(tmpCap.author)) isAudiobook = true;
+            if (tmpCap.host && mongoose.isValidObjectId(tmpCap.host)) isPodcast = true;
+
+            //¡Un Capitulo no puede ser Audiolibro y Podcast!. Pero tampoco no ser ninguno.
+            if ((isAudiobook && isPodcast) || !(isAudiobook || isPodcast)) {
+                return false;
+            }
+
+            //¿Nulos? Ninguno.
+            return tmpCap.coleccionId && mongoose.isValidObjectId(tmpCap.coleccionId) && tmpCap.name && tmpCap.durationInSeconds && tmpCap.language && mongoose.isValidObjectId(tmpCap.language) && tmpCap.description && tmpCap.uploadDate && tmpCap.publicationDate ? true : false;
         };
-        if (!validateColInput(req)) {
+        if (!validateInput(req)) {
             return res.status(400).send("Datos de entrada inválidos.");
         }
-        const { coleccionId, name, author, host, durationInSeconds, language, description, narrator, uploadDate, publicationDate } = req.body;
+        const tmpCap : Partial<Capitulo> = { ...req.body };
         try {
-            const result = await CapituloRepository.Create({
-                coleccionId,
-                name,
-                author, 
-                host,
-                durationInSeconds,
-                language,
-                description,
-                narrator,
-                uploadDate,
-                publicationDate
-            });
+            const result = await CapituloRepository.Create({ ...tmpCap });
             if (result) {
                 return res.status(201).json(result);
             }
-            return res.status(406).send("No existe coleccion <" + coleccionId + ">");
+            return res.status(406).send("No existe coleccion <" + tmpCap.coleccionId + ">");
         } catch (error) {
             console.error("Error al crear colección:", error);
             return res.status(500).send("[Error] Create Chapter");
@@ -69,12 +72,10 @@ export class CapituloControler{
             name,
             author, 
             host,
-            producer,
             durationInSeconds,
             language,
             description,
             narrator,
-            publisher,
             uploadDate,
             publicationDate
         } = req.body;
@@ -86,15 +87,20 @@ export class CapituloControler{
                 updateFields.coleccionId = coleccionId;
             }
         }
+        if (host) {
+            if (mongoose.isValidObjectId(host)) updateFields.host = host;
+        } else {
+            if (author) {
+                if (mongoose.isValidObjectId(author)) updateFields.author = author;
+            }
+            if (narrator) {
+                if (mongoose.isValidObjectId(narrator)) updateFields.narrator = narrator;
+            }
+        }
         if (name) updateFields.name = name;
-        if (author) updateFields.author = author;
-        if (host) updateFields.host = host;
-        if (producer) updateFields.producer = producer;
         if (durationInSeconds) updateFields.durationInSeconds = durationInSeconds;
         if (language) updateFields.language = language;
         if (description) updateFields.description = description;
-        if (narrator) updateFields.narrator = narrator;
-        if (publisher) updateFields.publisher = publisher;
         if (uploadDate) updateFields.uploadDate = uploadDate;
         if (publicationDate) updateFields.publicationDate = publicationDate;
 

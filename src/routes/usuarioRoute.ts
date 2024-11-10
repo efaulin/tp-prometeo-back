@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { UsuarioController } from "../controllers/usuarioController";
-import { ReproduccionControler } from "../controllers/reproduccionController";
+import { ReproduccionController } from "../controllers/reproduccionController";
 
 //RUTAS /api/usuario
 export const usuarioRouter = Router();
@@ -19,5 +19,5 @@ usuarioRouter.route("/:id")
 ;
 
 usuarioRouter.route("/:id/replays")
-    .get(ReproduccionControler.GetAllOfOne)
+    .get(ReproduccionController.GetAllOfOne)
 ;

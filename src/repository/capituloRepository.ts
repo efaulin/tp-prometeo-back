@@ -1,7 +1,11 @@
 import { Capitulo, CapituloModel } from "../schemas/capituloSchema";
 import { HydratedDocument } from 'mongoose';
 import { ColeccionRepository } from "./coleccionRepository";
-//TODO Implementar los cambios DBv2
+import { ConductorRepository } from "./conductorRepository";
+import { NarradorRepository } from "./narradorRepository";
+import { AutorRepository } from "./autorRepository";
+import { IdiomaRepository } from "./idiomaRepository";
+
 export class CapituloRepository{
     static async GetOne(id: string): Promise<HydratedDocument<Capitulo> | null> {
         try {
@@ -25,8 +29,7 @@ export class CapituloRepository{
     
     static async Create(tmpCap:Partial<Capitulo>): Promise<HydratedDocument<Capitulo> | null> {
         try {
-            const tmpCol = await ColeccionRepository.GetOne(tmpCap.coleccionId!.toString());
-            if (tmpCol) {
+            if (await this.validateRelations(tmpCap)) {
                 const newCap = new CapituloModel({ ...tmpCap });
                 const result = await newCap.save();
                 return result;
@@ -41,9 +44,26 @@ export class CapituloRepository{
     static async Update(id: string, updateFields: Partial<Capitulo>): Promise<HydratedDocument<Capitulo> | null > {
         try {
             if (updateFields.coleccionId) {
-                const tmpCol = await ColeccionRepository.GetOne(updateFields.coleccionId!.toString());
-                if (!tmpCol) {
-                    return null;
+                const colection = await ColeccionRepository.GetOne(updateFields.coleccionId!.toString());
+                if (!colection) return null;
+            }
+            if (updateFields.language) {
+                const language = await IdiomaRepository.GetOne(updateFields.language!.toString());
+                if (!language) return null;
+            }
+            if (updateFields.host && (updateFields.author || updateFields.narrator)) {
+                return null
+            } else if (updateFields.host) {
+                const host = await ConductorRepository.GetOne(updateFields.host.toString());
+                if (!host) return null;
+            } else {
+                if (updateFields.narrator) {
+                    const narrator = await NarradorRepository.GetOne(updateFields.narrator!.toString());
+                    if (!narrator) return null;
+                }
+                if (updateFields.author) {
+                    const author = await AutorRepository.GetOne(updateFields.author!.toString());
+                    if (!author) return null;
                 }
             }
             const updatedCol = await CapituloModel.findByIdAndUpdate(id, updateFields, { new: true });
@@ -62,5 +82,21 @@ export class CapituloRepository{
             console.error("Error al eliminar capitulo:", error);
             throw error;
         }
+    }
+
+    static async validateRelations(tmp:Partial<Capitulo>) : Promise<boolean> {
+        const colection = await ColeccionRepository.GetOne(tmp.coleccionId!.toString());
+        const language = await IdiomaRepository.GetOne(tmp.language!.toString());
+        if (colection && language) {
+            if (tmp.host) {
+                const host = await ConductorRepository.GetOne(tmp.host.toString());
+                if (host) return true;
+            } else if (tmp.narrator && tmp.author) {
+                const narrator = await NarradorRepository.GetOne(tmp.narrator!.toString());
+                const author = await AutorRepository.GetOne(tmp.author!.toString());
+                if (narrator && author) return true;
+            }
+        }
+        return false;
     }
 }

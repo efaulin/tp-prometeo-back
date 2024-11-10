@@ -2,9 +2,8 @@ import { mongoose } from "@typegoose/typegoose";
 import { UsuarioRepository } from "../repository/usuarioRepository";
 import { Request, Response } from 'express';
 import { MongoError } from "mongodb";
-import { Suscripcion } from "../schemas/suscripcionSchema.js";
-import { UsuarioSuscripcion } from "../schemas/usuarioSchema.js";
-//TODO Implementar los cambios DBv2
+import { UsuarioSuscripcion } from "../schemas/usuarioSchema";
+
 export class UsuarioController{
     static async GetAll(req: Request, res: Response){
         try {
@@ -49,6 +48,9 @@ export class UsuarioController{
         } catch (error) {
             console.error("Error al crear usuario:", error);
             if (error instanceof MongoError && error.code == 11000) {
+                if (error.message.includes('username')) {
+                    return res.status(406).send("Nombre de usuario repetido.");
+                }
                 return res.status(406).send("Dos Suscripciones tienen la misma fecha de inicio.");
             }
             return res.status(500).send("[Error] Create User");

@@ -1,7 +1,7 @@
-import { Usuario, UsuarioModel, UsuarioSuscripcion } from "../schemas/usuarioSchema";
+import { TipoUsuario, TipoUsuarioModel, Usuario, UsuarioModel, UsuarioSuscripcion } from "../schemas/usuarioSchema";
 import { HydratedDocument, Document } from 'mongoose';
 import { SuscripcionRepository } from "./suscripcionRepository";
-//TODO Implementar los cambios DBv2
+
 export class UsuarioRepository{
     static async GetOne(id: string): Promise<HydratedDocument<Usuario> | null> {
         try {
@@ -24,7 +24,8 @@ export class UsuarioRepository{
     static async Create(name:String, pass: String, email:String, role:String, suscripcions:UsuarioSuscripcion[]): Promise<HydratedDocument<Usuario> | undefined | string> {
         try {
             const isSuscripcionsValid = await this.validateSuscripcions(suscripcions);
-            if (!isSuscripcionsValid) {
+            const tmpRole = await TipoUsuarioModel.findById(role);
+            if (!tmpRole || !isSuscripcionsValid) {
                 return undefined;
             } else if (typeof isSuscripcionsValid == "string") {
                 return isSuscripcionsValid;
@@ -53,6 +54,10 @@ export class UsuarioRepository{
                 } else if (typeof isSuscripcionsValid == "string") {
                     return isSuscripcionsValid;
                 }
+            }
+            if (updateFields.role) {
+                const tmpRole = await TipoUsuarioModel.findById(updateFields.role);
+                if (!tmpRole) return null;
             }
             // Usa findByIdAndUpdate para actualizar solo los campos proporcionados
             const updatedUser = await UsuarioModel.findByIdAndUpdate(id, updateFields, { new: true });
