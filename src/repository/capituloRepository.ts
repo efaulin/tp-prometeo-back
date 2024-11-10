@@ -9,7 +9,11 @@ import { IdiomaRepository } from "./idiomaRepository";
 export class CapituloRepository{
     static async GetOne(id: string): Promise<HydratedDocument<Capitulo> | null> {
         try {
-            const result = await CapituloModel.findById(id);
+            const result = await CapituloModel.findById(id)
+                .populate('language')
+                .populate('authors')
+                .populate('narrator')
+                .populate('hosts');
             return result;
         } catch (error) {
             console.error(error);
@@ -51,18 +55,18 @@ export class CapituloRepository{
                 const language = await IdiomaRepository.GetOne(updateFields.language!.toString());
                 if (!language) return null;
             }
-            if (updateFields.host && (updateFields.author || updateFields.narrator)) {
+            if (updateFields.hosts && (updateFields.authors || updateFields.narrator)) {
                 return null
-            } else if (updateFields.host) {
-                const host = await ConductorRepository.GetOne(updateFields.host.toString());
+            } else if (updateFields.hosts) {
+                const host = await ConductorRepository.GetOne(updateFields.hosts.toString());
                 if (!host) return null;
             } else {
                 if (updateFields.narrator) {
                     const narrator = await NarradorRepository.GetOne(updateFields.narrator!.toString());
                     if (!narrator) return null;
                 }
-                if (updateFields.author) {
-                    const author = await AutorRepository.GetOne(updateFields.author!.toString());
+                if (updateFields.authors) {
+                    const author = await AutorRepository.GetOne(updateFields.authors!.toString());
                     if (!author) return null;
                 }
             }
@@ -88,13 +92,13 @@ export class CapituloRepository{
         const colection = await ColeccionRepository.GetOne(tmp.coleccionId!.toString());
         const language = await IdiomaRepository.GetOne(tmp.language!.toString());
         if (colection && language) {
-            if (tmp.host) {
-                const host = await ConductorRepository.GetOne(tmp.host.toString());
-                if (host) return true;
-            } else if (tmp.narrator && tmp.author) {
+            if (tmp.hosts) {
+                const hosts = await ConductorRepository.GetOne(tmp.hosts.toString());
+                if (hosts) return true;
+            } else if (tmp.narrator && tmp.authors) {
                 const narrator = await NarradorRepository.GetOne(tmp.narrator!.toString());
-                const author = await AutorRepository.GetOne(tmp.author!.toString());
-                if (narrator && author) return true;
+                const authors = await AutorRepository.GetOne(tmp.authors!.toString());
+                if (narrator && authors) return true;
             }
         }
         return false;

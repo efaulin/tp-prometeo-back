@@ -5,7 +5,8 @@ import { SuscripcionRepository } from "./suscripcionRepository";
 export class UsuarioRepository{
     static async GetOne(id: string): Promise<HydratedDocument<Usuario> | null> {
         try {
-            const result = await UsuarioModel.findById(id);
+            const result = await UsuarioModel.findById(id)
+                .populate('role');
             return result;
         } catch (error) {
             console.error(error);

@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { CapituloController } from "../controllers/capituloController";
 import { ReproduccionController } from "../controllers/reproduccionController";
+import { AutorController } from "../controllers/autorController";
+import { ConductorController } from "../controllers/conductorController";
 
 //RUTAS /api/Capitulo
 export const capituloRouter = Router();
@@ -20,12 +22,4 @@ capituloRouter.route("/:id")
 
 capituloRouter.route("/:id/replays")
     .get(ReproduccionController.GetAllOfOne)
-;
-
-capituloRouter.route("/:id/authors")
-    .get() //TODO Traer coleccion de autores del capitulo
-;
-
-capituloRouter.route("/:id/hosts")
-    .get() //TODO Traer coleccion de conductores del capitulo
 ;

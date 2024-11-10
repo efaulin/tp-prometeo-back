@@ -14,13 +14,13 @@ class Capitulo {
 
     //Si tiene "Autor" y "Narrador" es un "Audiolibro"
     @prop({ ref: getName(Autor) })
-    public author?: Ref<Autor>[];
+    public authors?: Ref<Autor>[];
     @prop({ ref: getName(Narrador) })
     public narrator?: Ref<Narrador>;
 
     //Si tiene "Conductor" es un "Podcast"
     @prop({ ref: getName(Conductor) })
-    public host?: Ref<Conductor>[];
+    public hosts?: Ref<Conductor>[];
 
     @prop({ required: true })
     public durationInSeconds!: Number;
