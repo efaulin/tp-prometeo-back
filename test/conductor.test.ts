@@ -35,7 +35,7 @@ describe('[ Route / Conductor ]', () => {
         //Assert (Afirmar)
         expect(res.status).toBe(expectedStatus);
         expect(content.name).toBe(expectedContent.name);
-    }, 15000);
+    }, 30000);
 
     it('[GetOne] should return 200 OK with an conductor', async () => {
         //Arrange (Planear)

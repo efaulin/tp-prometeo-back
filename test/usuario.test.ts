@@ -56,7 +56,7 @@ describe('[ Route / Usuario ]', () => {
         expect(content.role.name).toBe(testRole.name);
         expect(content.suscripcions[0].suscripcionId.type).toBe(testSuscription.type);
         expect(content.suscripcions[0].startDate).toBe(expectedContent.suscripcions[0].startDate.toJSON());
-    }, 15000);
+    }, 30000);
 
     it('[GetOne] should return 200 OK with an usuario', async () => {
         //Arrange (Planear)

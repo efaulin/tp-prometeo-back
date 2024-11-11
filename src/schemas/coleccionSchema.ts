@@ -5,6 +5,9 @@ class Coleccion {
     @prop({ required: true })
     public name!: string;
 
+    @prop({ required: true })
+    public description!: string;
+
     @prop({ required: true, ref: getName(Categoria) })
     public categories!: Ref<Categoria>[];
 }

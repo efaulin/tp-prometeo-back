@@ -9,11 +9,8 @@ import { IdiomaRepository } from "./idiomaRepository";
 export class CapituloRepository{
     static async GetOne(id: string): Promise<HydratedDocument<Capitulo> | null> {
         try {
-            const result = await CapituloModel.findById(id)
-                .populate('language')
-                .populate('authors')
-                .populate('narrator')
-                .populate('hosts');
+            const result = await CapituloModel.findById(id);
+            if (result) await CapituloRepository.populateRelations(result);
             return result;
         } catch (error) {
             console.error(error);
@@ -36,6 +33,7 @@ export class CapituloRepository{
             if (await this.validateRelations(tmpCap)) {
                 const newCap = new CapituloModel({ ...tmpCap });
                 const result = await newCap.save();
+                if (result) await CapituloRepository.populateRelations(result);
                 return result;
             }
             return null;
@@ -47,6 +45,9 @@ export class CapituloRepository{
     
     static async Update(id: string, updateFields: Partial<Capitulo>): Promise<HydratedDocument<Capitulo> | null > {
         try {
+            let isAudiobook;
+            let isPodcast;
+
             if (updateFields.coleccionId) {
                 const colection = await ColeccionRepository.GetOne(updateFields.coleccionId!.toString());
                 if (!colection) return null;
@@ -57,20 +58,38 @@ export class CapituloRepository{
             }
             if (updateFields.hosts && (updateFields.authors || updateFields.narrator)) {
                 return null
-            } else if (updateFields.hosts) {
-                const host = await ConductorRepository.GetOne(updateFields.hosts.toString());
-                if (!host) return null;
+            } else if (updateFields.hosts && updateFields.hosts.length >= 1) {
+                let emptyHost = false;
+                for (let i=0; i < updateFields.hosts.length && !emptyHost; i++) {
+                    const tmp = await ConductorRepository.GetOne(updateFields.hosts[i].toString());
+                    if (!tmp) emptyHost = true;
+                }
+                if (emptyHost) return null;
+                isPodcast = true;
             } else {
                 if (updateFields.narrator) {
                     const narrator = await NarradorRepository.GetOne(updateFields.narrator!.toString());
                     if (!narrator) return null;
+                    isAudiobook = true;
                 }
-                if (updateFields.authors) {
-                    const author = await AutorRepository.GetOne(updateFields.authors!.toString());
-                    if (!author) return null;
+                if (updateFields.authors && updateFields.authors.length >= 1) {
+                    let emptyAuthor = false;
+                    for (let i=0; i < updateFields.authors.length && !emptyAuthor; i++) {
+                        const tmp = await AutorRepository.GetOne(updateFields.authors[i].toString());
+                        if (!tmp) emptyAuthor = true;
+                    }
+                    if (emptyAuthor) return null;
+                    isAudiobook = true;
                 }
             }
+            if (isAudiobook) {
+                await CapituloModel.findByIdAndUpdate(id, { hosts: null });
+            }
+            if (isPodcast) {
+                await CapituloModel.findByIdAndUpdate(id, { authors: null, narrator: null });
+            }
             const updatedCol = await CapituloModel.findByIdAndUpdate(id, updateFields, { new: true });
+            if (updatedCol) await CapituloRepository.populateRelations(updatedCol);
             return updatedCol;
         } catch (error) {
             console.error("Error al actualizar capitulo en la base de datos:", error);
@@ -102,5 +121,12 @@ export class CapituloRepository{
             }
         }
         return false;
+    }
+
+    static async populateRelations(chapter:HydratedDocument<Capitulo>) : Promise<void> {
+        await chapter.populate('language');
+        await chapter.populate('hosts')
+        await chapter.populate('authors');
+        await chapter.populate('narrator');
     }
 }

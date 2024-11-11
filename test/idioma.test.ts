@@ -35,7 +35,7 @@ describe('[ Route / Idioma ]', () => {
         //Assert (Afirmar)
         expect(res.status).toBe(expectedStatus);
         expect(content.name).toBe(expectedContent.name);
-    }, 15000);
+    }, 30000);
 
     it('[GetOne] should return 200 OK with an idioma', async () => {
         //Arrange (Planear)

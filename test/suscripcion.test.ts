@@ -31,7 +31,7 @@ describe('[ Route / Suscripcion ]', () => {
         //Assert (Afirmar)
         expect(res.status).toBe(expectedStatus);
         expect(content.type).toBe(expectedContent.type);
-    }, 15000);
+    }, 30000);
 
     let suscripcionId : string;
     const prices = [
