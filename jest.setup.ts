@@ -5,7 +5,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import app from "./src/app";
 
 const mongoServer = MongoMemoryServer.create();
-let server = app.listen(3005, "127.0.0.1");
+//let server = app.listen(3005, "127.0.0.1");
 
 beforeAll(async () => {
     try {
@@ -13,6 +13,7 @@ beforeAll(async () => {
             await mongoose.connect((await mongoServer).getUri(), {});
             console.log('Conexión a MongoDB Local establecida');
         }
+        jest.resetModules();
     } catch (err) {
         console.error('Error al conectar con MongoDB Local', err);
         throw err;
@@ -22,5 +23,5 @@ beforeAll(async () => {
 afterAll(async () => {
     await mongoose.connection.close();
     await (await mongoServer).stop();
-    server.close();
+    //server.close();
 });

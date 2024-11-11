@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { mongoose } from "@typegoose/typegoose";
 import { Reproduccion } from "../schemas/reproduccionSchema";
 
-export class ReproduccionControler{
+export class ReproduccionController{
     static async GetAll(req: Request, res: Response){
         try {
             const replays = await ReproduccionRepository.GetAll();

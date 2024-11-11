@@ -1,6 +1,8 @@
 import { mongoose } from "@typegoose/typegoose";
 import { UsuarioRepository } from "../repository/usuarioRepository";
 import { Request, Response } from 'express';
+import { MongoError } from "mongodb";
+import { UsuarioSuscripcion } from "../schemas/usuarioSchema";
 
 export class UsuarioController{
     static async GetAll(req: Request, res: Response){
@@ -31,20 +33,7 @@ export class UsuarioController{
     }
     
     static async Create(req: Request, res: Response){
-        // Método para validar los datos de entrada
-        const validateUserInput = (req: Request): boolean => {
-            let emptySuscripcion = false;
-            const { username, password, email, role, suscripcions } = req.body;
-            if (!suscripcions || suscripcions.length < 1) {
-                return false;   
-            }
-            for (let i=0; i < suscripcions.length && !emptySuscripcion; i++) {
-                const tmp = suscripcions[i];
-                emptySuscripcion = !(mongoose.isValidObjectId(tmp.suscripcionId) && tmp.startDate && tmp.endDate)
-            }
-            return username && password && email && role && !emptySuscripcion ? true : false;
-        };
-        if (!validateUserInput(req)) {
+        if (!UsuarioController.validateUserInput(req)) {
             return res.status(400).send("Datos de entrada inválidos.");
         }
         const { username, password, email, role, suscripcions } = req.body;
@@ -58,6 +47,12 @@ export class UsuarioController{
             return res.status(201).json(result);
         } catch (error) {
             console.error("Error al crear usuario:", error);
+            if (error instanceof MongoError && error.code == 11000) {
+                if (error.message.includes('username')) {
+                    return res.status(406).send("Nombre de usuario repetido.");
+                }
+                return res.status(406).send("Dos Suscripciones tienen la misma fecha de inicio.");
+            }
             return res.status(500).send("[Error] Create User");
         }
     }
@@ -70,10 +65,11 @@ export class UsuarioController{
         if (username) updateFields.username = username;
         if (password) updateFields.password = password;
         if (email) updateFields.email = email;
-        if (role) updateFields.role = role;
+        //HACK Para cambiar el role, la peticion tiene que venir de un usuario "role:admin"
+        if (role && mongoose.isValidObjectId(role)) updateFields.role = role;
         if (suscripcions) {
-            if (suscripcions.length < 1) {
-                return res.status(400).send("Datos de entrada inválidos.");   
+            if (!UsuarioController.validateSuscripcionsInput(suscripcions)) {
+                return res.status(400).send("Datos de entrada inválidos.");
             }
             updateFields.suscripcions = suscripcions;
         };
@@ -105,6 +101,39 @@ export class UsuarioController{
             console.error("Error al eliminar usuario:", error);
             return res.status(500).send("[Error] Delete User");
         }
-
     }
+
+    /**
+     * Funcion para validar los inputs de un arreglo de **UsuarioSuscripciones**
+     * @param usrSuscripcions Arreglo del tipo UsuarioSuscripciones
+     * @returns Si cumple con las validaciones devuelve **true**, caso contrario **false**
+     */
+    static validateSuscripcionsInput(usrSuscripcions:UsuarioSuscripcion[]) {
+        let emptySuscripcion = false;
+        if (usrSuscripcions.length >= 1) {
+            for (let i=0; i < usrSuscripcions.length && !emptySuscripcion; i++) {
+                const tmp = usrSuscripcions[i];
+                emptySuscripcion = !(mongoose.isValidObjectId(tmp.suscripcionId) && tmp.startDate && tmp.endDate && tmp.startDate < tmp.endDate)
+            }
+            return !emptySuscripcion;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Funcion para validar los inputs de un nuevo **Usuario**
+     * @param req Objeto **Request** con los datos del nuevo **Usuario**
+     * @returns Si cumple con las validaciones devuelve **true**, caso contrario **false**
+     */
+    static validateUserInput(req: Request): boolean {
+        const { username, password, email, role, suscripcions } = req.body;
+        let control;
+        if (!suscripcions) {
+            return false;   
+        } else {
+            control = this.validateSuscripcionsInput(suscripcions);
+        }
+        return username && password && email && role && mongoose.isValidObjectId(role) && control ? true : false;
+    };
 }

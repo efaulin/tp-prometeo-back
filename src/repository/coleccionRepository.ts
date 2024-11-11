@@ -21,7 +21,7 @@ export class ColeccionRepository{
             throw error;
         }
     }
-    static async Create(name:String, categories:string[]): Promise<HydratedDocument<Coleccion> | string> {
+    static async Create(name:String, description:string, categories:string[]): Promise<HydratedDocument<Coleccion> | string> {
         try {
             //Reviso que todos los id que recibo en "categories" existan en la BBDD
             let categoryNotExist = "";
@@ -35,6 +35,7 @@ export class ColeccionRepository{
                 //Si todas las categorias existen, creo la coleccion
                 const newCol = new ColeccionModel({
                     name: name,
+                    description: description,
                     categories: categories,
                 });
                 const result = await newCol.save();

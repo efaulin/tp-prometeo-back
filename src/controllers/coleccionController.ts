@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { Coleccion } from "../schemas/coleccionSchema";
 import { mongoose } from "@typegoose/typegoose";
 
-export class ColeccionControler{
+export class ColeccionController{
     static async GetAll(req: Request, res: Response){
         try {
             const colecciones = await ColeccionRepository.GetAll();
@@ -34,21 +34,21 @@ export class ColeccionControler{
     static async Create(req: Request, res: Response){
         // Método para validar los datos de entrada
         const validateColInput = (req: Request): boolean => {
-            const { name, categories } = req.body;
+            const { name, description, categories } = req.body;
             let control = true;
             if (categories.length >= 1) {
                 for (let i = 0; i < categories.length && control ; i++) {
                     control = mongoose.isValidObjectId(categories[i]);
                 }
             }
-            return name && categories && control ? true : false;
+            return name && description && categories && control ? true : false;
         };
         if (!validateColInput(req)) {
             return res.status(400).send("Datos de entrada inválidos.");
         }
-        const { name, categories } = req.body;
+        const { name, description, categories } = req.body;
         try {
-            const result = await ColeccionRepository.Create(name, categories);
+            const result = await ColeccionRepository.Create(name, description, categories);
             if (typeof result == "string") {
                 return res.status(406).send("Una coleccion dada no existe <" + result + ">");
             }
@@ -61,11 +61,12 @@ export class ColeccionControler{
 
     static async Update(req: Request, res: Response): Promise<Response> {
         const id = req.params.id;
-        const { name, categories } = req.body;
+        const { name, description, categories } = req.body;
         
         // Crear un objeto con solo los campos que se han proporcionado
         const updateFields: any = {};
         if (name) updateFields.name = name;
+        if (description) updateFields.description = description;
         if (categories) updateFields.categories = categories;
 
         try {

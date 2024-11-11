@@ -1,18 +1,18 @@
 import { Router } from "express";
-import { ColeccionControler } from "../controllers/coleccionController";
+import { ColeccionController } from "../controllers/coleccionController";
 
 //RUTAS /api/Coleccion
 export const coleccionRouter = Router();
 
 coleccionRouter.route("/")
     //GETALL
-    .get(ColeccionControler.GetAll)
+    .get(ColeccionController.GetAll)
     //CREATE
-    .post(ColeccionControler.Create)
+    .post(ColeccionController.Create)
 ;
 
 coleccionRouter.route("/:id")
-    .get(ColeccionControler.GetOne)
-    .put(ColeccionControler.Update)
-    .delete(ColeccionControler.Delete)
+    .get(ColeccionController.GetOne)
+    .put(ColeccionController.Update)
+    .delete(ColeccionController.Delete)
 

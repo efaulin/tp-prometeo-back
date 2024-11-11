@@ -1,5 +1,9 @@
 import { getModelForClass, getName, prop, Ref } from '@typegoose/typegoose';
 import { Coleccion } from './coleccionSchema';
+import { Autor } from './autorSchema';
+import { Narrador } from './narradorSchema';
+import { Conductor } from './conductorSchema';
+import { Idioma } from './idiomaSchema';
 
 class Capitulo {
     @prop({ required: true, ref: getName(Coleccion) })
@@ -8,29 +12,24 @@ class Capitulo {
     @prop({ required: true })
     public name!: string;
 
-    @prop({ required: true })
-    public author!: string;
+    //Si tiene "Autor" y "Narrador" es un "Audiolibro"
+    @prop({ ref: getName(Autor) })
+    public authors?: Ref<Autor>[];
+    @prop({ ref: getName(Narrador) })
+    public narrator?: Ref<Narrador>;
 
-    @prop({ required: true })
-    public host!: string;
-
-    @prop({ required: true })
-    public producer!: string;
+    //Si tiene "Conductor" es un "Podcast"
+    @prop({ ref: getName(Conductor) })
+    public hosts?: Ref<Conductor>[];
 
     @prop({ required: true })
     public durationInSeconds!: Number;
 
-    @prop({ required: true })
-    public language!: string;
+    @prop({ required: true, ref: getName(Idioma) })
+    public language!: Ref<Idioma>;
 
     @prop({ required: true })
     public description!: string;
-
-    @prop({ required: true })
-    public narrator!: string;
-
-    @prop({ required: true })
-    public publisher!: string;
 
     @prop({ required: true })
     public uploadDate!: Date;

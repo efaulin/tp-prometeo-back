@@ -1,8 +1,9 @@
 import { CapituloRepository } from "../repository/capituloRepository";
 import { Request, Response } from 'express';
 import { mongoose } from "@typegoose/typegoose";
+import { Capitulo } from "../schemas/capituloSchema.js";
 
-export class CapituloControler{
+export class CapituloController{
     static async GetAll(req: Request, res: Response){
         try {
             const chapters = await CapituloRepository.GetAll();
@@ -31,33 +32,45 @@ export class CapituloControler{
     }
     
     static async Create(req: Request, res: Response){
-        const validateColInput = (req: Request): boolean => {
-            const { coleccionId, name, author, host, producer, durationInSeconds, language, description, narrator, publisher, uploadDate, publicationDate } = req.body;
-            return coleccionId && mongoose.isValidObjectId(coleccionId) && name && author && host && producer && durationInSeconds && language && description && narrator && publisher && uploadDate && publicationDate ? true : false;
+        const validateInput = (req: Request): boolean => {
+            const tmpCap : Partial<Capitulo> = { ...req.body };
+            let isPodcast;
+            let isAudiobook;
+            
+            //Valido la division total.
+            let emptyHost = false;
+            let emptyAuthor = false;
+            if (tmpCap.authors) {
+                for (let i=0; i < tmpCap.authors.length && !emptyAuthor; i++) {
+                    emptyAuthor = !mongoose.isValidObjectId(tmpCap.authors[i]);
+                }
+            }
+            if (tmpCap.hosts) {
+                for (let i=0; i < tmpCap.hosts.length && !emptyHost; i++) {
+                    emptyHost = !mongoose.isValidObjectId(tmpCap.hosts[i]);
+                }
+                if (!emptyHost) isPodcast = true;
+            }
+            if (tmpCap.narrator && !emptyAuthor && mongoose.isValidObjectId(tmpCap.narrator)) isAudiobook = true;
+
+            //¡Un Capitulo no puede ser Audiolibro y Podcast!. Pero tampoco no ser ninguno.
+            if ((isAudiobook && isPodcast) || !(isAudiobook || isPodcast)) {
+                return false;
+            }
+
+            //¿Nulos? Ninguno.
+            return tmpCap.coleccionId && mongoose.isValidObjectId(tmpCap.coleccionId) && tmpCap.name && tmpCap.durationInSeconds && tmpCap.language && mongoose.isValidObjectId(tmpCap.language) && tmpCap.description && tmpCap.uploadDate && tmpCap.publicationDate ? true : false;
         };
-        if (!validateColInput(req)) {
+        if (!validateInput(req)) {
             return res.status(400).send("Datos de entrada inválidos.");
         }
-        const { coleccionId, name, author, host, producer, durationInSeconds, language, description, narrator, publisher, uploadDate, publicationDate } = req.body;
+        const tmpCap : Partial<Capitulo> = { ...req.body };
         try {
-            const result = await CapituloRepository.Create({
-                coleccionId,
-                name,
-                author, 
-                host,
-                producer,
-                durationInSeconds,
-                language,
-                description,
-                narrator,
-                publisher,
-                uploadDate,
-                publicationDate
-            });
+            const result = await CapituloRepository.Create({ ...tmpCap });
             if (result) {
                 return res.status(201).json(result);
             }
-            return res.status(406).send("No existe coleccion <" + coleccionId + ">");
+            return res.status(406).send("No existe coleccion <" + tmpCap.coleccionId + ">");
         } catch (error) {
             console.error("Error al crear colección:", error);
             return res.status(500).send("[Error] Create Chapter");
@@ -66,44 +79,46 @@ export class CapituloControler{
     
     static async Update(req: Request, res: Response): Promise<Response> {
         const id = req.params.id;
-        const {
-            coleccionId,
-            name,
-            author, 
-            host,
-            producer,
-            durationInSeconds,
-            language,
-            description,
-            narrator,
-            publisher,
-            uploadDate,
-            publicationDate
-        } = req.body;
+        const tmpCap : Partial<Capitulo> = { ...req.body };
         
         // Crear un objeto con solo los campos que se han proporcionado
         const updateFields: any = {};
-        if (coleccionId) {
-            if (mongoose.isValidObjectId(coleccionId)) {
-                updateFields.coleccionId = coleccionId;
+        if (tmpCap.coleccionId) {
+            if (mongoose.isValidObjectId(tmpCap.coleccionId)) {
+                updateFields.coleccionId = tmpCap.coleccionId;
             }
         }
-        if (name) updateFields.name = name;
-        if (author) updateFields.author = author;
-        if (host) updateFields.host = host;
-        if (producer) updateFields.producer = producer;
-        if (durationInSeconds) updateFields.durationInSeconds = durationInSeconds;
-        if (language) updateFields.language = language;
-        if (description) updateFields.description = description;
-        if (narrator) updateFields.narrator = narrator;
-        if (publisher) updateFields.publisher = publisher;
-        if (uploadDate) updateFields.uploadDate = uploadDate;
-        if (publicationDate) updateFields.publicationDate = publicationDate;
+        if (tmpCap.hosts) {
+            let emptyHost = false;
+            for (let i=0; i < tmpCap.hosts.length && !emptyHost; i++) {
+                emptyHost = !mongoose.isValidObjectId(tmpCap.hosts[i]);
+            }
+            if (!emptyHost) updateFields.hosts = tmpCap.hosts;
+        } else {
+            if (tmpCap.authors) {
+                let emptyAuthor = false;
+                for (let i=0; i < tmpCap.authors.length && !emptyAuthor; i++) {
+                    emptyAuthor = !mongoose.isValidObjectId(tmpCap.authors[i]);
+                }
+                if (!emptyAuthor) updateFields.authors = tmpCap.authors;
+            }
+            if (tmpCap.narrator) {
+                if (mongoose.isValidObjectId(tmpCap.narrator)) updateFields.narrator = tmpCap.narrator;
+            }
+        }
+        if (tmpCap.name) updateFields.name = tmpCap.name;
+        if (tmpCap.durationInSeconds) updateFields.durationInSeconds = tmpCap.durationInSeconds;
+        if (tmpCap.language) {
+            if (mongoose.isValidObjectId(tmpCap.language)) updateFields.language = tmpCap.language;
+        }
+        if (tmpCap.description) updateFields.description = tmpCap.description;
+        if (tmpCap.uploadDate) updateFields.uploadDate = tmpCap.uploadDate;
+        if (tmpCap.publicationDate) updateFields.publicationDate = tmpCap.publicationDate;
 
         try {
             const result = await CapituloRepository.Update(id, updateFields);
             if (!result) {
-                return res.status(404).send("No se encontró la colección para actualizar.");
+                return res.status(404).send("No se encontró el objeto de alguna relacion.");
             } else if (typeof result == "string") {
                 return res.status(406).send("Una capitulo dada no existe <" + result + ">");
             }
