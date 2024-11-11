@@ -38,8 +38,8 @@ export class CapituloController{
             let isAudiobook;
             
             //Valido la division total.
-            if (tmpCap.narrator && tmpCap.author && mongoose.isValidObjectId(tmpCap.narrator) && mongoose.isValidObjectId(tmpCap.author)) isAudiobook = true;
-            if (tmpCap.host && mongoose.isValidObjectId(tmpCap.host)) isPodcast = true;
+            if (tmpCap.narrator && tmpCap.authors && mongoose.isValidObjectId(tmpCap.narrator) && mongoose.isValidObjectId(tmpCap.authors)) isAudiobook = true;
+            if (tmpCap.hosts && mongoose.isValidObjectId(tmpCap.hosts)) isPodcast = true;
 
             //¡Un Capitulo no puede ser Audiolibro y Podcast!. Pero tampoco no ser ninguno.
             if ((isAudiobook && isPodcast) || !(isAudiobook || isPodcast)) {

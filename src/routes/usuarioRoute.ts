@@ -17,7 +17,7 @@ usuarioRouter.route("/:id")
     .put(UsuarioController.Update)
     .delete(UsuarioController.Delete)
 ;
-
+//TODO Testear esto en los test de Repoducciones
 usuarioRouter.route("/:id/replays")
     .get(ReproduccionController.GetAllOfOne)
 ;

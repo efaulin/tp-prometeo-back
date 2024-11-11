@@ -7,10 +7,14 @@ class TipoUsuario {
     public name!: string;
 }
 
-@index({ suscripcionId: 1, startDate: 1 }, { unique: true })
+@index({ userId: 1, startDate: 1 }, { unique: true })
 class UsuarioSuscripcion {
     @prop({ required: true, ref: getName(Suscripcion) })
     public suscripcionId!: Ref<Suscripcion>;
+
+    //Se agrega userId para validar por indice no exitan dos suscripciones con la misma fecha para un mismo usuario
+    @prop({ required: true })
+    public userId!: string;
 
     @prop({ required: true })
     public startDate!: Date;

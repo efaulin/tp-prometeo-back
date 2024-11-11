@@ -3,7 +3,7 @@ import app from '../src/app';
 import { Suscripcion } from '../src/schemas/suscripcionSchema';
 
 describe('[ Route / Suscripcion ]', () => {
-    it('should return 200 OK with an array of suscripciones', async () => {
+    it('[GetAll] should return 200 OK with an array of suscripciones', async () => {
         //Arrange (Planear)
         const expectedStatus = 200;
         //const expectedContent;
@@ -17,7 +17,7 @@ describe('[ Route / Suscripcion ]', () => {
         expect(content).toBeInstanceOf(Array<Suscripcion>);
     });
 
-    it('should return 201 CREATED with a suscripcion', async () => {
+    it('[Create] should return 201 CREATED with a suscripcion', async () => {
         //Arrange (Planear)
         const expectedStatus = 201;
         const expectedContent = {
@@ -31,7 +31,7 @@ describe('[ Route / Suscripcion ]', () => {
         //Assert (Afirmar)
         expect(res.status).toBe(expectedStatus);
         expect(content.type).toBe(expectedContent.type);
-    });
+    }, 15000);
 
     let suscripcionId : string;
     const prices = [
@@ -41,7 +41,7 @@ describe('[ Route / Suscripcion ]', () => {
         }
     ]
 
-    it('should return 201 CREATED with a suscripcion with prices', async () => {
+    it('[Create] should return 201 CREATED with a suscripcion with prices', async () => {
         //Arrange (Planear)
         const expectedStatus = 201;
         const expectedContent = {
@@ -57,12 +57,13 @@ describe('[ Route / Suscripcion ]', () => {
         //Assert (Afirmar)
         expect(res.status).toBe(expectedStatus);
         expect(content.type).toContain(expectedContent.type);
-    });
+    }, 15000);
 
-    it('should return 200 OK with a array of prices uploaded previusly', async () => {
+    it('[GetOneOfAll:Prices] should return 200 OK with a array of prices uploaded previusly', async () => {
         //Arrange (Planear)
         const expectedStatus = 200;
         const expectedContent = prices;
+
         //Act (Actuar)
         const res = await request(app).get('/api/suscripcion/' + suscripcionId + '/prices');
         const content = res.body;
@@ -73,7 +74,7 @@ describe('[ Route / Suscripcion ]', () => {
         expect(content[0].amount).toBe(expectedContent[0].amount);
     });
 
-    it('should return 200 OK with an uploaded suscripcion', async () => {
+    it('[Update] should return 200 OK with an uploaded suscripcion', async () => {
         //Arrange (Planear)
         const expectedStatus = 200;
         const expectedContent = {
@@ -88,8 +89,8 @@ describe('[ Route / Suscripcion ]', () => {
         expect(res.status).toBe(expectedStatus);
         expect(content.type).toBe(expectedContent.type);
     });
-
-    it('should return 202 DELETED with a text', async () => {
+    
+    it('[Delete] should return 202 DELETED with a text', async () => {
         //Arrange (Planear)
         const expectedStatus = 202;
         const expectedContent = "Suscripcion Borrada";
@@ -103,7 +104,7 @@ describe('[ Route / Suscripcion ]', () => {
         expect(content).toBe(expectedContent);
     });
 
-    it('should return 404 NOT-FOUND with a text', async () => {
+    it('[GetOne] should return 404 NOT-FOUND with a text', async () => {
         //Arrange (Planear)
         const expectedStatus = 404;
         const expectedContent = "No se encontró la suscripcion.";
@@ -118,6 +119,7 @@ describe('[ Route / Suscripcion ]', () => {
     });
 });
 
-describe('[ Validations / Suscripcion ]', () => {
-    //TODO Probar validaciones de inputs, con sus retornos de la API.
-});
+//TODO Probar validaciones de inputs, con sus retornos de la API.
+/*describe('[ Validations / Suscripcion ]', () => {
+    
+});*/

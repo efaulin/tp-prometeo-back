@@ -33,7 +33,7 @@ export class UsuarioController{
     }
     
     static async Create(req: Request, res: Response){
-        if (!this.validateUserInput(req)) {
+        if (!UsuarioController.validateUserInput(req)) {
             return res.status(400).send("Datos de entrada inválidos.");
         }
         const { username, password, email, role, suscripcions } = req.body;
@@ -68,7 +68,7 @@ export class UsuarioController{
         //HACK Para cambiar el role, la peticion tiene que venir de un usuario "role:admin"
         if (role && mongoose.isValidObjectId(role)) updateFields.role = role;
         if (suscripcions) {
-            if (this.validateSuscripcionsInput(suscripcions)) {
+            if (!UsuarioController.validateSuscripcionsInput(suscripcions)) {
                 return res.status(400).send("Datos de entrada inválidos.");
             }
             updateFields.suscripcions = suscripcions;

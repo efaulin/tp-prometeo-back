@@ -14,7 +14,7 @@ import { conductorRouter } from "./routes/conductorRoute";
 
 const app = express();
 
-logger(1, app);
+logger(0, app);
 
 app.use(express.json());
 

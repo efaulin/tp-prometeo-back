@@ -5,8 +5,8 @@ import { SuscripcionRepository } from "./suscripcionRepository";
 export class UsuarioRepository{
     static async GetOne(id: string): Promise<HydratedDocument<Usuario> | null> {
         try {
-            const result = await UsuarioModel.findById(id)
-                .populate('role');
+            const result = await UsuarioModel.findById(id);
+            if (result) await UsuarioRepository.populateRelations(result);
             return result;
         } catch (error) {
             console.error(error);
@@ -38,7 +38,11 @@ export class UsuarioRepository{
                 role: role,
                 suscripcions: suscripcions,
             });
+            for (let i = 0; i < newUser.suscripcions.length; i++) {
+                newUser.suscripcions[i].userId = newUser._id.toString();
+            }
             const result = await newUser.save();
+            if (result) await UsuarioRepository.populateRelations(result);
             return result;
         } catch (error) {
             console.error('Error al crear el usuario:', error);
@@ -60,8 +64,14 @@ export class UsuarioRepository{
                 const tmpRole = await TipoUsuarioModel.findById(updateFields.role);
                 if (!tmpRole) return null;
             }
+            if (updateFields.suscripcions) {
+                for (let i = 0; i < updateFields.suscripcions.length; i++) {
+                    updateFields.suscripcions[i].userId = id;
+                }
+            }
             // Usa findByIdAndUpdate para actualizar solo los campos proporcionados
             const updatedUser = await UsuarioModel.findByIdAndUpdate(id, updateFields, { new: true });
+            if (updatedUser) await UsuarioRepository.populateRelations(updatedUser);
             return updatedUser;
         } catch (error) {
             console.error("Error al actualizar usuario en la base de datos:", error);
@@ -76,6 +86,11 @@ export class UsuarioRepository{
             console.error("Error al eliminar usuario:", error);
             throw error;
         }
+    }
+
+    static async populateRelations(user:HydratedDocument<Usuario>) : Promise<void> {
+        await user.populate('role')
+        await user.populate({ path:'suscripcions.suscripcionId' })
     }
 
     static async validateSuscripcions(suscripcions: UsuarioSuscripcion[]) : Promise<string | boolean> {
