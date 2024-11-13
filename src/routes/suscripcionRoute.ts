@@ -1,21 +1,22 @@
 import { Router } from "express";
 import { SuscripcionController } from "../controllers/suscripcionController";
 import { SuscripcionPrecioController } from "../controllers/suscripcionPrecioController";
+import { AuthController } from "../controllers/authController";
 
 export const suscripcionRouter = Router();
 
 suscripcionRouter.route("/")
     .get(SuscripcionController.GetAll)
-    .post(SuscripcionController.Create)
+    .post(AuthController.allowedRoles(["admin"]), SuscripcionController.Create)
 ;
 
 suscripcionRouter.route("/:id")
     .get(SuscripcionController.GetOne)
-    .put(SuscripcionController.Update)
-    .delete(SuscripcionController.Delete)
+    .put(AuthController.allowedRoles(["admin"]), SuscripcionController.Update)
+    .delete(AuthController.allowedRoles(["admin"]), SuscripcionController.Delete)
 ;
 
 suscripcionRouter.route("/:id/prices")
-    .get(SuscripcionPrecioController.GetAllOfOne)
-    .post(SuscripcionPrecioController.Create)
+    .get(AuthController.allowedRoles(["admin"]), SuscripcionPrecioController.GetAllOfOne)
+    .post(AuthController.allowedRoles(["admin"]), SuscripcionPrecioController.Create)
 ;

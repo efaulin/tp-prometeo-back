@@ -65,13 +65,24 @@ export class UsuarioController{
         if (username) updateFields.username = username;
         if (password) updateFields.password = password;
         if (email) updateFields.email = email;
-        //HACK Para cambiar el role, la peticion tiene que venir de un usuario "role:admin"
-        if (role && mongoose.isValidObjectId(role)) updateFields.role = role;
-        if (suscripcions) {
-            if (!UsuarioController.validateSuscripcionsInput(suscripcions)) {
-                return res.status(400).send("Datos de entrada inválidos.");
+        //Para cambiar el role, la peticion tiene que venir de un usuario "admin"
+        if (role && mongoose.isValidObjectId(role)) {
+            if (req.user!.role == "admin") {
+                updateFields.role = role;
+            } else {
+                return res.status(403).send("Rol no autorizado");
             }
-            updateFields.suscripcions = suscripcions;
+        }
+        //Para cambiar el historico de suscripciones, la peticion tiene que venir de un usuario "admin"
+        if (suscripcions) {
+            if (req.user!.role == "admin") {
+                if (!UsuarioController.validateSuscripcionsInput(suscripcions)) {
+                    return res.status(400).send("Datos de entrada inválidos.");
+                }
+                updateFields.suscripcions = suscripcions;
+            } else {
+                return res.status(403).send("Rol no autorizado");
+            }
         };
 
         try {

@@ -1,6 +1,7 @@
 import { TipoUsuario, TipoUsuarioModel, Usuario, UsuarioModel, UsuarioSuscripcion } from "../schemas/usuarioSchema";
 import { HydratedDocument, Document } from 'mongoose';
 import { SuscripcionRepository } from "./suscripcionRepository";
+import bcrypt from 'bcrypt';
 
 export class UsuarioRepository{
     static async GetOne(id: string): Promise<HydratedDocument<Usuario> | null> {
@@ -22,7 +23,16 @@ export class UsuarioRepository{
             throw error;
         }
     }
-    static async Create(name:String, pass: String, email:String, role:String, suscripcions:UsuarioSuscripcion[]): Promise<HydratedDocument<Usuario> | undefined | string> {
+    static async GetOneByUsername(username: string): Promise<HydratedDocument<Usuario> | null> {
+        try {
+            const result = await UsuarioModel.findOne({ username: username }).populate('role');
+            return result;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+    static async Create(name:string, pass: string, email:string, role:string, suscripcions:UsuarioSuscripcion[]): Promise<HydratedDocument<Usuario> | undefined | string> {
         try {
             const isSuscripcionsValid = await this.validateSuscripcions(suscripcions);
             const tmpRole = await TipoUsuarioModel.findById(role);
@@ -33,7 +43,7 @@ export class UsuarioRepository{
             }
             const newUser = new UsuarioModel({
                 username: name,
-                password: pass,
+                password: bcrypt.hashSync(pass,10),
                 email: email,
                 role: role,
                 suscripcions: suscripcions,
