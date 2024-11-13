@@ -12,7 +12,7 @@ import { narradorRouter } from "./routes/narradorRoute";
 import { autorRouter } from "./routes/autorRoute";
 import { conductorRouter } from "./routes/conductorRoute";
 import { authRouter } from "./routes/authRoute";
-import { AuthController } from "./controllers/authController.js";
+import { AuthController } from "./controllers/authController";
 
 const app = express();
 
@@ -32,5 +32,6 @@ app.use("/api/narrador/", AuthController.authenticateToken, narradorRouter);
 app.use("/api/autor/", AuthController.authenticateToken, autorRouter);
 app.use("/api/conductor/", AuthController.authenticateToken, conductorRouter);
 app.use("/api/auth", authRouter);
+//TODO Faltan las validaciones de permisos, tengo pensado hacerlo en cada Controller.
 
 export default app;
