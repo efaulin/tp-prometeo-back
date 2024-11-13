@@ -14,11 +14,33 @@ export class AuthController {
         return jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: process.env.TOKEN_TIMER });
     }
 
+    static allowedRoles(rolesNames:string[]) {
+        return function(req:Request, res:Response, next:NextFunction) {
+            const user : Payload = req.user!;
+            const isAllowed = rolesNames.includes(user.role);
+
+            if (isAllowed) return next();
+
+            return res.status(403).send("Rol no autorizado");
+        }
+    }
+
+    static allowedRolesAndOwner(rolesNames:string[]) {
+        return function(req:Request, res:Response, next:NextFunction) {
+            const user : Payload = req.user!;
+            const isAllowed = rolesNames.includes(user.role);
+
+            if (isAllowed || user.userId == req.params.id) return next();
+
+            return res.status(403).send("Rol no autorizado");
+        }
+    }
+
     static authenticateToken(req:Request, res:Response, next:NextFunction) {
         const authHeader = req.headers['authorization'];
         const token = authHeader && authHeader.split(' ')[1];
     
-        if (token == null) return res.sendStatus(401).send("Token no ingresado");
+        if (token == null) return res.status(401).send("Token no ingresado");
     
         try {
             const payload = jwt.verify(token, process.env.TOKEN_SECRET) as Payload;

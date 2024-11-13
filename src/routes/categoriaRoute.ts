@@ -1,17 +1,18 @@
 import { Router } from "express";
 import { CategoriaController } from "../controllers/categoriaController";
+import { AuthController } from "../controllers/authController";
 
 export const categoriaRouter = Router();
 
 categoriaRouter.route("/")
     //GETALL
-    .get(CategoriaController.GetAll)
+    .get(AuthController.allowedRoles(["admin"]), CategoriaController.GetAll)
     //CREATE
-    .post(CategoriaController.Create)
+    .post(AuthController.allowedRoles(["admin"]), CategoriaController.Create)
 ;
 
 categoriaRouter.route("/:id")
-    .get(CategoriaController.GetOne)
-    .put(CategoriaController.Update)
-    .delete(CategoriaController.Delete)
+    .get(AuthController.allowedRoles(["admin", "client"]), CategoriaController.GetOne)
+    .put(AuthController.allowedRoles(["admin"]), CategoriaController.Update)
+    .delete(AuthController.allowedRoles(["admin"]), CategoriaController.Delete)
 ;
