@@ -1,10 +1,38 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { UsuarioRepository } from "../repository/usuarioRepository";
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { authenticateToken, generateAccessToken } from "../tokenMiddleware.js";
-import { TipoUsuario } from "../schemas/usuarioSchema.js";
+import { TipoUsuario } from "../schemas/usuarioSchema";
+
+export interface Payload {
+    userId: string;
+    role: string;
+}
 
 export class AuthController {
+    static generateAccessToken(payload:Payload) {
+        return jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: process.env.TOKEN_TIMER });
+    }
+
+    static authenticateToken(req:Request, res:Response, next:NextFunction) {
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
+    
+        if (token == null) return res.sendStatus(401).send("Token no ingresado");
+    
+        try {
+            const payload = jwt.verify(token, process.env.TOKEN_SECRET) as Payload;
+            if (!payload) {
+                return res.status(401).send("Token no valido");
+            }
+            req.user = payload;
+            next();
+        } catch (error) {
+            console.error("[Error] authenticateToken: " + error);
+            return res.status(500).send(error);
+        }
+    }
+
     static async Login(req: Request, res: Response) {
         const { username, password } = req.body;
         //Busco usuario en la base de datos
@@ -13,19 +41,19 @@ export class AuthController {
             return res.status(401).send('Credenciales incorrectas.');
         }
         //Valido contraseña
-        const isPasswordValid = bcrypt.compare(password, user!.password);
+        const isPasswordValid = await bcrypt.compare(password, user!.password);
         if (!isPasswordValid) {
             return res.status(401).send('Credenciales incorrectas.');
         }
         //Envio el token
-        const token = generateAccessToken({userId: user._id.toString(), role: (user.role as TipoUsuario).name});
+        const token = AuthController.generateAccessToken({userId: user._id.toString(), role: (user.role as TipoUsuario).name});
         return res.status(200).json(token);
     }
 
     static TokenRefresh(req: Request, res: Response) {
         //Con el token anterior, el usuario puede solicitar otro
-        authenticateToken(req, res, function() {
-            const token = generateAccessToken({userId: req.user!.userId, role: req.user!.role});
+        AuthController.authenticateToken(req, res, function() {
+            const token = AuthController.generateAccessToken({userId: req.user!.userId, role: req.user!.role});
             return res.status(200).json(token);
         });
     }

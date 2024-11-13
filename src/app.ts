@@ -12,7 +12,7 @@ import { narradorRouter } from "./routes/narradorRoute";
 import { autorRouter } from "./routes/autorRoute";
 import { conductorRouter } from "./routes/conductorRoute";
 import { authRouter } from "./routes/authRoute";
-import { authenticateToken } from "./tokenMiddleware.js";
+import { AuthController } from "./controllers/authController.js";
 
 const app = express();
 
@@ -20,17 +20,17 @@ logger(0, app);
 
 app.use(express.json());
 
-app.use("/api/usuario/", authenticateToken, usuarioRouter);
-app.use("/api/categoria/", authenticateToken, categoriaRouter);
-app.use("/api/coleccion/", authenticateToken, coleccionRouter);
-app.use("/api/suscripcion/", authenticateToken, suscripcionRouter);
-app.use("/api/suscripcionprecio/", authenticateToken, suscripcionPrecioRouter);
-app.use("/api/capitulo/", authenticateToken, capituloRouter);
-app.use("/api/reproduccion/", authenticateToken, reproduccionRouter);
-app.use("/api/idioma/", authenticateToken, idiomaRouter);
-app.use("/api/narrador/", authenticateToken, narradorRouter);
-app.use("/api/autor/", authenticateToken, autorRouter);
-app.use("/api/conductor/", authenticateToken, conductorRouter);
+app.use("/api/usuario/", AuthController.authenticateToken, usuarioRouter);
+app.use("/api/categoria/", AuthController.authenticateToken, categoriaRouter);
+app.use("/api/coleccion/", AuthController.authenticateToken, coleccionRouter);
+app.use("/api/suscripcion/", AuthController.authenticateToken, suscripcionRouter);
+app.use("/api/suscripcionprecio/", AuthController.authenticateToken, suscripcionPrecioRouter);
+app.use("/api/capitulo/", AuthController.authenticateToken, capituloRouter);
+app.use("/api/reproduccion/", AuthController.authenticateToken, reproduccionRouter);
+app.use("/api/idioma/", AuthController.authenticateToken, idiomaRouter);
+app.use("/api/narrador/", AuthController.authenticateToken, narradorRouter);
+app.use("/api/autor/", AuthController.authenticateToken, autorRouter);
+app.use("/api/conductor/", AuthController.authenticateToken, conductorRouter);
 app.use("/api/auth", authRouter);
 
 export default app;
