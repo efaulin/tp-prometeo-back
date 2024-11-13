@@ -17,6 +17,8 @@ import { tipoUsuarioRouter } from "./routes/tipoUsuarioRoute";
 
 const app = express();
 
+const cors = require('cors');
+app.use(cors({ origin: '*' }));
 logger(0, app);
 
 app.use(express.json());
