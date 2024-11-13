@@ -22,6 +22,15 @@ export class UsuarioRepository{
             throw error;
         }
     }
+    static async GetOneByUsername(username: string): Promise<HydratedDocument<Usuario> | null> {
+        try {
+            const result = await UsuarioModel.findOne({ username: username }).populate('role');
+            return result;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
     static async Create(name:String, pass: String, email:String, role:String, suscripcions:UsuarioSuscripcion[]): Promise<HydratedDocument<Usuario> | undefined | string> {
         try {
             const isSuscripcionsValid = await this.validateSuscripcions(suscripcions);
