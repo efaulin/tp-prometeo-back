@@ -83,6 +83,9 @@ export class UsuarioRepository{
                     updateFields.suscripcions[i].userId = id;
                 }
             }
+            if (updateFields.password) {
+                updateFields.password = bcrypt.hashSync(updateFields.password,10);
+            }
             // Usa findByIdAndUpdate para actualizar solo los campos proporcionados
             const updatedUser = await UsuarioModel.findByIdAndUpdate(id, updateFields, { new: true });
             if (updatedUser) await UsuarioRepository.populateRelations(updatedUser);
