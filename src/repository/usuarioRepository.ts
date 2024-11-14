@@ -17,6 +17,9 @@ export class UsuarioRepository{
     static async GetAll(): Promise<Usuario[] | undefined> {
         try {
             const usuarios = await UsuarioModel.find().exec();
+            for (let i=0; i < usuarios.length; i++) {
+                await UsuarioRepository.populateRelations(usuarios[i]);
+            }
             return usuarios;
         } catch (error) {
             console.error('Error al obtener los usuarios:', error);
@@ -25,7 +28,8 @@ export class UsuarioRepository{
     }
     static async GetOneByUsername(username: string): Promise<HydratedDocument<Usuario> | null> {
         try {
-            const result = await UsuarioModel.findOne({ username: username }).populate('role');
+            const result = await UsuarioModel.findOne({ username: username });
+            if (result) await UsuarioRepository.populateRelations(result);
             return result;
         } catch (error) {
             console.error(error);
