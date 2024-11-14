@@ -21,6 +21,9 @@ export class CapituloRepository{
     static async GetAll(): Promise<Capitulo[] | undefined> {
         try {
             const chapters = await CapituloModel.find().exec();
+            for (let i=0; i < chapters.length; i++) {
+                await CapituloRepository.populateRelations(chapters[i]);
+            }
             return chapters;
         } catch (error) {
             console.error('Error al obtener los capitulos:', error);
