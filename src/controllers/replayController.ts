@@ -49,19 +49,19 @@ export class ReplayController{
     
     static async Create(req: Request, res: Response){
         const validateRepInput = (req: Request): boolean => {
-            const { userId, chapterId } = req.body;
-            return userId && chapterId && mongoose.isValidObjectId(userId) && mongoose.isValidObjectId(chapterId) ? true : false;
+            const { userRef, chapterRef } = req.body;
+            return userRef && chapterRef && mongoose.isValidObjectId(userRef) && mongoose.isValidObjectId(chapterRef) ? true : false;
         };
         if (!validateRepInput(req)) {
             return res.status(400).send("Datos de entrada inválidos.");
         }
-        const { userId, chapterId } = req.body;
+        const { userRef, chapterRef } = req.body;
         try {
-            const result = await ReplayRepository.Create({ userId, chapterId });
+            const result = await ReplayRepository.Create({ userRef, chapterRef });
             if (result) {
                 return res.status(201).json(result);
             }
-            return res.status(406).send("No existe user o chapter. < User:" + userId + " | Chapter:" + chapterId + ">");
+            return res.status(406).send("No existe user o chapter. < User:" + userRef + " | Chapter:" + chapterRef + ">");
         } catch (error) {
             console.error("Error al crear replay:", error);
             return res.status(500).send("[Error] Create Replay");
@@ -70,9 +70,9 @@ export class ReplayController{
     
     static async Update(req: Request, res: Response): Promise<Response> {
         const id = req.params.id;
-        const { userId, chapterId, watchedTimeInSec, rating, review } = req.body;
+        const { userRef, chapterRef, watchedTimeInSec, rating, review } = req.body;
         
-        if (userId || chapterId) {
+        if (userRef || chapterRef) {
             return res.status(406).send("No se pueden modificar el ID de user y chapter.");
         }
 

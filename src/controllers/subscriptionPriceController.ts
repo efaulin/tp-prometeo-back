@@ -49,15 +49,15 @@ export class SubscriptionPriceController{
     static async Create(req: Request, res: Response){
         const urlSubscriptionId = req.params.id;
         const validateUserInput = (req: Request):boolean => {
-            const { startDate, amount, subscriptionId } = req.body;
-            return startDate && amount && subscriptionId && subscriptionId == urlSubscriptionId ? true : false;
+            const { startDate, amount, subscriptionRef } = req.body;
+            return startDate && amount && subscriptionRef && subscriptionRef == urlSubscriptionId ? true : false;
         }
         if (!validateUserInput(req)) {
             return res.status(400).send("Datos de entrada invalidos");
         }
-        const { startDate, amount, subscriptionId } = req.body;
+        const { startDate, amount, subscriptionRef } = req.body;
         try {
-            let subscription = await SubscriptionRepository.GetOne(subscriptionId);
+            let subscription = await SubscriptionRepository.GetOne(subscriptionRef);
             if (subscription) {
                 const result = await SubscriptionPriceRepository.Create(startDate, amount, subscription);
                 if (result) {

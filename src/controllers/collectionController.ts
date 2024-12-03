@@ -34,21 +34,21 @@ export class CollectionController{
     static async Create(req: Request, res: Response){
         // Método para validar los datos de entrada
         const validateColInput = (req: Request): boolean => {
-            const { name, description, categories } = req.body;
+            const { name, description, categoriesRef } = req.body;
             let control = true;
-            if (categories.length >= 1) {
-                for (let i = 0; i < categories.length && control ; i++) {
-                    control = mongoose.isValidObjectId(categories[i]);
+            if (categoriesRef.length >= 1) {
+                for (let i = 0; i < categoriesRef.length && control ; i++) {
+                    control = mongoose.isValidObjectId(categoriesRef[i]);
                 }
             }
-            return name && description && categories && control ? true : false;
+            return name && description && categoriesRef && control ? true : false;
         };
         if (!validateColInput(req)) {
             return res.status(400).send("Datos de entrada inválidos.");
         }
-        const { name, description, categories } = req.body;
+        const { name, description, categoriesRef } = req.body;
         try {
-            const result = await CollectionRepository.Create(name, description, categories);
+            const result = await CollectionRepository.Create(name, description, categoriesRef);
             if (typeof result == "string") {
                 return res.status(406).send("Una collection dada no existe <" + result + ">");
             }
@@ -61,13 +61,13 @@ export class CollectionController{
 
     static async Update(req: Request, res: Response): Promise<Response> {
         const id = req.params.id;
-        const { name, description, categories } = req.body;
+        const { name, description, categoriesRef } = req.body;
         
         // Crear un objeto con solo los campos que se han proporcionado
         const updateFields: any = {};
         if (name) updateFields.name = name;
         if (description) updateFields.description = description;
-        if (categories) updateFields.categories = categories;
+        if (categoriesRef) updateFields.categoriesRef = categoriesRef;
 
         try {
             const result = await CollectionRepository.Update(id, updateFields);

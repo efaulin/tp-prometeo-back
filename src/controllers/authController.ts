@@ -68,7 +68,7 @@ export class AuthController {
             return res.status(401).send('Credenciales incorrectas.');
         }
         //Envio el token
-        const token = AuthController.generateAccessToken({userId: user._id.toString(), role: (user.role as Role).name});
+        const token = AuthController.generateAccessToken({userId: user._id.toString(), role: (user.roleRef as Role).name});
         return res.status(200).json({ data: { token: token, user: user } });
     }
 

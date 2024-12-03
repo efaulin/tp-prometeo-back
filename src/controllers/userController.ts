@@ -36,9 +36,9 @@ export class UserController{
         if (!UserController.validateUserInput(req)) {
             return res.status(400).send("Datos de entrada inválidos.");
         }
-        const { username, password, email, role, subscriptions } = req.body;
+        const { username, password, email, roleRef, subscriptionsRef } = req.body;
         try {
-            const result = await UserRepository.Create(username, password, email, role, subscriptions);
+            const result = await UserRepository.Create(username, password, email, roleRef, subscriptionsRef);
             if (!result) {
                 return res.status(406).send("Los datos del user no cumplen alguna validacion");
             } else if (typeof result == "string") {
@@ -59,27 +59,27 @@ export class UserController{
     
     static async Update(req: Request, res: Response): Promise<Response> {
         const id = req.params.id;
-        const { username, password, email, role, subscriptions } = req.body;
+        const { username, password, email, roleRef, subscriptionsRef } = req.body;
         // Crear un objeto con solo los campos que se han proporcionado
         const updateFields: any = {};
         if (username) updateFields.username = username;
         if (password) updateFields.password = password;
         if (email) updateFields.email = email;
         //Para cambiar el role, la peticion tiene que venir de un user "admin"
-        if (role && mongoose.isValidObjectId(role)) {
+        if (roleRef && mongoose.isValidObjectId(roleRef)) {
             if (req.user!.role == "admin") {
-                updateFields.role = role;
+                updateFields.roleRef = roleRef;
             } else {
                 return res.status(403).send("Rol no autorizado");
             }
         }
         //Para cambiar el historico de subscriptions, la peticion tiene que venir de un user "admin"
-        if (subscriptions) {
+        if (subscriptionsRef) {
             if (req.user!.role == "admin") {
-                if (!UserController.validateSubscriptionsInput(subscriptions)) {
+                if (!UserController.validateSubscriptionsInput(subscriptionsRef)) {
                     return res.status(400).send("Datos de entrada inválidos.");
                 }
-                updateFields.subscriptions = subscriptions;
+                updateFields.subscriptionsRef = subscriptionsRef;
             } else {
                 return res.status(403).send("Rol no autorizado");
             }
@@ -124,7 +124,7 @@ export class UserController{
         if (usrSubscriptions.length >= 1) {
             for (let i=0; i < usrSubscriptions.length && !emptySubscription; i++) {
                 const tmp = usrSubscriptions[i];
-                emptySubscription = !(mongoose.isValidObjectId(tmp.subscriptionId) && tmp.startDate && tmp.endDate && tmp.startDate < tmp.endDate)
+                emptySubscription = !(mongoose.isValidObjectId(tmp.subscriptionRef) && tmp.startDate && tmp.endDate && tmp.startDate < tmp.endDate)
             }
             return !emptySubscription;
         } else {
@@ -138,13 +138,13 @@ export class UserController{
      * @returns Si cumple con las validaciones devuelve **true**, caso contrario **false**
      */
     static validateUserInput(req: Request): boolean {
-        const { username, password, email, role, subscriptions } = req.body;
+        const { username, password, email, roleRef, subscriptionsRef } = req.body;
         let control;
-        if (!subscriptions) {
+        if (!subscriptionsRef) {
             return false;   
         } else {
-            control = this.validateSubscriptionsInput(subscriptions);
+            control = this.validateSubscriptionsInput(subscriptionsRef);
         }
-        return username && password && email && role && mongoose.isValidObjectId(role) && control ? true : false;
+        return username && password && email && roleRef && mongoose.isValidObjectId(roleRef) && control ? true : false;
     };
 }

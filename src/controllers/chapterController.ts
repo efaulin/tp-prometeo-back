@@ -40,18 +40,18 @@ export class ChapterController{
             //Valido la division total.
             let emptyHost = false;
             let emptyAuthor = false;
-            if (tmpCap.authors) {
-                for (let i=0; i < tmpCap.authors.length && !emptyAuthor; i++) {
-                    emptyAuthor = !mongoose.isValidObjectId(tmpCap.authors[i]);
+            if (tmpCap.authorsRef) {
+                for (let i=0; i < tmpCap.authorsRef.length && !emptyAuthor; i++) {
+                    emptyAuthor = !mongoose.isValidObjectId(tmpCap.authorsRef[i]);
                 }
             }
-            if (tmpCap.hosts) {
-                for (let i=0; i < tmpCap.hosts.length && !emptyHost; i++) {
-                    emptyHost = !mongoose.isValidObjectId(tmpCap.hosts[i]);
+            if (tmpCap.hostsRef) {
+                for (let i=0; i < tmpCap.hostsRef.length && !emptyHost; i++) {
+                    emptyHost = !mongoose.isValidObjectId(tmpCap.hostsRef[i]);
                 }
                 if (!emptyHost) isPodcast = true;
             }
-            if (tmpCap.narrator && !emptyAuthor && mongoose.isValidObjectId(tmpCap.narrator)) isAudiobook = true;
+            if (tmpCap.narratorRef && !emptyAuthor && mongoose.isValidObjectId(tmpCap.narratorRef)) isAudiobook = true;
 
             //¡Un Chapter no puede ser Audiolibro y Podcast!. Pero tampoco no ser ninguno.
             if ((isAudiobook && isPodcast) || !(isAudiobook || isPodcast)) {
@@ -59,7 +59,7 @@ export class ChapterController{
             }
 
             //¿Nulos? Ninguno.
-            return tmpCap.collectionId && mongoose.isValidObjectId(tmpCap.collectionId) && tmpCap.name && tmpCap.durationInSeconds && tmpCap.language && mongoose.isValidObjectId(tmpCap.language) && tmpCap.description && tmpCap.uploadDate && tmpCap.publicationDate ? true : false;
+            return tmpCap.collectionRef && mongoose.isValidObjectId(tmpCap.collectionRef) && tmpCap.name && tmpCap.durationInSeconds && tmpCap.languageRef && mongoose.isValidObjectId(tmpCap.languageRef) && tmpCap.description && tmpCap.uploadDate && tmpCap.publicationDate ? true : false;
         };
         if (!validateInput(req)) {
             return res.status(400).send("Datos de entrada inválidos.");
@@ -70,7 +70,7 @@ export class ChapterController{
             if (result) {
                 return res.status(201).json(result);
             }
-            return res.status(406).send("No existe collection <" + tmpCap.collectionId + ">");
+            return res.status(406).send("No existe collection <" + tmpCap.collectionRef + ">");
         } catch (error) {
             console.error("Error al crear colección:", error);
             return res.status(500).send("[Error] Create Chapter");
@@ -83,33 +83,33 @@ export class ChapterController{
         
         // Crear un objeto con solo los campos que se han proporcionado
         const updateFields: any = {};
-        if (tmpCap.collectionId) {
-            if (mongoose.isValidObjectId(tmpCap.collectionId)) {
-                updateFields.collectionId = tmpCap.collectionId;
+        if (tmpCap.collectionRef) {
+            if (mongoose.isValidObjectId(tmpCap.collectionRef)) {
+                updateFields.collectionRef = tmpCap.collectionRef;
             }
         }
-        if (tmpCap.hosts) {
+        if (tmpCap.hostsRef) {
             let emptyHost = false;
-            for (let i=0; i < tmpCap.hosts.length && !emptyHost; i++) {
-                emptyHost = !mongoose.isValidObjectId(tmpCap.hosts[i]);
+            for (let i=0; i < tmpCap.hostsRef.length && !emptyHost; i++) {
+                emptyHost = !mongoose.isValidObjectId(tmpCap.hostsRef[i]);
             }
-            if (!emptyHost) updateFields.hosts = tmpCap.hosts;
+            if (!emptyHost) updateFields.hostsRef = tmpCap.hostsRef;
         } else {
-            if (tmpCap.authors) {
+            if (tmpCap.authorsRef) {
                 let emptyAuthor = false;
-                for (let i=0; i < tmpCap.authors.length && !emptyAuthor; i++) {
-                    emptyAuthor = !mongoose.isValidObjectId(tmpCap.authors[i]);
+                for (let i=0; i < tmpCap.authorsRef.length && !emptyAuthor; i++) {
+                    emptyAuthor = !mongoose.isValidObjectId(tmpCap.authorsRef[i]);
                 }
-                if (!emptyAuthor) updateFields.authors = tmpCap.authors;
+                if (!emptyAuthor) updateFields.authorsRef = tmpCap.authorsRef;
             }
-            if (tmpCap.narrator) {
-                if (mongoose.isValidObjectId(tmpCap.narrator)) updateFields.narrator = tmpCap.narrator;
+            if (tmpCap.narratorRef) {
+                if (mongoose.isValidObjectId(tmpCap.narratorRef)) updateFields.narratorRef = tmpCap.narratorRef;
             }
         }
         if (tmpCap.name) updateFields.name = tmpCap.name;
         if (tmpCap.durationInSeconds) updateFields.durationInSeconds = tmpCap.durationInSeconds;
-        if (tmpCap.language) {
-            if (mongoose.isValidObjectId(tmpCap.language)) updateFields.language = tmpCap.language;
+        if (tmpCap.languageRef) {
+            if (mongoose.isValidObjectId(tmpCap.languageRef)) updateFields.languageRef = tmpCap.languageRef;
         }
         if (tmpCap.description) updateFields.description = tmpCap.description;
         if (tmpCap.uploadDate) updateFields.uploadDate = tmpCap.uploadDate;
