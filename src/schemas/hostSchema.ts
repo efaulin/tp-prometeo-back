@@ -1,10 +1,10 @@
 import { getModelForClass, getName, prop, Ref } from '@typegoose/typegoose';
 
-class Conductor {
+class Host {
     @prop({ required: true })
     public name!: string;
 }
 
-const ConductorModel = getModelForClass(Conductor);
+const HostModel = getModelForClass(Host);
 
-export { Conductor, ConductorModel };
+export { Host, HostModel };

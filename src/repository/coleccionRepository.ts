@@ -1,4 +1,4 @@
-import { Coleccion, ColeccionModel } from "../schemas/coleccionSchema";
+import { Coleccion, ColeccionModel } from "../schemas/collectionSchema";
 import { HydratedDocument } from 'mongoose';
 import { CategoriaRepository } from "./categoriaRepository";
 

@@ -1,4 +1,4 @@
-import { Capitulo, CapituloModel } from "../schemas/capituloSchema";
+import { Capitulo, CapituloModel } from "../schemas/chapterSchema";
 import { HydratedDocument } from 'mongoose';
 import { ColeccionRepository } from "./coleccionRepository";
 import { ConductorRepository } from "./conductorRepository";

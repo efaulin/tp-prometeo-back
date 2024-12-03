@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { UsuarioRepository } from "../repository/usuarioRepository";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { TipoUsuario } from "../schemas/usuarioSchema";
+import { TipoUsuario } from "../schemas/userSchema";
 
 export interface Payload {
     userId: string;

@@ -1,4 +1,4 @@
-import { Narrador, NarradorModel } from "../schemas/narradorSchema";
+import { Narrador, NarradorModel } from "../schemas/narratorSchema";
 import { HydratedDocument } from 'mongoose';
 
 export class NarradorRepository{

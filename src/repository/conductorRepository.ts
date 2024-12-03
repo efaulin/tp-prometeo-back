@@ -1,4 +1,4 @@
-import { Conductor, ConductorModel } from "../schemas/conductorSchema";
+import { Conductor, ConductorModel } from "../schemas/hostSchema";
 import { HydratedDocument } from 'mongoose';
 
 export class ConductorRepository{

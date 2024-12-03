@@ -2,7 +2,7 @@ import { mongoose } from "@typegoose/typegoose";
 import { UsuarioRepository } from "../repository/usuarioRepository";
 import { Request, Response } from 'express';
 import { MongoError } from "mongodb";
-import { UsuarioSuscripcion } from "../schemas/usuarioSchema";
+import { UsuarioSuscripcion } from "../schemas/userSchema";
 
 export class UsuarioController{
     static async GetAll(req: Request, res: Response){

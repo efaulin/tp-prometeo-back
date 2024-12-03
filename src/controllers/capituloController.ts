@@ -1,7 +1,7 @@
 import { CapituloRepository } from "../repository/capituloRepository";
 import { Request, Response } from 'express';
 import { mongoose } from "@typegoose/typegoose";
-import { Capitulo } from "../schemas/capituloSchema.js";
+import { Capitulo } from "../schemas/chapterSchema.js";
 
 export class CapituloController{
     static async GetAll(req: Request, res: Response){

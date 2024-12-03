@@ -1,4 +1,4 @@
-import { Reproduccion, ReproduccionModel } from "../schemas/reproduccionSchema";
+import { Reproduccion, ReproduccionModel } from "../schemas/replaySchema";
 import { HydratedDocument } from 'mongoose';
 import { UsuarioRepository } from "./usuarioRepository";
 import { CapituloRepository } from "./capituloRepository";

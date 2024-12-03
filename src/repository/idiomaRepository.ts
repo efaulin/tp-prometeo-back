@@ -1,4 +1,4 @@
-import { Idioma, IdiomaModel } from "../schemas/idiomaSchema";
+import { Idioma, IdiomaModel } from "../schemas/languageSchema";
 import { HydratedDocument } from 'mongoose';
 
 export class IdiomaRepository{

@@ -1,6 +1,6 @@
 import { ColeccionRepository } from "../repository/coleccionRepository";
 import { Request, Response } from 'express';
-import { Coleccion } from "../schemas/coleccionSchema";
+import { Coleccion } from "../schemas/collectionSchema";
 import { mongoose } from "@typegoose/typegoose";
 
 export class ColeccionController{

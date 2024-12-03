@@ -1,4 +1,4 @@
-import { TipoUsuario, TipoUsuarioModel } from "../schemas/usuarioSchema";
+import { TipoUsuario, TipoUsuarioModel } from "../schemas/userSchema";
 import { HydratedDocument } from 'mongoose';
 
 export class TipoUsuarioRepository{

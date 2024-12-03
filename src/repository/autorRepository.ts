@@ -1,4 +1,4 @@
-import { Autor, AutorModel } from "../schemas/autorSchema";
+import { Autor, AutorModel } from "../schemas/authorSchema";
 import { HydratedDocument } from 'mongoose';
 
 export class AutorRepository{

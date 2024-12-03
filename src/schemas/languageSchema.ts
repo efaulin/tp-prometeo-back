@@ -1,11 +1,11 @@
 import { getModelForClass, getName, prop, Ref } from '@typegoose/typegoose';
 
 //Esta clase sera cargada por "Admin"
-class Idioma {
+class Language {
     @prop({ required: true })
     public name!: string;
 }
 
-const IdiomaModel = getModelForClass(Idioma);
+const LanguageModel = getModelForClass(Language);
 
-export { Idioma, IdiomaModel };
+export { Language, LanguageModel };

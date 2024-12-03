@@ -1,4 +1,4 @@
-import { TipoUsuario, TipoUsuarioModel, Usuario, UsuarioModel, UsuarioSuscripcion } from "../schemas/usuarioSchema";
+import { TipoUsuario, TipoUsuarioModel, Usuario, UsuarioModel, UsuarioSuscripcion } from "../schemas/userSchema";
 import { HydratedDocument, Document } from 'mongoose';
 import { SuscripcionRepository } from "./suscripcionRepository";
 import bcrypt from 'bcrypt';
