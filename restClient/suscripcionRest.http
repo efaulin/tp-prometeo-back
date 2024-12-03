@@ -1,15 +1,15 @@
 ## Comandos para la extension Rest Client
 
-## CRUD Suscripciones
+## CRUD Subscriptions
 
-### Obtener todos las suscripciones
-GET http://localhost:3005/api/suscripcion
+### Obtener todos las subscriptions
+GET http://localhost:3005/api/subscription
 
 ### Obtener uno
-GET http://localhost:3005/api/suscripcion/66ef07ceda26aa43a1db40ca
+GET http://localhost:3005/api/subscription/66ef07ceda26aa43a1db40ca
 
 ### Crear un nuevo recurso
-POST http://localhost:3005/api/suscripcion
+POST http://localhost:3005/api/subscription
 Content-Type: application/json
 
 {
@@ -17,7 +17,7 @@ Content-Type: application/json
 }
 
 ### Crear un nuevo recurso con relaciones debiles
-POST http://localhost:3005/api/suscripcion
+POST http://localhost:3005/api/subscription
 Content-Type: application/json
 
 {
@@ -35,7 +35,7 @@ Content-Type: application/json
 }
 
 ### Modificar un recurso
-PUT http://localhost:3005/api/suscripcion/66f2b4402a02dc4980521cc6
+PUT http://localhost:3005/api/subscription/66f2b4402a02dc4980521cc6
 Content-Type: application/json
 
 {
@@ -43,4 +43,4 @@ Content-Type: application/json
 }
 
 ### Eliminar un recurso
-DELETE http://localhost:3005/api/suscripcion/670475aa7afe2582774c7593
+DELETE http://localhost:3005/api/subscription/670475aa7afe2582774c7593

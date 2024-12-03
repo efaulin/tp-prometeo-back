@@ -1,15 +1,15 @@
 ## Comandos para la extension Rest Client
 
-## CRUD Colecciones
+## CRUD Collections
 
-### Obtener todas las colecciones
-GET http://localhost:3005/api/coleccion
+### Obtener todas las collections
+GET http://localhost:3005/api/collection
 
 ### Obtener uno
-GET http://localhost:3005/api/coleccion/66b5954bf8925423aa283015
+GET http://localhost:3005/api/collection/66b5954bf8925423aa283015
 
 ### Crear un nuevo recurso
-POST http://localhost:3005/api/coleccion
+POST http://localhost:3005/api/collection
 Content-Type: application/json
 
 {
@@ -17,7 +17,7 @@ Content-Type: application/json
 }
 
 ### Modificar un recurso
-PUT http://localhost:3005/api/coleccion/66b5954bf8925423aa283015
+PUT http://localhost:3005/api/collection/66b5954bf8925423aa283015
 Content-Type: application/json
 
 {
@@ -25,5 +25,5 @@ Content-Type: application/json
 }
 
 ### Eliminar un recurso
-DELETE http://localhost:3005/api/coleccion/6695b405754f295c28475aay
+DELETE http://localhost:3005/api/collection/6695b405754f295c28475aay
 

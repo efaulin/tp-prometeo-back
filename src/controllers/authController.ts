@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { UsuarioRepository } from "../repository/usuarioRepository";
+import { UserRepository } from "../repository/userRepository";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { TipoUsuario } from "../schemas/usuarioSchema";
+import { Role } from "../schemas/userSchema";
 
 export interface Payload {
     userId: string;
@@ -57,8 +57,8 @@ export class AuthController {
 
     static async Login(req: Request, res: Response) {
         const { username, password } = req.body;
-        //Busco usuario en la base de datos
-        const user = await UsuarioRepository.GetOneByUsername(username);
+        //Busco user en la base de datos
+        const user = await UserRepository.GetOneByUsername(username);
         if (!user) {
             return res.status(401).send('Credenciales incorrectas.');
         }
@@ -68,12 +68,12 @@ export class AuthController {
             return res.status(401).send('Credenciales incorrectas.');
         }
         //Envio el token
-        const token = AuthController.generateAccessToken({userId: user._id.toString(), role: (user.role as TipoUsuario).name});
+        const token = AuthController.generateAccessToken({userId: user._id.toString(), role: (user.roleRef as Role).name});
         return res.status(200).json({ data: { token: token, user: user } });
     }
 
     static TokenRefresh(req: Request, res: Response) {
-        //Con el token anterior, el usuario puede solicitar otro
+        //Con el token anterior, el user puede solicitar otro
         AuthController.authenticateToken(req, res, function() {
             const token = AuthController.generateAccessToken({userId: req.user!.userId, role: req.user!.role});
             return res.status(200).json(token);

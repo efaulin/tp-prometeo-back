@@ -1,15 +1,15 @@
 ## Comandos para la extension Rest Client
 
-## CRUD Capitulos
+## CRUD Chapters
 
-### Obtener todos los capitulos
-GET http://localhost:3005/api/capitulo
+### Obtener todos los chapters
+GET http://localhost:3005/api/chapter
 
 ### Obtener uno
-GET http://localhost:3005/api/capitulo/66ce19e19f252479b19f3301
+GET http://localhost:3005/api/chapter/66ce19e19f252479b19f3301
 
 ### Crear un nuevo recurso
-POST http://localhost:3005/api/capitulo
+POST http://localhost:3005/api/chapter
 Content-Type: application/json
 
 {
@@ -17,7 +17,7 @@ Content-Type: application/json
 }
 
 ### Modificar un recurso
-PUT http://localhost:3005/api/capitulo/66ce19e19f252479b19f3300
+PUT http://localhost:3005/api/chapter/66ce19e19f252479b19f3300
 Content-Type: application/json
 
 {
@@ -25,4 +25,4 @@ Content-Type: application/json
 }
 
 ### Eliminar un recurso
-DELETE http://localhost:3005/api/capitulo/66ce19e19f252479b19f3300
+DELETE http://localhost:3005/api/chapter/66ce19e19f252479b19f3300

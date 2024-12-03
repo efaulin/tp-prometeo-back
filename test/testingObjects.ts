@@ -1,75 +1,75 @@
 import { HydratedDocument } from "mongoose";
-import { Suscripcion, SuscripcionModel } from "../src/schemas/suscripcionSchema";
-import { TipoUsuario, TipoUsuarioModel, UsuarioModel } from "../src/schemas/usuarioSchema";
-import { Idioma, IdiomaModel } from "../src/schemas/idiomaSchema";
-import { Narrador, NarradorModel } from "../src/schemas/narradorSchema";
-import { Autor, AutorModel } from "../src/schemas/autorSchema";
-import { Conductor, ConductorModel } from "../src/schemas/conductorSchema";
-import { Categoria, CategoriaModel } from "../src/schemas/categoriaSchema";
-import { Coleccion, ColeccionModel } from "../src/schemas/coleccionSchema";
+import { Subscription, SubscriptionModel } from "../src/schemas/subscriptionSchema";
+import { Role, RoleModel, UserModel } from "../src/schemas/userSchema";
+import { Language, LanguageModel } from "../src/schemas/languageSchema";
+import { Narrator, NarratorModel } from "../src/schemas/narratorSchema";
+import { Author, AuthorModel } from "../src/schemas/authorSchema";
+import { Host, HostModel } from "../src/schemas/hostSchema";
+import { Category, CategoryModel } from "../src/schemas/categorySchema";
+import { Collection, CollectionModel } from "../src/schemas/collectionSchema";
 
 export class TestingObjects {
-    static async newRole(name:string) : Promise<HydratedDocument<TipoUsuario>> {
-        const testRole = new TipoUsuarioModel({
+    static async newRole(name:string) : Promise<HydratedDocument<Role>> {
+        const testRole = new RoleModel({
             name: name,
         });
         await testRole.save();
         return testRole;
     }
 
-    static async newSuscription(type:string) : Promise<HydratedDocument<Suscripcion>> {
-        const testSuscription = new SuscripcionModel({
+    static async newSuscription(type:string) : Promise<HydratedDocument<Subscription>> {
+        const testSuscription = new SubscriptionModel({
             type: type,
         });
         await testSuscription.save();
         return testSuscription;
     }
 
-    static async newLanguage(name:string) : Promise<HydratedDocument<Idioma>> {
-        const testLanguage = new IdiomaModel({
+    static async newLanguage(name:string) : Promise<HydratedDocument<Language>> {
+        const testLanguage = new LanguageModel({
             name: name,
         });
         await testLanguage.save();
         return testLanguage;
     }
 
-    static async newNarrator(name:string) : Promise<HydratedDocument<Narrador>> {
-        const testNarrator = new NarradorModel({
+    static async newNarrator(name:string) : Promise<HydratedDocument<Narrator>> {
+        const testNarrator = new NarratorModel({
             name: name,
         });
         await testNarrator.save();
         return testNarrator;
     }
 
-    static async newAuthor(name:string) : Promise<HydratedDocument<Autor>> {
-        const testAuthor = new AutorModel({
+    static async newAuthor(name:string) : Promise<HydratedDocument<Author>> {
+        const testAuthor = new AuthorModel({
             name: name,
         });
         await testAuthor.save();
         return testAuthor;
     }
 
-    static async newHost(name:string) : Promise<HydratedDocument<Conductor>> {
-        const testHost = new ConductorModel({
+    static async newHost(name:string) : Promise<HydratedDocument<Host>> {
+        const testHost = new HostModel({
             name: name,
         });
         await testHost.save();
         return testHost;
     }
 
-    static async newCategory(name:string) : Promise<HydratedDocument<Categoria>> {
-        const testCategory = new CategoriaModel({
+    static async newCategory(name:string) : Promise<HydratedDocument<Category>> {
+        const testCategory = new CategoryModel({
             name: name,
         });
         await testCategory.save();
         return testCategory;
     }
 
-    static async newCollection(name:string, description:string) : Promise<HydratedDocument<Coleccion>> {
-        const testCollection = new ColeccionModel({
+    static async newCollection(name:string, description:string) : Promise<HydratedDocument<Collection>> {
+        const testCollection = new CollectionModel({
             name: name,
             description: description,
-            categories: [
+            categoriesRef: [
                 await TestingObjects.newCategory("TestingCategory"),
             ],
         });
@@ -84,14 +84,14 @@ export class TestingObjects {
         const endDate = new Date(startDate);
         endDate.setDate(endDate.getDate() + 2);
 
-        const testUser = new UsuarioModel({
+        const testUser = new UserModel({
             username: username,
             password: password,
             email: email,
-            role: tmpRol.id.toString(),
-            suscripcions: [
+            roleRef: tmpRol.id.toString(),
+            subscriptionsRef: [
                 {
-                    suscripcionId: tmpSuscp.id.toString(),
+                    subscriptionRef: tmpSuscp.id.toString(),
                     startDate: startDate,
                     endDate: endDate,
                 }
