@@ -35,11 +35,11 @@ export class ReplayRepository{
             let chapters;
             const isUser = await UserRepository.GetOne(id);
             if (isUser) {
-                chapters = await ReplayModel.find({ userId:id }).exec();
+                chapters = await ReplayModel.find({ userRef:id }).exec();
             } else {
                 const isChapter = await ChapterRepository.GetOne(id);
                 if (isChapter) {
-                    chapters = await ReplayModel.find({ chapterId:id }).exec();
+                    chapters = await ReplayModel.find({ chapterRef:id }).exec();
                 }
             }
             return chapters;
@@ -85,8 +85,8 @@ export class ReplayRepository{
     }
 
     static async validateRep(tmp:Partial<Replay>) {
-        const tmpUsr = await UserRepository.GetOne(tmp.userId!.toString()); 
-        const tmpCap = await ChapterRepository.GetOne(tmp.chapterId!.toString());
+        const tmpUsr = await UserRepository.GetOne(tmp.userRef!.toString()); 
+        const tmpCap = await ChapterRepository.GetOne(tmp.chapterRef!.toString());
         return (tmpUsr && tmpCap);
     }
 }

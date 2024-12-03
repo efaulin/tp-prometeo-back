@@ -51,7 +51,7 @@ export class UserController{
                 if (error.message.includes('username')) {
                     return res.status(406).send("Nombre de user repetido.");
                 }
-                return res.status(406).send("Dos Suscripciones tienen la misma fecha de inicio.");
+                return res.status(406).send("Dos Subscriptions tienen la misma fecha de inicio.");
             }
             return res.status(500).send("[Error] Create User");
         }
@@ -76,7 +76,7 @@ export class UserController{
         //Para cambiar el historico de subscriptions, la peticion tiene que venir de un user "admin"
         if (subscriptions) {
             if (req.user!.role == "admin") {
-                if (!UserController.validateSuscripcionsInput(subscriptions)) {
+                if (!UserController.validateSubscriptionsInput(subscriptions)) {
                     return res.status(400).send("Datos de entrada inválidos.");
                 }
                 updateFields.subscriptions = subscriptions;
@@ -116,17 +116,17 @@ export class UserController{
 
     /**
      * Funcion para validar los inputs de un arreglo de **UserSubscriptiones**
-     * @param usrSuscripcions Arreglo del tipo UserSubscriptiones
+     * @param usrSubscriptions Arreglo del tipo UserSubscriptiones
      * @returns Si cumple con las validaciones devuelve **true**, caso contrario **false**
      */
-    static validateSuscripcionsInput(usrSuscripcions:UserSubscription[]) {
-        let emptySuscripcion = false;
-        if (usrSuscripcions.length >= 1) {
-            for (let i=0; i < usrSuscripcions.length && !emptySuscripcion; i++) {
-                const tmp = usrSuscripcions[i];
-                emptySuscripcion = !(mongoose.isValidObjectId(tmp.subscriptionId) && tmp.startDate && tmp.endDate && tmp.startDate < tmp.endDate)
+    static validateSubscriptionsInput(usrSubscriptions:UserSubscription[]) {
+        let emptySubscription = false;
+        if (usrSubscriptions.length >= 1) {
+            for (let i=0; i < usrSubscriptions.length && !emptySubscription; i++) {
+                const tmp = usrSubscriptions[i];
+                emptySubscription = !(mongoose.isValidObjectId(tmp.subscriptionId) && tmp.startDate && tmp.endDate && tmp.startDate < tmp.endDate)
             }
-            return !emptySuscripcion;
+            return !emptySubscription;
         } else {
             return false;
         }
@@ -143,7 +143,7 @@ export class UserController{
         if (!subscriptions) {
             return false;   
         } else {
-            control = this.validateSuscripcionsInput(subscriptions);
+            control = this.validateSubscriptionsInput(subscriptions);
         }
         return username && password && email && role && mongoose.isValidObjectId(role) && control ? true : false;
     };

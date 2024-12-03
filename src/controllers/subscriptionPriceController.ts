@@ -1,4 +1,4 @@
-import { SuscripcionRepository } from "../repository/subscriptionRepository";
+import { SubscriptionRepository } from "../repository/subscriptionRepository";
 import { Request, Response } from "express";
 import { SubscriptionPriceRepository } from "../repository/subscriptionPriceRepository";
 import { MongoError, MongoServerError } from "mongodb";
@@ -20,7 +20,7 @@ export class SubscriptionPriceController{
     static async GetAllOfOne(req: Request, res: Response){
         const subscriptionId = req.params.id;
         try {
-            const subscription = await SuscripcionRepository.GetOne(subscriptionId);
+            const subscription = await SubscriptionRepository.GetOne(subscriptionId);
             if (subscription) {
                 const prices = await SubscriptionPriceRepository.GetAllOfOne(subscriptionId);
                 return res.status(200).json(prices);
@@ -47,17 +47,17 @@ export class SubscriptionPriceController{
     }
     
     static async Create(req: Request, res: Response){
-        const urlSuscripcionId = req.params.id;
+        const urlSubscriptionId = req.params.id;
         const validateUserInput = (req: Request):boolean => {
             const { startDate, amount, subscriptionId } = req.body;
-            return startDate && amount && subscriptionId && subscriptionId == urlSuscripcionId ? true : false;
+            return startDate && amount && subscriptionId && subscriptionId == urlSubscriptionId ? true : false;
         }
         if (!validateUserInput(req)) {
             return res.status(400).send("Datos de entrada invalidos");
         }
         const { startDate, amount, subscriptionId } = req.body;
         try {
-            let subscription = await SuscripcionRepository.GetOne(subscriptionId);
+            let subscription = await SubscriptionRepository.GetOne(subscriptionId);
             if (subscription) {
                 const result = await SubscriptionPriceRepository.Create(startDate, amount, subscription);
                 if (result) {

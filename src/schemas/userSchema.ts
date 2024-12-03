@@ -34,10 +34,10 @@ class User {
     public email!: string;
 
     @prop({ required: true, ref: getName(Role) })
-    public role!: Ref<Role>;
+    public roleRef!: Ref<Role>;
 
     @prop({ required: true, type: () => [UserSubscription] })
-    public subscriptions!: UserSubscription[];
+    public subscriptionsRef!: UserSubscription[];
 }
 
 const UserModel = getModelForClass(User);

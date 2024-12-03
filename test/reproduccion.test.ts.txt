@@ -1,7 +1,7 @@
 import request from 'supertest';
 import app from '../src/app';
 import { RoleModel, User } from '../src/schemas/userSchema';
-import { SuscripcionModel } from '../src/schemas/subscriptionSchema';
+import { SubscriptionModel } from '../src/schemas/subscriptionSchema';
 import { Replay } from '../src/schemas/replaySchema';
 import { TestingObjects } from './testingObjects';
 
@@ -82,7 +82,7 @@ describe('[ Route / Replay ]', () => {
         const testRole = new RoleModel({
             name: "New Tester v2.0",
         });
-        const testSuscription = new SuscripcionModel({
+        const testSuscription = new SubscriptionModel({
             type: "idk",
         });
         await testRole.save();

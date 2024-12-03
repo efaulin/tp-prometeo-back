@@ -36,7 +36,7 @@ export class CollectionRepository{
                 const newCol = new CollectionModel({
                     name: name,
                     description: description,
-                    categories: categories,
+                    categoriesRef: categories,
                 });
                 const result = await newCol.save();
                 return result;
@@ -51,9 +51,9 @@ export class CollectionRepository{
     static async Update(id: string, updateFields: Partial<Collection>): Promise<HydratedDocument<Collection> | null | string> {
         try {
             let categoryNotExist = "";
-            if (updateFields.categories) {
+            if (updateFields.categoriesRef) {
                 //Reviso que todos los id que recibo en "categories" existan en la BBDD
-                const categories = updateFields.categories!;
+                const categories = updateFields.categoriesRef!;
                 for (let i = 0; i < categories.length && !categoryNotExist; i++) {
                     const tmp = await CategoryRepository.GetOne(categories[i].toString());
                     if (tmp == null) {

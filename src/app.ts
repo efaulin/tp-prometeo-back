@@ -36,6 +36,6 @@ app.use("/api/author/", AuthController.authenticateToken, AuthController.allowed
 app.use("/api/host/", AuthController.authenticateToken, AuthController.allowedRoles(["admin"]), hostRouter); //Ruta protegida
 app.use("/api/tipouser/", AuthController.authenticateToken, AuthController.allowedRoles(["admin"]), roleRouter); //Ruta protegida
 app.use("/api/auth", authRouter);
-//TODO Faltan las validaciones de permisos, tengo pensado hacerlo en cada Controller.
+//TODO Faltan adaptar la nomenclatura en los inputs de controller y logica de repository.
 
 export default app;

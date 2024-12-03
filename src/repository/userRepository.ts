@@ -1,6 +1,6 @@
 import { Role, RoleModel, User, UserModel, UserSubscription } from "../schemas/userSchema";
 import { HydratedDocument, Document } from 'mongoose';
-import { SuscripcionRepository } from "./subscriptionRepository";
+import { SubscriptionRepository } from "./subscriptionRepository";
 import bcrypt from 'bcrypt';
 
 export class UserRepository{
@@ -38,22 +38,22 @@ export class UserRepository{
     }
     static async Create(name:string, pass: string, email:string, role:string, subscriptions:UserSubscription[]): Promise<HydratedDocument<User> | undefined | string> {
         try {
-            const isSuscripcionsValid = await this.validateSuscripcions(subscriptions);
+            const isSubscriptionsValid = await this.validateSubscriptions(subscriptions);
             const tmpRole = await RoleModel.findById(role);
-            if (!tmpRole || !isSuscripcionsValid) {
+            if (!tmpRole || !isSubscriptionsValid) {
                 return undefined;
-            } else if (typeof isSuscripcionsValid == "string") {
-                return isSuscripcionsValid;
+            } else if (typeof isSubscriptionsValid == "string") {
+                return isSubscriptionsValid;
             }
             const newUser = new UserModel({
                 username: name,
                 password: bcrypt.hashSync(pass,10),
                 email: email,
-                role: role,
-                subscriptions: subscriptions,
+                roleRef: role,
+                subscriptionsRef: subscriptions,
             });
-            for (let i = 0; i < newUser.subscriptions.length; i++) {
-                newUser.subscriptions[i].userId = newUser._id.toString();
+            for (let i = 0; i < newUser.subscriptionsRef.length; i++) {
+                newUser.subscriptionsRef[i].userId = newUser._id.toString();
             }
             const result = await newUser.save();
             if (result) await UserRepository.populateRelations(result);
@@ -65,22 +65,22 @@ export class UserRepository{
     }
     static async Update(id: string, updateFields: Partial<User>): Promise<HydratedDocument<User> | null | string> {
         try {
-            const subscriptions = updateFields.subscriptions;
+            const subscriptions = updateFields.subscriptionsRef;
             if (subscriptions) {
-                const isSuscripcionsValid = await this.validateSuscripcions(subscriptions);
-                if (!isSuscripcionsValid) {
+                const isSubscriptionsValid = await this.validateSubscriptions(subscriptions);
+                if (!isSubscriptionsValid) {
                     return "isNotValid";
-                } else if (typeof isSuscripcionsValid == "string") {
-                    return isSuscripcionsValid;
+                } else if (typeof isSubscriptionsValid == "string") {
+                    return isSubscriptionsValid;
                 }
             }
-            if (updateFields.role) {
-                const tmpRole = await RoleModel.findById(updateFields.role);
+            if (updateFields.roleRef) {
+                const tmpRole = await RoleModel.findById(updateFields.roleRef);
                 if (!tmpRole) return null;
             }
-            if (updateFields.subscriptions) {
-                for (let i = 0; i < updateFields.subscriptions.length; i++) {
-                    updateFields.subscriptions[i].userId = id;
+            if (updateFields.subscriptionsRef) {
+                for (let i = 0; i < updateFields.subscriptionsRef.length; i++) {
+                    updateFields.subscriptionsRef[i].userId = id;
                 }
             }
             if (updateFields.password) {
@@ -110,22 +110,22 @@ export class UserRepository{
         await user.populate({ path:'subscriptions.subscriptionId' })
     }
 
-    static async validateSuscripcions(subscriptions: UserSubscription[]) : Promise<string | boolean> {
-        let notExistSuscripcion = "";
-        let notUniqueSuscripcion = false;
-        for (let i=0; i < subscriptions.length && !notExistSuscripcion && !notUniqueSuscripcion; i++) {
+    static async validateSubscriptions(subscriptions: UserSubscription[]) : Promise<string | boolean> {
+        let notExistSubscription = "";
+        let notUniqueSubscription = false;
+        for (let i=0; i < subscriptions.length && !notExistSubscription && !notUniqueSubscription; i++) {
             const tmp = subscriptions[i];
-            if (!(await SuscripcionRepository.GetOne(tmp.subscriptionRef.toString()))) {
-                notExistSuscripcion = tmp.subscriptionRef.toString();
+            if (!(await SubscriptionRepository.GetOne(tmp.subscriptionRef.toString()))) {
+                notExistSubscription = tmp.subscriptionRef.toString();
             }
-            for (let k=i+1; k < subscriptions.length && !notUniqueSuscripcion; k++) {
-                notUniqueSuscripcion = tmp.startDate == subscriptions[k].startDate;
+            for (let k=i+1; k < subscriptions.length && !notUniqueSubscription; k++) {
+                notUniqueSubscription = tmp.startDate == subscriptions[k].startDate;
             }
         }
-        if (notExistSuscripcion) {
-            return notExistSuscripcion;
+        if (notExistSubscription) {
+            return notExistSubscription;
         }
-        if (notUniqueSuscripcion) {
+        if (notUniqueSubscription) {
             return false;
         }
         return true;

@@ -1,19 +1,19 @@
 import { Router } from "express";
-import { SuscripcionController } from "../controllers/subscriptionController";
+import { SubscriptionController } from "../controllers/subscriptionController";
 import { SubscriptionPriceController } from "../controllers/subscriptionPriceController";
 import { AuthController } from "../controllers/authController";
 
 export const subscriptionRouter = Router();
 
 subscriptionRouter.route("/")
-    .get(SuscripcionController.GetAll)
-    .post(AuthController.allowedRoles(["admin"]), SuscripcionController.Create)
+    .get(SubscriptionController.GetAll)
+    .post(AuthController.allowedRoles(["admin"]), SubscriptionController.Create)
 ;
 
 subscriptionRouter.route("/:id")
-    .get(SuscripcionController.GetOne)
-    .put(AuthController.allowedRoles(["admin"]), SuscripcionController.Update)
-    .delete(AuthController.allowedRoles(["admin"]), SuscripcionController.Delete)
+    .get(SubscriptionController.GetOne)
+    .put(AuthController.allowedRoles(["admin"]), SubscriptionController.Update)
+    .delete(AuthController.allowedRoles(["admin"]), SubscriptionController.Delete)
 ;
 
 subscriptionRouter.route("/:id/prices")

@@ -1,8 +1,8 @@
-import { Subscription, SuscripcionModel, SubscriptionPrice, SubscriptionPriceModel } from "../schemas/subscriptionSchema";
+import { Subscription, SubscriptionModel, SubscriptionPrice, SubscriptionPriceModel } from "../schemas/subscriptionSchema";
 import { HydratedDocument, Document } from "mongoose";
 import { SubscriptionPriceRepository } from "./subscriptionPriceRepository";
 
-export class SuscripcionRepository{
+export class SubscriptionRepository{
 
     /**
      * Busca una **Subscription** por ID.
@@ -12,7 +12,7 @@ export class SuscripcionRepository{
      */
     static async GetOne(id:string): Promise<HydratedDocument<Subscription> | null> {
         try {
-            const result = await SuscripcionModel.findById(id);
+            const result = await SubscriptionModel.findById(id);
             return result;
         } catch (error) {
             console.error("Error al consultar la subscription: ",error);
@@ -21,13 +21,13 @@ export class SuscripcionRepository{
     }
 
     /**
-     * Devuelve todas las **Suscripciones**.
+     * Devuelve todas las **Subscriptions**.
      * @returns Colleccion de **Subscription**'s. En caso de error, devuelve **undefined**.
      * @async
      */
     static async GetAll(): Promise<Subscription[] | undefined>{
         try {
-            const subscriptions = await SuscripcionModel.find().exec();
+            const subscriptions = await SubscriptionModel.find().exec();
             return subscriptions;
         } catch (error) {
             console.error("Error al obtener las subscriptions:", error);
@@ -43,7 +43,7 @@ export class SuscripcionRepository{
      */
     static async Create(subscriptionName:string, subscriptionPrices:Array<Partial<SubscriptionPrice>>): Promise<HydratedDocument<Subscription>|undefined> {
         try {
-            const newSubscription = new SuscripcionModel({
+            const newSubscription = new SubscriptionModel({
                 type: subscriptionName,
             });
             await newSubscription.save();
@@ -69,7 +69,7 @@ export class SuscripcionRepository{
     static async Update(id:string, updateFields: Partial<Subscription>): Promise<HydratedDocument<Subscription>|null> {
         try {
             // Usa findByIdAndUpdate para actualizar solo los campos proporcionados
-            const updatedSubscription = await SuscripcionModel.findByIdAndUpdate(id, updateFields, { new: true });
+            const updatedSubscription = await SubscriptionModel.findByIdAndUpdate(id, updateFields, { new: true });
             return updatedSubscription;
         } catch (error) {
             console.error("Error al actualizar la subscription en la base de datos:", error);
@@ -85,8 +85,8 @@ export class SuscripcionRepository{
      */
     static async Delete(id:string):Promise<HydratedDocument<Subscription> | null> {
         try {
-            const result = await SuscripcionModel.findByIdAndDelete(id);
-            await SubscriptionPriceModel.deleteMany({subscriptionId:id});
+            const result = await SubscriptionModel.findByIdAndDelete(id);
+            await SubscriptionPriceModel.deleteMany({subscriptionRef:id});
             return result;
         } catch (error) {
             console.error("Error al eliminar la subscription:", error);

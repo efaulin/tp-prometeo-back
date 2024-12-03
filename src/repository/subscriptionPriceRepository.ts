@@ -1,4 +1,4 @@
-import { Subscription, SuscripcionModel, SubscriptionPrice, SubscriptionPriceModel } from "../schemas/subscriptionSchema";
+import { Subscription, SubscriptionModel, SubscriptionPrice, SubscriptionPriceModel } from "../schemas/subscriptionSchema";
 import { HydratedDocument, Document } from "mongoose";
 
 export class SubscriptionPriceRepository{
@@ -41,7 +41,7 @@ export class SubscriptionPriceRepository{
      */
     static async GetAllOfOne(subscriptionid : string): Promise<SubscriptionPrice[] | undefined>{
         try {
-            const subscriptions = await SubscriptionPriceModel.find({subscriptionId:subscriptionid}).exec();
+            const subscriptions = await SubscriptionPriceModel.find({subscriptionRef:subscriptionid}).exec();
             return subscriptions;
         } catch (error) {
             console.error("Error al obtener las subscriptionsPrecio:", error);
@@ -62,7 +62,7 @@ export class SubscriptionPriceRepository{
             const newSubscriptionPrice = new SubscriptionPriceModel({
                 startDate: startdate,
                 amount: amount,
-                subscriptionId: subscription._id
+                subscriptionRef: subscription._id
             });
             await newSubscriptionPrice.save();
             return newSubscriptionPrice;

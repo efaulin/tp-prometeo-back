@@ -1,11 +1,11 @@
-import { SuscripcionRepository } from "../repository/subscriptionRepository";
+import { SubscriptionRepository } from "../repository/subscriptionRepository";
 import { Request, Response } from "express";
 import { Subscription, SubscriptionPrice, SubscriptionPriceModel } from "../schemas/subscriptionSchema";
 
-export class SuscripcionController{
+export class SubscriptionController{
     static async GetAll(req: Request, res: Response){
         try {
-            const subscriptions = await SuscripcionRepository.GetAll();
+            const subscriptions = await SubscriptionRepository.GetAll();
             if (subscriptions) {
                 return res.status(200).json(subscriptions);
             } else {
@@ -20,7 +20,7 @@ export class SuscripcionController{
     static async GetOne(req: Request, res: Response){
         const id = req.params.id;
         try {
-            const result = await SuscripcionRepository.GetOne(id);
+            const result = await SubscriptionRepository.GetOne(id);
             if (result) {
                 return res.status(200).json(result);
             }
@@ -62,7 +62,7 @@ export class SuscripcionController{
                     return res.status(406).send("Dos Precios tienen la misma fecha.");
                 }
             }
-            const result = await SuscripcionRepository.Create(type, prices);
+            const result = await SubscriptionRepository.Create(type, prices);
             return res.status(201).json(result);
         } catch (error) {
             console.error("Error al crear subscription:", error);
@@ -79,7 +79,7 @@ export class SuscripcionController{
         //Se deja de esta manera en caso de agregar mas atributos en el futuro
 
         try {
-            const result = await SuscripcionRepository.Update(id, updateFields);
+            const result = await SubscriptionRepository.Update(id, updateFields);
             if (result) {
                 return res.status(200).json(result);
             }
@@ -93,7 +93,7 @@ export class SuscripcionController{
     static async Delete(req: Request, res: Response){
         try {
             const id = req.params.id;
-            const result = await SuscripcionRepository.Delete(id);
+            const result = await SubscriptionRepository.Delete(id);
             if (result) {
                 return res.status(202).send("Subscription Borrada");
             }

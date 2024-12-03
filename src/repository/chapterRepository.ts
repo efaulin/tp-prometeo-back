@@ -51,34 +51,34 @@ export class ChapterRepository{
             let isAudiobook;
             let isPodcast;
 
-            if (updateFields.collectionId) {
-                const colection = await CollectionRepository.GetOne(updateFields.collectionId!.toString());
+            if (updateFields.collectionRef) {
+                const colection = await CollectionRepository.GetOne(updateFields.collectionRef!.toString());
                 if (!colection) return null;
             }
-            if (updateFields.language) {
-                const language = await LanguageRepository.GetOne(updateFields.language!.toString());
+            if (updateFields.languageRef) {
+                const language = await LanguageRepository.GetOne(updateFields.languageRef!.toString());
                 if (!language) return null;
             }
-            if (updateFields.hosts && (updateFields.authors || updateFields.narrator)) {
+            if (updateFields.hostsRef && (updateFields.authorsRef || updateFields.narratorRef)) {
                 return null
-            } else if (updateFields.hosts && updateFields.hosts.length >= 1) {
+            } else if (updateFields.hostsRef && updateFields.hostsRef.length >= 1) {
                 let emptyHost = false;
-                for (let i=0; i < updateFields.hosts.length && !emptyHost; i++) {
-                    const tmp = await HostRepository.GetOne(updateFields.hosts[i].toString());
+                for (let i=0; i < updateFields.hostsRef.length && !emptyHost; i++) {
+                    const tmp = await HostRepository.GetOne(updateFields.hostsRef[i].toString());
                     if (!tmp) emptyHost = true;
                 }
                 if (emptyHost) return null;
                 isPodcast = true;
             } else {
-                if (updateFields.narrator) {
-                    const narrator = await NarratorRepository.GetOne(updateFields.narrator!.toString());
+                if (updateFields.narratorRef) {
+                    const narrator = await NarratorRepository.GetOne(updateFields.narratorRef!.toString());
                     if (!narrator) return null;
                     isAudiobook = true;
                 }
-                if (updateFields.authors && updateFields.authors.length >= 1) {
+                if (updateFields.authorsRef && updateFields.authorsRef.length >= 1) {
                     let emptyAuthor = false;
-                    for (let i=0; i < updateFields.authors.length && !emptyAuthor; i++) {
-                        const tmp = await AuthorRepository.GetOne(updateFields.authors[i].toString());
+                    for (let i=0; i < updateFields.authorsRef.length && !emptyAuthor; i++) {
+                        const tmp = await AuthorRepository.GetOne(updateFields.authorsRef[i].toString());
                         if (!tmp) emptyAuthor = true;
                     }
                     if (emptyAuthor) return null;
@@ -111,15 +111,15 @@ export class ChapterRepository{
     }
 
     static async validateRelations(tmp:Partial<Chapter>) : Promise<boolean> {
-        const colection = await CollectionRepository.GetOne(tmp.collectionId!.toString());
-        const language = await LanguageRepository.GetOne(tmp.language!.toString());
+        const colection = await CollectionRepository.GetOne(tmp.collectionRef!.toString());
+        const language = await LanguageRepository.GetOne(tmp.languageRef!.toString());
         if (colection && language) {
-            if (tmp.hosts) {
-                const hosts = await HostRepository.GetOne(tmp.hosts.toString());
+            if (tmp.hostsRef) {
+                const hosts = await HostRepository.GetOne(tmp.hostsRef.toString());
                 if (hosts) return true;
-            } else if (tmp.narrator && tmp.authors) {
-                const narrator = await NarratorRepository.GetOne(tmp.narrator!.toString());
-                const authors = await AuthorRepository.GetOne(tmp.authors!.toString());
+            } else if (tmp.narratorRef && tmp.authorsRef) {
+                const narrator = await NarratorRepository.GetOne(tmp.narratorRef!.toString());
+                const authors = await AuthorRepository.GetOne(tmp.authorsRef!.toString());
                 if (narrator && authors) return true;
             }
         }

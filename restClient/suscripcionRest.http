@@ -1,6 +1,6 @@
 ## Comandos para la extension Rest Client
 
-## CRUD Suscripciones
+## CRUD Subscriptions
 
 ### Obtener todos las subscriptions
 GET http://localhost:3005/api/subscription

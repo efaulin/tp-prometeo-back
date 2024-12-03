@@ -1,5 +1,5 @@
 import { HydratedDocument } from "mongoose";
-import { Subscription, SuscripcionModel } from "../src/schemas/subscriptionSchema";
+import { Subscription, SubscriptionModel } from "../src/schemas/subscriptionSchema";
 import { Role, RoleModel, UserModel } from "../src/schemas/userSchema";
 import { Language, LanguageModel } from "../src/schemas/languageSchema";
 import { Narrator, NarratorModel } from "../src/schemas/narratorSchema";
@@ -18,7 +18,7 @@ export class TestingObjects {
     }
 
     static async newSuscription(type:string) : Promise<HydratedDocument<Subscription>> {
-        const testSuscription = new SuscripcionModel({
+        const testSuscription = new SubscriptionModel({
             type: type,
         });
         await testSuscription.save();
