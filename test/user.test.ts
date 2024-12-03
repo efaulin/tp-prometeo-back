@@ -35,10 +35,10 @@ describe('[ Route / User ]', () => {
             username: "usernameTest",
             password: "passwordTest",
             email: "email@test.jest",
-            role: testRole.id.toString(),
-            subscriptions: [
+            roleRef: testRole.id.toString(),
+            subscriptionsRef: [
                 {
-                    subscriptionId: testSuscription.id.toString(),
+                    subscriptionRef: testSuscription.id.toString(),
                     startDate: startDate,
                     endDate: date2MonthsLater,
                 }
@@ -53,9 +53,9 @@ describe('[ Route / User ]', () => {
         //Assert (Afirmar)
         expect(res.status).toBe(expectedStatus);
         expect(content.username).toBe(expectedContent.username);
-        expect(content.role.name).toBe(testRole.name);
-        expect(content.subscriptions[0].subscriptionId.type).toBe(testSuscription.type);
-        expect(content.subscriptions[0].startDate).toBe(expectedContent.subscriptions[0].startDate.toJSON());
+        expect(content.roleRef.name).toBe(testRole.name);
+        expect(content.subscriptionsRef[0].subscriptionRef.type).toBe(testSuscription.type);
+        expect(content.subscriptionsRef[0].startDate).toBe(expectedContent.subscriptionsRef[0].startDate.toJSON());
     }, 30000);
 
     it('[GetOne] should return 200 OK with an user', async () => {
@@ -71,9 +71,9 @@ describe('[ Route / User ]', () => {
         expect(res.status).toBe(expectedStatus);
         expect(content.username).toBe(expectedContent.username);
         expect(content.password).toBe(expectedContent.password);
-        expect(content.role.name).toBe(expectedContent.role.name);
-        expect(content.subscriptions[0].subscriptionId.type).toBe(expectedContent.subscriptions[0].subscriptionId.type);
-        expect(content.subscriptions[0].startDate).toBe(expectedContent.subscriptions[0].startDate);
+        expect(content.roleRef.name).toBe(expectedContent.roleRef.name);
+        expect(content.subscriptionsRef[0].subscriptionId.type).toBe(expectedContent.subscriptionsRef[0].subscriptionId.type);
+        expect(content.subscriptionsRef[0].startDate).toBe(expectedContent.subscriptionsRef[0].startDate);
     });
 
     it('[Update] should return 200 OK with an updated user', async () => {
@@ -91,10 +91,10 @@ describe('[ Route / User ]', () => {
             username: "updatedName",
             password: "updatedPass",
             email: "updated@mail.gg",
-            role: testRole.id.toString(),
-            subscriptions: [
+            roleRef: testRole.id.toString(),
+            subscriptionsRef: [
                 {
-                    subscriptionId: testSuscription.id.toString(),
+                    subscriptionRef: testSuscription.id.toString(),
                     startDate: startDate,
                     endDate: date2MonthsLater,
                 }
@@ -108,9 +108,9 @@ describe('[ Route / User ]', () => {
         //Assert (Afirmar)
         expect(res.status).toBe(expectedStatus);
         expect(content.username).toBe(expectedContent.username);
-        expect(content.role.name).toBe(testRole.name);
-        expect(content.subscriptions[0].subscriptionId.type).toBe(testSuscription.type);
-        expect(content.subscriptions[0].startDate).toBe(expectedContent.subscriptions[0].startDate.toJSON());
+        expect(content.roleRef.name).toBe(testRole.name);
+        expect(content.subscriptionsRef[0].subscriptionId.type).toBe(testSuscription.type);
+        expect(content.subscriptionsRef[0].startDate).toBe(expectedContent.subscriptionsRef[0].startDate.toJSON());
     });
 
     it('[Delete] should return 202 DELETED with a text', async () => {

@@ -69,7 +69,7 @@ export class TestingObjects {
         const testCollection = new CollectionModel({
             name: name,
             description: description,
-            categories: [
+            categoriesRef: [
                 await TestingObjects.newCategory("TestingCategory"),
             ],
         });
@@ -88,10 +88,10 @@ export class TestingObjects {
             username: username,
             password: password,
             email: email,
-            role: tmpRol.id.toString(),
-            subscriptions: [
+            roleRef: tmpRol.id.toString(),
+            subscriptionsRef: [
                 {
-                    subscriptionId: tmpSuscp.id.toString(),
+                    subscriptionRef: tmpSuscp.id.toString(),
                     startDate: startDate,
                     endDate: endDate,
                 }

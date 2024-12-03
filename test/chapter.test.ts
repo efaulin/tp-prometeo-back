@@ -33,14 +33,14 @@ describe('[ Route / Chapter ]', () => {
         //Arrange (Planear)
         const expectedStatus = 201;
         const expectedContent = {
-            collectionId: testCollection._id.toString(),
+            collectionRef: testCollection._id.toString(),
             name: "testChapter",
             //Defino solo "host" para que sea un podcast
-            hosts: [
+            hostsRef: [
                 testHost._id.toString(),
             ],
             durationInSeconds: 60,
-            language: testLanguage._id.toString(),
+            languageRef: testLanguage._id.toString(),
             description: "IDK testing desc",
             uploadDate: uploadDate.toJSON(),
             publicationDate: publicationDate.toJSON(),
@@ -56,9 +56,9 @@ describe('[ Route / Chapter ]', () => {
         expect(content.name).toBe(expectedContent.name);
         expect(content.description).toBe(expectedContent.description);
         expect(content.durationInSeconds).toBe(expectedContent.durationInSeconds);
-        expect(content.collectionId).toBe(testCollection._id.toString());
-        expect(content.hosts[0].name).toBe(testHost.name);
-        expect(content.language.name).toBe(testLanguage.name);
+        expect(content.collectionRef).toBe(testCollection._id.toString());
+        expect(content.hostsRef[0].name).toBe(testHost.name);
+        expect(content.languageRef.name).toBe(testLanguage.name);
         expect(content.uploadDate).toBe(expectedContent.uploadDate);
         expect(content.publicationDate).toBe(expectedContent.publicationDate);
     }, 30000);
@@ -77,9 +77,9 @@ describe('[ Route / Chapter ]', () => {
         expect(content.name).toBe(expectedContent.name);
         expect(content.description).toBe(expectedContent.description);
         expect(content.durationInSeconds).toBe(expectedContent.durationInSeconds);
-        expect(content.collectionId).toBe(expectedContent.collectionId);
-        expect(content.hosts[0].name).toBe(expectedContent.hosts[0].name);
-        expect(content.language.name).toBe(expectedContent.language.name);
+        expect(content.collectionRef).toBe(expectedContent.collectionRef);
+        expect(content.hostsRef[0].name).toBe(expectedContent.hostsRef[0].name);
+        expect(content.languageRef.name).toBe(expectedContent.languageRef.name);
         expect(content.uploadDate).toBe(expectedContent.uploadDate);
         expect(content.publicationDate).toBe(expectedContent.publicationDate);
     });
@@ -97,15 +97,15 @@ describe('[ Route / Chapter ]', () => {
         //Arrange (Planear)
         const expectedStatus = 200;
         const expectedContent = {
-            collectionId: testCollection._id.toString(),
+            collectionRef: testCollection._id.toString(),
             name: "updatedName",
             //Defino solo "authors" y "narrator" para que sea un audiolibro
-            authors: [
+            authorsRef: [
                 testAuthor._id.toString(),
             ],
-            narrator: testNarrator._id.toString(),
+            narratorRef: testNarrator._id.toString(),
             durationInSeconds: 60,
-            language: testLanguage._id.toString(),
+            languageRef: testLanguage._id.toString(),
             description: "IDK testing desc",
             uploadDate: uploadDate.toJSON(),
             publicationDate: publicationDate.toJSON(),
@@ -120,10 +120,10 @@ describe('[ Route / Chapter ]', () => {
         expect(content.name).toBe(expectedContent.name);
         expect(content.description).toBe(expectedContent.description);
         expect(content.durationInSeconds).toBe(expectedContent.durationInSeconds);
-        expect(content.collectionId).toBe(expectedContent.collectionId);
-        expect(content.authors[0].name).toBe(testAuthor.name);
-        expect(content.narrator.name).toBe(testNarrator.name);
-        expect(content.language.name).toBe(testLanguage.name);
+        expect(content.collectionRef).toBe(expectedContent.collectionRef);
+        expect(content.authorsRef[0].name).toBe(testAuthor.name);
+        expect(content.narratorRef.name).toBe(testNarrator.name);
+        expect(content.languageRef.name).toBe(testLanguage.name);
         expect(content.uploadDate).toBe(expectedContent.uploadDate);
         expect(content.publicationDate).toBe(expectedContent.publicationDate);
     });
