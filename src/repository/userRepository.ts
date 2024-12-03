@@ -106,8 +106,8 @@ export class UserRepository{
     }
 
     static async populateRelations(user:HydratedDocument<User>) : Promise<void> {
-        await user.populate('role')
-        await user.populate({ path:'subscriptions.subscriptionId' })
+        await user.populate('roleRef')
+        await user.populate({ path:'subscriptions.subscriptionRef' })
     }
 
     static async validateSubscriptions(subscriptions: UserSubscription[]) : Promise<string | boolean> {

@@ -127,9 +127,9 @@ export class ChapterRepository{
     }
 
     static async populateRelations(chapter:HydratedDocument<Chapter>) : Promise<void> {
-        await chapter.populate('language');
-        await chapter.populate('hosts')
-        await chapter.populate('authors');
-        await chapter.populate('narrator');
+        await chapter.populate('languageRef');
+        await chapter.populate('hostsRef')
+        await chapter.populate('authorsRef');
+        await chapter.populate('narratorRef');
     }
 }
