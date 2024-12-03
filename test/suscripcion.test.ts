@@ -1,23 +1,23 @@
 import request from 'supertest';
 import app from '../src/app';
-import { Suscripcion } from '../src/schemas/suscripcionSchema';
+import { Subscription } from '../src/schemas/subscriptionSchema';
 
-describe('[ Route / Suscripcion ]', () => {
-    it('[GetAll] should return 200 OK with an array of suscripciones', async () => {
+describe('[ Route / Subscription ]', () => {
+    it('[GetAll] should return 200 OK with an array of subscriptions', async () => {
         //Arrange (Planear)
         const expectedStatus = 200;
         //const expectedContent;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/suscripcion');
+        const res = await request(app).get('/api/subscription');
         const content = res.body;
 
         //Assert (Afirmar)
         expect(res.status).toBe(expectedStatus);
-        expect(content).toBeInstanceOf(Array<Suscripcion>);
+        expect(content).toBeInstanceOf(Array<Subscription>);
     });
 
-    it('[Create] should return 201 CREATED with a suscripcion', async () => {
+    it('[Create] should return 201 CREATED with a subscription', async () => {
         //Arrange (Planear)
         const expectedStatus = 201;
         const expectedContent = {
@@ -25,7 +25,7 @@ describe('[ Route / Suscripcion ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).post('/api/suscripcion').send(expectedContent);
+        const res = await request(app).post('/api/subscription').send(expectedContent);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -33,7 +33,7 @@ describe('[ Route / Suscripcion ]', () => {
         expect(content.type).toBe(expectedContent.type);
     }, 30000);
 
-    let suscripcionId : string;
+    let subscriptionId : string;
     const prices = [
         {
             startDate: "2024-09-20T22:56:01.513Z",
@@ -41,7 +41,7 @@ describe('[ Route / Suscripcion ]', () => {
         }
     ]
 
-    it('[Create] should return 201 CREATED with a suscripcion with prices', async () => {
+    it('[Create] should return 201 CREATED with a subscription with prices', async () => {
         //Arrange (Planear)
         const expectedStatus = 201;
         const expectedContent = {
@@ -50,9 +50,9 @@ describe('[ Route / Suscripcion ]', () => {
         }
 
         //Act (Actuar)
-        const res = await request(app).post('/api/suscripcion').send(expectedContent);
+        const res = await request(app).post('/api/subscription').send(expectedContent);
         const content = res.body;
-        suscripcionId = content._id;
+        subscriptionId = content._id;
 
         //Assert (Afirmar)
         expect(res.status).toBe(expectedStatus);
@@ -65,7 +65,7 @@ describe('[ Route / Suscripcion ]', () => {
         const expectedContent = prices;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/suscripcion/' + suscripcionId + '/prices');
+        const res = await request(app).get('/api/subscription/' + subscriptionId + '/prices');
         const content = res.body;
 
         //Assert (Afirmar)
@@ -74,7 +74,7 @@ describe('[ Route / Suscripcion ]', () => {
         expect(content[0].amount).toBe(expectedContent[0].amount);
     });
 
-    it('[Update] should return 200 OK with an uploaded suscripcion', async () => {
+    it('[Update] should return 200 OK with an uploaded subscription', async () => {
         //Arrange (Planear)
         const expectedStatus = 200;
         const expectedContent = {
@@ -82,7 +82,7 @@ describe('[ Route / Suscripcion ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).put('/api/suscripcion/' + suscripcionId).send(expectedContent);
+        const res = await request(app).put('/api/subscription/' + subscriptionId).send(expectedContent);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -93,10 +93,10 @@ describe('[ Route / Suscripcion ]', () => {
     it('[Delete] should return 202 DELETED with a text', async () => {
         //Arrange (Planear)
         const expectedStatus = 202;
-        const expectedContent = "Suscripcion Borrada";
+        const expectedContent = "Subscription Borrada";
 
         //Act (Actuar)
-        const res = await request(app).delete('/api/suscripcion/' + suscripcionId);
+        const res = await request(app).delete('/api/subscription/' + subscriptionId);
         const content = res.text;
 
         //Assert (Afirmar)
@@ -107,10 +107,10 @@ describe('[ Route / Suscripcion ]', () => {
     it('[GetOne] should return 404 NOT-FOUND with a text', async () => {
         //Arrange (Planear)
         const expectedStatus = 404;
-        const expectedContent = "No se encontró la suscripcion.";
+        const expectedContent = "No se encontró la subscription.";
 
         //Act (Actuar)
-        const res = await request(app).get('/api/suscripcion/' + suscripcionId);
+        const res = await request(app).get('/api/subscription/' + subscriptionId);
         const content = res.text;
 
         //Assert (Afirmar)
@@ -120,6 +120,6 @@ describe('[ Route / Suscripcion ]', () => {
 });
 
 //TODO Probar validaciones de inputs, con sus retornos de la API.
-/*describe('[ Validations / Suscripcion ]', () => {
+/*describe('[ Validations / Subscription ]', () => {
     
 });*/

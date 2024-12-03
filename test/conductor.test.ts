@@ -1,26 +1,26 @@
 import request from 'supertest';
 import app from '../src/app';
-import { Conductor } from '../src/schemas/conductorSchema';
+import { Host } from '../src/schemas/hostSchema';
 
-describe('[ Route / Conductor ]', () => {
-    it('[GetAll] should return 200 OK with an array of conductores', async () => {
+describe('[ Route / Host ]', () => {
+    it('[GetAll] should return 200 OK with an array of hosts', async () => {
         //Arrange (Planear)
         const expectedStatus = 200;
         //const expectedContent;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/conductor');
+        const res = await request(app).get('/api/host');
         const content = res.body;
 
         //Assert (Afirmar)
         expect(res.status).toBe(expectedStatus);
-        expect(content).toBeInstanceOf(Array<Conductor>);
+        expect(content).toBeInstanceOf(Array<Host>);
     });
 
-    //Para guardar el usuario creado en el siguiente paso, para su uso en consultas y modificaciones
+    //Para guardar el user creado en el siguiente paso, para su uso en consultas y modificaciones
     let createdHost : any;
 
-    it('[Create] should return 201 CREATED with an conductor', async () => {
+    it('[Create] should return 201 CREATED with an host', async () => {
         //Arrange (Planear)
         const expectedStatus = 201;
         const expectedContent = {
@@ -28,7 +28,7 @@ describe('[ Route / Conductor ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).post('/api/conductor').send(expectedContent);
+        const res = await request(app).post('/api/host').send(expectedContent);
         const content = res.body;
         createdHost = content;
 
@@ -37,13 +37,13 @@ describe('[ Route / Conductor ]', () => {
         expect(content.name).toBe(expectedContent.name);
     }, 30000);
 
-    it('[GetOne] should return 200 OK with an conductor', async () => {
+    it('[GetOne] should return 200 OK with an host', async () => {
         //Arrange (Planear)
         const expectedStatus = 200;
         const expectedContent = createdHost;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/conductor/' + expectedContent._id);
+        const res = await request(app).get('/api/host/' + expectedContent._id);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -51,7 +51,7 @@ describe('[ Route / Conductor ]', () => {
         expect(content.name).toBe(expectedContent.name);
     });
 
-    it('[Update] should return 200 OK with an updated conductor', async () => {
+    it('[Update] should return 200 OK with an updated host', async () => {
         //Arrange (Planear)
         const expectedStatus = 200;
         const expectedContent = {
@@ -59,7 +59,7 @@ describe('[ Route / Conductor ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).put('/api/conductor/' + createdHost._id).send(expectedContent);
+        const res = await request(app).put('/api/host/' + createdHost._id).send(expectedContent);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -70,10 +70,10 @@ describe('[ Route / Conductor ]', () => {
     it('[Delete] should return 202 DELETED with a text', async () => {
         //Arrange (Planear)
         const expectedStatus = 202;
-        const expectedContent = "Conductor Borrado";
+        const expectedContent = "Host Borrado";
 
         //Act (Actuar)
-        const res = await request(app).delete('/api/conductor/' + createdHost._id);
+        const res = await request(app).delete('/api/host/' + createdHost._id);
         const content = res.text;
 
         //Assert (Afirmar)
@@ -84,10 +84,10 @@ describe('[ Route / Conductor ]', () => {
     it('[GetOne] should return 404 NOT-FOUND with a text', async () => {
         //Arrange (Planear)
         const expectedStatus = 404;
-        const expectedContent = "No se encontró el conductor.";
+        const expectedContent = "No se encontró el host.";
 
         //Act (Actuar)
-        const res = await request(app).get('/api/conductor/' + createdHost._id);
+        const res = await request(app).get('/api/host/' + createdHost._id);
         const content = res.text;
 
         //Assert (Afirmar)
@@ -97,6 +97,6 @@ describe('[ Route / Conductor ]', () => {
 });
 
 //TODO Probar validaciones de inputs, con sus retornos de la API.
-/*describe('[ Validations / Conductor ]', () => {
+/*describe('[ Validations / Host ]', () => {
     
 });*/

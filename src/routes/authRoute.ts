@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { AuthController } from "../controllers/authController";
-import { UsuarioController } from "../controllers/usuarioController";
+import { UserController } from "../controllers/userController";
 
 //RUTAS /api/Auth
 export const authRouter = Router();
@@ -16,8 +16,8 @@ authRouter.route("/refresh")
 ;
 
 authRouter.route("/signup")
-    //Registro de usuario
-    .post(UsuarioController.Create)
+    //Registro de user
+    .post(UserController.Create)
 ;
 
 authRouter.route("/logout")

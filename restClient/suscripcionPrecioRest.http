@@ -3,23 +3,23 @@
 ## CRUD Suscripciones
 
 ### Obtener todos los precios
-GET http://localhost:3005/api/suscripcionprecio
+GET http://localhost:3005/api/subscriptionprice
 
-### Obtener todos los precios de una suscripcion
-GET http://localhost:3005/api/suscripcionprecio/67098e5bd3399aad0ae0935d
+### Obtener todos los precios de una subscription
+GET http://localhost:3005/api/subscriptionprice/67098e5bd3399aad0ae0935d
 
-### Obtener uno los precios de una suscripcion
-GET http://localhost:3005/api/suscripcionprecio/67098e5bd3399aad0ae0935d/670475aa7afe2582774c7595
+### Obtener uno los precios de una subscription
+GET http://localhost:3005/api/subscriptionprice/67098e5bd3399aad0ae0935d/670475aa7afe2582774c7595
 
 ### Crear un nuevo recurso
-POST http://localhost:3005/api/suscripcionprecio/67098e5bd3399aad0ae0935d
+POST http://localhost:3005/api/subscriptionprice/67098e5bd3399aad0ae0935d
 Content-Type: application/json
 
 {
     "startDate": "2024-09-13T16:30:00Z",
     "amount": 2000,
-    "suscripcionId": "67098e5bd3399aad0ae0935d"
+    "subscriptionId": "67098e5bd3399aad0ae0935d"
 }
 
 ### Eliminar un recurso
-DELETE http://localhost:3005/api/suscripcionprecio/67098e5bd3399aad0ae0935d/67098e9cd3399aad0ae09365
+DELETE http://localhost:3005/api/subscriptionprice/67098e5bd3399aad0ae0935d/67098e9cd3399aad0ae09365

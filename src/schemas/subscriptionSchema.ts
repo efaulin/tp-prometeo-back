@@ -14,7 +14,7 @@ class SubscriptionPrice {
     @prop({ required: true, default: 0 })
     public amount!: Number;
 
-    //Se agrega id de la suscripcion para poder crear el indice, y no poder agregar dos precios con la misma fecha
+    //Se agrega id de la subscription para poder crear el indice, y no poder agregar dos precios con la misma fecha
     @prop({ required: true, ref: getName(Subscription) })
     public subscriptionRef!: Ref<SubscriptionPrice>;
 }

@@ -1,34 +1,34 @@
 import request from 'supertest';
 import app from '../src/app';
-import { Autor } from '../src/schemas/autorSchema';
+import { Author } from '../src/schemas/authorSchema';
 
-describe('[ Route / Autor ]', () => {
-    it('[GetAll] should return 200 OK with an array of autores', async () => {
+describe('[ Route / Author ]', () => {
+    it('[GetAll] should return 200 OK with an array of authors', async () => {
         //Arrange (Planear)
         const expectedStatus = 200;
         //const expectedContent;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/autor');
+        const res = await request(app).get('/api/author');
         const content = res.body;
 
         //Assert (Afirmar)
         expect(res.status).toBe(expectedStatus);
-        expect(content).toBeInstanceOf(Array<Autor>);
+        expect(content).toBeInstanceOf(Array<Author>);
     });
 
-    //Para guardar el usuario creado en el siguiente paso, para su uso en consultas y modificaciones
+    //Para guardar el user creado en el siguiente paso, para su uso en consultas y modificaciones
     let createdAuthor : any;
 
-    it('[Create] should return 201 CREATED with an autor', async () => {
+    it('[Create] should return 201 CREATED with an author', async () => {
         //Arrange (Planear)
         const expectedStatus = 201;
         const expectedContent = {
-            name: "testAutor"
+            name: "testAuthor"
         };
 
         //Act (Actuar)
-        const res = await request(app).post('/api/autor').send(expectedContent);
+        const res = await request(app).post('/api/author').send(expectedContent);
         const content = res.body;
         createdAuthor = content;
 
@@ -37,13 +37,13 @@ describe('[ Route / Autor ]', () => {
         expect(content.name).toBe(expectedContent.name);
     }, 30000);
 
-    it('[GetOne] should return 200 OK with an autor', async () => {
+    it('[GetOne] should return 200 OK with an author', async () => {
         //Arrange (Planear)
         const expectedStatus = 200;
         const expectedContent = createdAuthor;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/autor/' + expectedContent._id);
+        const res = await request(app).get('/api/author/' + expectedContent._id);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -51,7 +51,7 @@ describe('[ Route / Autor ]', () => {
         expect(content.name).toBe(expectedContent.name);
     });
 
-    it('[Update] should return 200 OK with an updated autor', async () => {
+    it('[Update] should return 200 OK with an updated author', async () => {
         //Arrange (Planear)
         const expectedStatus = 200;
         const expectedContent = {
@@ -59,7 +59,7 @@ describe('[ Route / Autor ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).put('/api/autor/' + createdAuthor._id).send(expectedContent);
+        const res = await request(app).put('/api/author/' + createdAuthor._id).send(expectedContent);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -70,10 +70,10 @@ describe('[ Route / Autor ]', () => {
     it('[Delete] should return 202 DELETED with a text', async () => {
         //Arrange (Planear)
         const expectedStatus = 202;
-        const expectedContent = "Autor Borrado";
+        const expectedContent = "Author Borrado";
 
         //Act (Actuar)
-        const res = await request(app).delete('/api/autor/' + createdAuthor._id);
+        const res = await request(app).delete('/api/author/' + createdAuthor._id);
         const content = res.text;
 
         //Assert (Afirmar)
@@ -84,10 +84,10 @@ describe('[ Route / Autor ]', () => {
     it('[GetOne] should return 404 NOT-FOUND with a text', async () => {
         //Arrange (Planear)
         const expectedStatus = 404;
-        const expectedContent = "No se encontró el autor.";
+        const expectedContent = "No se encontró el author.";
 
         //Act (Actuar)
-        const res = await request(app).get('/api/autor/' + createdAuthor._id);
+        const res = await request(app).get('/api/author/' + createdAuthor._id);
         const content = res.text;
 
         //Assert (Afirmar)
@@ -97,6 +97,6 @@ describe('[ Route / Autor ]', () => {
 });
 
 //TODO Probar validaciones de inputs, con sus retornos de la API.
-/*describe('[ Validations / Autor ]', () => {
+/*describe('[ Validations / Author ]', () => {
     
 });*/

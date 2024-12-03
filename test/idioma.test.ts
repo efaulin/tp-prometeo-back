@@ -1,26 +1,26 @@
 import request from 'supertest';
 import app from '../src/app';
-import { Idioma } from '../src/schemas/idiomaSchema';
+import { Language } from '../src/schemas/languageSchema';
 
-describe('[ Route / Idioma ]', () => {
-    it('[GetAll] should return 200 OK with an array of idiomas', async () => {
+describe('[ Route / Language ]', () => {
+    it('[GetAll] should return 200 OK with an array of languages', async () => {
         //Arrange (Planear)
         const expectedStatus = 200;
         //const expectedContent;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/idioma');
+        const res = await request(app).get('/api/language');
         const content = res.body;
 
         //Assert (Afirmar)
         expect(res.status).toBe(expectedStatus);
-        expect(content).toBeInstanceOf(Array<Idioma>);
+        expect(content).toBeInstanceOf(Array<Language>);
     });
 
-    //Para guardar el usuario creado en el siguiente paso, para su uso en consultas y modificaciones
+    //Para guardar el user creado en el siguiente paso, para su uso en consultas y modificaciones
     let createdLanguage : any;
 
-    it('[Create] should return 201 CREATED with an idioma', async () => {
+    it('[Create] should return 201 CREATED with an language', async () => {
         //Arrange (Planear)
         const expectedStatus = 201;
         const expectedContent = {
@@ -28,7 +28,7 @@ describe('[ Route / Idioma ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).post('/api/idioma').send(expectedContent);
+        const res = await request(app).post('/api/language').send(expectedContent);
         const content = res.body;
         createdLanguage = content;
 
@@ -37,13 +37,13 @@ describe('[ Route / Idioma ]', () => {
         expect(content.name).toBe(expectedContent.name);
     }, 30000);
 
-    it('[GetOne] should return 200 OK with an idioma', async () => {
+    it('[GetOne] should return 200 OK with an language', async () => {
         //Arrange (Planear)
         const expectedStatus = 200;
         const expectedContent = createdLanguage;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/idioma/' + expectedContent._id);
+        const res = await request(app).get('/api/language/' + expectedContent._id);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -51,7 +51,7 @@ describe('[ Route / Idioma ]', () => {
         expect(content.name).toBe(expectedContent.name);
     });
 
-    it('[Update] should return 200 OK with an updated idioma', async () => {
+    it('[Update] should return 200 OK with an updated language', async () => {
         //Arrange (Planear)
         const expectedStatus = 200;
         const expectedContent = {
@@ -59,7 +59,7 @@ describe('[ Route / Idioma ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).put('/api/idioma/' + createdLanguage._id).send(expectedContent);
+        const res = await request(app).put('/api/language/' + createdLanguage._id).send(expectedContent);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -70,10 +70,10 @@ describe('[ Route / Idioma ]', () => {
     it('[Delete] should return 202 DELETED with a text', async () => {
         //Arrange (Planear)
         const expectedStatus = 202;
-        const expectedContent = "Idioma Borrado";
+        const expectedContent = "Language Borrado";
 
         //Act (Actuar)
-        const res = await request(app).delete('/api/idioma/' + createdLanguage._id);
+        const res = await request(app).delete('/api/language/' + createdLanguage._id);
         const content = res.text;
 
         //Assert (Afirmar)
@@ -84,10 +84,10 @@ describe('[ Route / Idioma ]', () => {
     it('[GetOne] should return 404 NOT-FOUND with a text', async () => {
         //Arrange (Planear)
         const expectedStatus = 404;
-        const expectedContent = "No se encontró el idioma.";
+        const expectedContent = "No se encontró el language.";
 
         //Act (Actuar)
-        const res = await request(app).get('/api/idioma/' + createdLanguage._id);
+        const res = await request(app).get('/api/language/' + createdLanguage._id);
         const content = res.text;
 
         //Assert (Afirmar)
@@ -97,6 +97,6 @@ describe('[ Route / Idioma ]', () => {
 });
 
 //TODO Probar validaciones de inputs, con sus retornos de la API.
-/*describe('[ Validations / Idioma ]', () => {
+/*describe('[ Validations / Language ]', () => {
     
 });*/

@@ -1,16 +1,16 @@
 ## Comandos para la extension Rest Client
 
-## CRUD Usuarios
+## CRUD Users
 
-### Obtener todos los Usuarios
-GET http://localhost:3005/api/usuario
+### Obtener todos los Users
+GET http://localhost:3005/api/user
 
 ### Obtener uno
-GET http://localhost:3005/api/usuario/66b5954bf8925423aa283012
+GET http://localhost:3005/api/user/66b5954bf8925423aa283012
 
 //WARNING ojo con los inputs
 ### Crear un nuevo recurso
-POST http://localhost:3005/api/usuario
+POST http://localhost:3005/api/user
 Content-Type: application/json
 
 {
@@ -18,14 +18,14 @@ Content-Type: application/json
     "password": "pass",
     "email":"dasda@cc.bb",
     "role":"Cliente",
-    "suscripcions": [
+    "subscriptions": [
         {
-            "suscripcionId":"670c3b7ef2006065e2583600",
+            "subscriptionId":"670c3b7ef2006065e2583600",
             "startDate":"2024-09-17T22:56:01.513Z",
             "endDate":"2024-09-17T22:56:01.513Z"
         },
         {
-            "suscripcionId":"670c3b7ef2006065e258366c",
+            "subscriptionId":"670c3b7ef2006065e258366c",
             "startDate":"2024-09-18T22:56:01.513Z",
             "endDate":"2024-09-17T22:56:01.513Z"
         }
@@ -33,17 +33,17 @@ Content-Type: application/json
 }
 
 ### Modificar un recurso
-PUT http://localhost:3005/api/usuario/66b5954bf8925423aa283012
+PUT http://localhost:3005/api/user/66b5954bf8925423aa283012
 
 Content-Type: application/json
 
 {
-    "usuario": "Pedro Pascal",
+    "user": "Pedro Pascal",
     "contra": "I'm not in a teapot",
     "email":"dasda@cc.bb",
     "role":"Cliente"
 }
 
 ### Eliminar un recurso
-DELETE http://localhost:3005/api/usuario/6695b405754f295c28475aae
+DELETE http://localhost:3005/api/user/6695b405754f295c28475aae
 

@@ -12,7 +12,7 @@ class UserSubscription {
     @prop({ required: true, ref: getName(Subscription) })
     public subscriptionRef!: Ref<Subscription>;
 
-    //Se agrega userId para validar por indice no exitan dos suscripciones con la misma fecha para un mismo usuario
+    //Se agrega userId para validar por indice no exitan dos subscriptions con la misma fecha para un mismo user
     @prop({ required: true })
     public userId!: string;
 
@@ -37,7 +37,7 @@ class User {
     public role!: Ref<Role>;
 
     @prop({ required: true, type: () => [UserSubscription] })
-    public suscripcions!: UserSubscription[];
+    public subscriptions!: UserSubscription[];
 }
 
 const UserModel = getModelForClass(User);
