@@ -29,13 +29,12 @@ app.use("/api/collection/", AuthController.authenticateToken, collectionRouter);
 app.use("/api/subscription/", AuthController.authenticateToken, subscriptionRouter); //Permisos manejados dentro de su Router
 app.use("/api/subscriptionprice/", AuthController.authenticateToken, subscriptionPriceRouter); //Permisos manejados dentro de su Router
 app.use("/api/chapter/", AuthController.authenticateToken, chapterRouter); //Permisos manejados dentro de su Router
-app.use("/api/replay/", AuthController.authenticateToken, AuthController.allowedRoles(["admin"]), replayRouter); //TODO A "client" le puede interesar saber sus replayes, o buscar una en especial (GetOne)
+app.use("/api/replay/", AuthController.authenticateToken, AuthController.allowedRoles(["admin"]), replayRouter); //TODO A "client" le puede interesar saber sus replays, o buscar una en especial (GetOne)
 app.use("/api/language/", AuthController.authenticateToken, AuthController.allowedRoles(["admin"]), languageRouter); //Ruta protegida
 app.use("/api/narrator/", AuthController.authenticateToken, AuthController.allowedRoles(["admin"]), narratorRouter); //Ruta protegida
 app.use("/api/author/", AuthController.authenticateToken, AuthController.allowedRoles(["admin"]), authorRouter); //Ruta protegida
 app.use("/api/host/", AuthController.authenticateToken, AuthController.allowedRoles(["admin"]), hostRouter); //Ruta protegida
-app.use("/api/tipouser/", AuthController.authenticateToken, AuthController.allowedRoles(["admin"]), roleRouter); //Ruta protegida
+app.use("/api/role/", AuthController.authenticateToken, AuthController.allowedRoles(["admin"]), roleRouter); //Ruta protegida
 app.use("/api/auth", authRouter);
-//TODO Faltan adaptar la nomenclatura en los inputs de controller y logica de repository.
 
 export default app;
