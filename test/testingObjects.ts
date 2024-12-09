@@ -7,6 +7,10 @@ import { Author, AuthorModel } from "../src/schemas/authorSchema";
 import { Host, HostModel } from "../src/schemas/hostSchema";
 import { Category, CategoryModel } from "../src/schemas/categorySchema";
 import { Collection, CollectionModel } from "../src/schemas/collectionSchema";
+import { Payload } from "../src/controllers/authController";
+import jwt from "jsonwebtoken";
+
+export const token = jwt.sign({userId:"" , role:"admin"} as Payload, process.env.TOKEN_SECRET!, { expiresIn: process.env.TOKEN_TIMER });
 
 export class TestingObjects {
     static async newRole(name:string) : Promise<HydratedDocument<Role>> {

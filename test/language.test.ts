@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../src/app';
 import { Language } from '../src/schemas/languageSchema';
+import { token } from './testingObjects';
 
 describe('[ Route / Language ]', () => {
     it('[GetAll] should return 200 OK with an array of languages', async () => {
@@ -9,7 +10,7 @@ describe('[ Route / Language ]', () => {
         //const expectedContent;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/language');
+        const res = await request(app).get('/api/language').set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -28,7 +29,7 @@ describe('[ Route / Language ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).post('/api/language').send(expectedContent);
+        const res = await request(app).post('/api/language').send(expectedContent).set('Authorization', `Bearer ${token}`);
         const content = res.body;
         createdLanguage = content;
 
@@ -43,7 +44,7 @@ describe('[ Route / Language ]', () => {
         const expectedContent = createdLanguage;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/language/' + expectedContent._id);
+        const res = await request(app).get('/api/language/' + expectedContent._id).set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -59,7 +60,7 @@ describe('[ Route / Language ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).put('/api/language/' + createdLanguage._id).send(expectedContent);
+        const res = await request(app).put('/api/language/' + createdLanguage._id).send(expectedContent).set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -73,7 +74,7 @@ describe('[ Route / Language ]', () => {
         const expectedContent = "Language Borrado";
 
         //Act (Actuar)
-        const res = await request(app).delete('/api/language/' + createdLanguage._id);
+        const res = await request(app).delete('/api/language/' + createdLanguage._id).set('Authorization', `Bearer ${token}`);
         const content = res.text;
 
         //Assert (Afirmar)
@@ -87,7 +88,7 @@ describe('[ Route / Language ]', () => {
         const expectedContent = "No se encontró el language.";
 
         //Act (Actuar)
-        const res = await request(app).get('/api/language/' + createdLanguage._id);
+        const res = await request(app).get('/api/language/' + createdLanguage._id).set('Authorization', `Bearer ${token}`);
         const content = res.text;
 
         //Assert (Afirmar)

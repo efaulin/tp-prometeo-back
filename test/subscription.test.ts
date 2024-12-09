@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../src/app';
 import { Subscription } from '../src/schemas/subscriptionSchema';
+import { token } from './testingObjects';
 
 describe('[ Route / Subscription ]', () => {
     it('[GetAll] should return 200 OK with an array of subscriptions', async () => {
@@ -9,7 +10,7 @@ describe('[ Route / Subscription ]', () => {
         //const expectedContent;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/subscription');
+        const res = await request(app).get('/api/subscription').set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -25,7 +26,7 @@ describe('[ Route / Subscription ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).post('/api/subscription').send(expectedContent);
+        const res = await request(app).post('/api/subscription').send(expectedContent).set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -50,7 +51,7 @@ describe('[ Route / Subscription ]', () => {
         }
 
         //Act (Actuar)
-        const res = await request(app).post('/api/subscription').send(expectedContent);
+        const res = await request(app).post('/api/subscription').send(expectedContent).set('Authorization', `Bearer ${token}`);
         const content = res.body;
         subscriptionId = content._id;
 
@@ -65,7 +66,7 @@ describe('[ Route / Subscription ]', () => {
         const expectedContent = prices;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/subscription/' + subscriptionId + '/prices');
+        const res = await request(app).get('/api/subscription/' + subscriptionId + '/prices').set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -82,7 +83,7 @@ describe('[ Route / Subscription ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).put('/api/subscription/' + subscriptionId).send(expectedContent);
+        const res = await request(app).put('/api/subscription/' + subscriptionId).send(expectedContent).set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -96,7 +97,7 @@ describe('[ Route / Subscription ]', () => {
         const expectedContent = "Subscription Borrada";
 
         //Act (Actuar)
-        const res = await request(app).delete('/api/subscription/' + subscriptionId);
+        const res = await request(app).delete('/api/subscription/' + subscriptionId).set('Authorization', `Bearer ${token}`);
         const content = res.text;
 
         //Assert (Afirmar)
@@ -110,7 +111,7 @@ describe('[ Route / Subscription ]', () => {
         const expectedContent = "No se encontró la subscription.";
 
         //Act (Actuar)
-        const res = await request(app).get('/api/subscription/' + subscriptionId);
+        const res = await request(app).get('/api/subscription/' + subscriptionId).set('Authorization', `Bearer ${token}`);
         const content = res.text;
 
         //Assert (Afirmar)

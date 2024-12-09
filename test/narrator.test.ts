@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../src/app';
 import { Narrator } from '../src/schemas/narratorSchema';
+import { token } from './testingObjects';
 
 describe('[ Route / Narrator ]', () => {
     it('[GetAll] should return 200 OK with an array of narrators', async () => {
@@ -9,7 +10,7 @@ describe('[ Route / Narrator ]', () => {
         //const expectedContent;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/narrator');
+        const res = await request(app).get('/api/narrator').set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -28,7 +29,7 @@ describe('[ Route / Narrator ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).post('/api/narrator').send(expectedContent);
+        const res = await request(app).post('/api/narrator').send(expectedContent).set('Authorization', `Bearer ${token}`);
         const content = res.body;
         createdNarrator = content;
 
@@ -43,7 +44,7 @@ describe('[ Route / Narrator ]', () => {
         const expectedContent = createdNarrator;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/narrator/' + expectedContent._id);
+        const res = await request(app).get('/api/narrator/' + expectedContent._id).set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -59,7 +60,7 @@ describe('[ Route / Narrator ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).put('/api/narrator/' + createdNarrator._id).send(expectedContent);
+        const res = await request(app).put('/api/narrator/' + createdNarrator._id).send(expectedContent).set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -73,7 +74,7 @@ describe('[ Route / Narrator ]', () => {
         const expectedContent = "Narrator Borrado";
 
         //Act (Actuar)
-        const res = await request(app).delete('/api/narrator/' + createdNarrator._id);
+        const res = await request(app).delete('/api/narrator/' + createdNarrator._id).set('Authorization', `Bearer ${token}`);
         const content = res.text;
 
         //Assert (Afirmar)
@@ -87,7 +88,7 @@ describe('[ Route / Narrator ]', () => {
         const expectedContent = "No se encontró el narrator.";
 
         //Act (Actuar)
-        const res = await request(app).get('/api/narrator/' + createdNarrator._id);
+        const res = await request(app).get('/api/narrator/' + createdNarrator._id).set('Authorization', `Bearer ${token}`);
         const content = res.text;
 
         //Assert (Afirmar)

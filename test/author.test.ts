@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../src/app';
 import { Author } from '../src/schemas/authorSchema';
+import { token } from './testingObjects';
 
 describe('[ Route / Author ]', () => {
     it('[GetAll] should return 200 OK with an array of authors', async () => {
@@ -9,7 +10,7 @@ describe('[ Route / Author ]', () => {
         //const expectedContent;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/author');
+        const res = await request(app).get('/api/author').set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -28,7 +29,7 @@ describe('[ Route / Author ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).post('/api/author').send(expectedContent);
+        const res = await request(app).post('/api/author').send(expectedContent).set('Authorization', `Bearer ${token}`);
         const content = res.body;
         createdAuthor = content;
 
@@ -43,7 +44,7 @@ describe('[ Route / Author ]', () => {
         const expectedContent = createdAuthor;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/author/' + expectedContent._id);
+        const res = await request(app).get('/api/author/' + expectedContent._id).set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -59,7 +60,7 @@ describe('[ Route / Author ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).put('/api/author/' + createdAuthor._id).send(expectedContent);
+        const res = await request(app).put('/api/author/' + createdAuthor._id).send(expectedContent).set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -73,7 +74,7 @@ describe('[ Route / Author ]', () => {
         const expectedContent = "Author Borrado";
 
         //Act (Actuar)
-        const res = await request(app).delete('/api/author/' + createdAuthor._id);
+        const res = await request(app).delete('/api/author/' + createdAuthor._id).set('Authorization', `Bearer ${token}`);
         const content = res.text;
 
         //Assert (Afirmar)
@@ -87,7 +88,7 @@ describe('[ Route / Author ]', () => {
         const expectedContent = "No se encontró el author.";
 
         //Act (Actuar)
-        const res = await request(app).get('/api/author/' + createdAuthor._id);
+        const res = await request(app).get('/api/author/' + createdAuthor._id).set('Authorization', `Bearer ${token}`);
         const content = res.text;
 
         //Assert (Afirmar)

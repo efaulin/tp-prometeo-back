@@ -1,7 +1,7 @@
 import request from 'supertest';
 import app from '../src/app';
 import { Chapter } from '../src/schemas/chapterSchema';
-import { TestingObjects } from './testingObjects';
+import { TestingObjects, token } from './testingObjects';
 
 describe('[ Route / Chapter ]', () => {
     it('[GetAll] should return 200 OK with an array of chapters', async () => {
@@ -10,7 +10,7 @@ describe('[ Route / Chapter ]', () => {
         //const expectedContent;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/chapter');
+        const res = await request(app).get('/api/chapter').set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -47,7 +47,7 @@ describe('[ Route / Chapter ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).post('/api/chapter').send(expectedContent);
+        const res = await request(app).post('/api/chapter').send(expectedContent).set('Authorization', `Bearer ${token}`);
         const content = res.body;
         createdChapter = content;
 
@@ -69,7 +69,7 @@ describe('[ Route / Chapter ]', () => {
         const expectedContent = createdChapter;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/chapter/' + expectedContent._id);
+        const res = await request(app).get('/api/chapter/' + expectedContent._id).set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -112,7 +112,7 @@ describe('[ Route / Chapter ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).put('/api/chapter/' + createdChapter._id).send(expectedContent);
+        const res = await request(app).put('/api/chapter/' + createdChapter._id).send(expectedContent).set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -134,7 +134,7 @@ describe('[ Route / Chapter ]', () => {
         const expectedContent = "Chapter Borrado";
 
         //Act (Actuar)
-        const res = await request(app).delete('/api/chapter/' + createdChapter._id);
+        const res = await request(app).delete('/api/chapter/' + createdChapter._id).set('Authorization', `Bearer ${token}`);
         const content = res.text;
 
         //Assert (Afirmar)
@@ -148,7 +148,7 @@ describe('[ Route / Chapter ]', () => {
         const expectedContent = "No se encontró el chapter.";
 
         //Act (Actuar)
-        const res = await request(app).get('/api/chapter/' + createdChapter._id);
+        const res = await request(app).get('/api/chapter/' + createdChapter._id).set('Authorization', `Bearer ${token}`);
         const content = res.text;
 
         //Assert (Afirmar)

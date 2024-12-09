@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../src/app';
 import { Host } from '../src/schemas/hostSchema';
+import { token } from './testingObjects';
 
 describe('[ Route / Host ]', () => {
     it('[GetAll] should return 200 OK with an array of hosts', async () => {
@@ -9,7 +10,7 @@ describe('[ Route / Host ]', () => {
         //const expectedContent;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/host');
+        const res = await request(app).get('/api/host').set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -28,7 +29,7 @@ describe('[ Route / Host ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).post('/api/host').send(expectedContent);
+        const res = await request(app).post('/api/host').send(expectedContent).set('Authorization', `Bearer ${token}`);
         const content = res.body;
         createdHost = content;
 
@@ -43,7 +44,7 @@ describe('[ Route / Host ]', () => {
         const expectedContent = createdHost;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/host/' + expectedContent._id);
+        const res = await request(app).get('/api/host/' + expectedContent._id).set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -59,7 +60,7 @@ describe('[ Route / Host ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).put('/api/host/' + createdHost._id).send(expectedContent);
+        const res = await request(app).put('/api/host/' + createdHost._id).send(expectedContent).set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -73,7 +74,7 @@ describe('[ Route / Host ]', () => {
         const expectedContent = "Host Borrado";
 
         //Act (Actuar)
-        const res = await request(app).delete('/api/host/' + createdHost._id);
+        const res = await request(app).delete('/api/host/' + createdHost._id).set('Authorization', `Bearer ${token}`);
         const content = res.text;
 
         //Assert (Afirmar)
@@ -87,7 +88,7 @@ describe('[ Route / Host ]', () => {
         const expectedContent = "No se encontró el host.";
 
         //Act (Actuar)
-        const res = await request(app).get('/api/host/' + createdHost._id);
+        const res = await request(app).get('/api/host/' + createdHost._id).set('Authorization', `Bearer ${token}`);
         const content = res.text;
 
         //Assert (Afirmar)

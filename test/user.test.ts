@@ -1,7 +1,7 @@
 import request from 'supertest';
 import app from '../src/app';
 import { User } from '../src/schemas/userSchema';
-import { TestingObjects } from './testingObjects';
+import { TestingObjects, token } from './testingObjects';
 
 describe('[ Route / User ]', () => {
     it('[GetAll] should return 200 OK with an array of users', async () => {
@@ -10,7 +10,7 @@ describe('[ Route / User ]', () => {
         //const expectedContent;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/user');
+        const res = await request(app).get('/api/user').set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -46,7 +46,7 @@ describe('[ Route / User ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).post('/api/user').send(expectedContent);
+        const res = await request(app).post('/api/user').send(expectedContent).set('Authorization', `Bearer ${token}`);
         const content = res.body;
         createdUser = content;
 
@@ -64,7 +64,7 @@ describe('[ Route / User ]', () => {
         const expectedContent = createdUser;
 
         //Act (Actuar)
-        const res = await request(app).get('/api/user/' + expectedContent._id);
+        const res = await request(app).get('/api/user/' + expectedContent._id).set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
@@ -72,7 +72,7 @@ describe('[ Route / User ]', () => {
         expect(content.username).toBe(expectedContent.username);
         expect(content.password).toBe(expectedContent.password);
         expect(content.roleRef.name).toBe(expectedContent.roleRef.name);
-        expect(content.subscriptionsRef[0].subscriptionId.type).toBe(expectedContent.subscriptionsRef[0].subscriptionId.type);
+        expect(content.subscriptionsRef[0].subscriptionRef.type).toBe(expectedContent.subscriptionsRef[0].subscriptionRef.type);
         expect(content.subscriptionsRef[0].startDate).toBe(expectedContent.subscriptionsRef[0].startDate);
     });
 
@@ -102,14 +102,14 @@ describe('[ Route / User ]', () => {
         };
 
         //Act (Actuar)
-        const res = await request(app).put('/api/user/' + createdUser._id).send(expectedContent);
+        const res = await request(app).put('/api/user/' + createdUser._id).send(expectedContent).set('Authorization', `Bearer ${token}`);
         const content = res.body;
 
         //Assert (Afirmar)
         expect(res.status).toBe(expectedStatus);
         expect(content.username).toBe(expectedContent.username);
         expect(content.roleRef.name).toBe(testRole.name);
-        expect(content.subscriptionsRef[0].subscriptionId.type).toBe(testSuscription.type);
+        expect(content.subscriptionsRef[0].subscriptionRef.type).toBe(testSuscription.type);
         expect(content.subscriptionsRef[0].startDate).toBe(expectedContent.subscriptionsRef[0].startDate.toJSON());
     });
 
@@ -119,7 +119,7 @@ describe('[ Route / User ]', () => {
         const expectedContent = "User Borrado";
 
         //Act (Actuar)
-        const res = await request(app).delete('/api/user/' + createdUser._id);
+        const res = await request(app).delete('/api/user/' + createdUser._id).set('Authorization', `Bearer ${token}`);
         const content = res.text;
 
         //Assert (Afirmar)
@@ -133,7 +133,7 @@ describe('[ Route / User ]', () => {
         const expectedContent = "No se encontró el user.";
 
         //Act (Actuar)
-        const res = await request(app).get('/api/user/' + createdUser._id);
+        const res = await request(app).get('/api/user/' + createdUser._id).set('Authorization', `Bearer ${token}`);
         const content = res.text;
 
         //Assert (Afirmar)
