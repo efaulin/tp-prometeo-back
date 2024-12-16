@@ -35,6 +35,6 @@ app.use("/api/narrator/", AuthController.authenticateToken, AuthController.allow
 app.use("/api/author/", AuthController.authenticateToken, AuthController.allowedRoles(["admin"]), authorRouter); //Ruta protegida
 app.use("/api/host/", AuthController.authenticateToken, AuthController.allowedRoles(["admin"]), hostRouter); //Ruta protegida
 app.use("/api/role/", AuthController.authenticateToken, AuthController.allowedRoles(["admin"]), roleRouter); //Ruta protegida
-app.use("/api/auth", authRouter);
+app.use("/api/auth/", authRouter);
 
 export default app;
