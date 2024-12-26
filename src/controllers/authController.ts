@@ -69,7 +69,7 @@ export class AuthController {
         }
         //Envio el token
         const token = AuthController.generateAccessToken({userId: user._id.toString(), role: (user.roleRef as Role).name});
-        return res.status(200).json({ data: { token: token, user: user } });
+        return res.status(200).json({ token: token, user: { id:user.id, username:user.username, role: (user.roleRef as Role).name} });
     }
 
     static TokenRefresh(req: Request, res: Response) {
