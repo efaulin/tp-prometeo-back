@@ -34,9 +34,9 @@ export class CollectionController{
     static async Create(req: Request, res: Response){
         // Método para validar los datos de entrada
         const validateColInput = (req: Request): boolean => {
-            const { name, description, categoriesRef } = req.body;
+            const { name, description, categoriesRef } : { name:string, description:string, categoriesRef:string[] } = req.body;
             let control = true;
-            if (categoriesRef.length >= 1) {
+            if (categoriesRef && categoriesRef.length >= 1) {
                 for (let i = 0; i < categoriesRef.length && control ; i++) {
                     control = mongoose.isValidObjectId(categoriesRef[i]);
                 }
@@ -46,7 +46,7 @@ export class CollectionController{
         if (!validateColInput(req)) {
             return res.status(400).send("Datos de entrada inválidos.");
         }
-        const { name, description, categoriesRef } = req.body;
+        const { name, description, categoriesRef } : { name:string, description:string, categoriesRef:string[] } = req.body;
         try {
             const result = await CollectionRepository.Create(name, description, categoriesRef);
             if (typeof result == "string") {
