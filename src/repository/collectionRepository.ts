@@ -6,6 +6,7 @@ export class CollectionRepository{
     static async GetOne(id: string): Promise<HydratedDocument<Collection> | null> {
         try {
             const result = await CollectionModel.findById(id);
+            if (result) await CollectionRepository.populateRelations(result);
             return result;
         } catch (error) {
             console.error(error);
@@ -14,8 +15,11 @@ export class CollectionRepository{
     }
     static async GetAll(): Promise<Collection[] | undefined> {
         try {
-            const Collections = await CollectionModel.find().exec();
-            return Collections;
+            const collections = await CollectionModel.find().exec();
+            for (let i=0; i < collections.length; i++) {
+                await CollectionRepository.populateRelations(collections[i]);
+            }
+            return collections;
         } catch (error) {
             console.error('Error al obtener las collections:', error);
             throw error;
@@ -39,6 +43,7 @@ export class CollectionRepository{
                     categoriesRef: categories,
                 });
                 const result = await newCol.save();
+                if (result) await CollectionRepository.populateRelations(result);
                 return result;
             } else {
                 return categoryNotExist;
@@ -64,6 +69,7 @@ export class CollectionRepository{
             if (!categoryNotExist) {
                 // Usa findByIdAndUpdate para actualizar solo los campos proporcionados
                 const updatedCol = await CollectionModel.findByIdAndUpdate(id, updateFields, { new: true });
+                if (updatedCol) await CollectionRepository.populateRelations(updatedCol);
                 return updatedCol;
             } else {
                 return categoryNotExist;
@@ -81,5 +87,8 @@ export class CollectionRepository{
             console.error("Error al eliminar colección:", error);
             throw error;
         }
+    }
+    static async populateRelations(coll:HydratedDocument<Collection>) {
+        await coll.populate('categoriesRef');
     }
 }
