@@ -59,7 +59,8 @@ export class ChapterController{
             }
 
             //¿Nulos? Ninguno.
-            return tmpCap.collectionRef && mongoose.isValidObjectId(tmpCap.collectionRef) && tmpCap.name && tmpCap.durationInSeconds && tmpCap.languageRef && mongoose.isValidObjectId(tmpCap.languageRef) && tmpCap.description && tmpCap.uploadDate && tmpCap.publicationDate ? true : false;
+            const result = tmpCap.collectionRef && mongoose.isValidObjectId(tmpCap.collectionRef.toString()) && tmpCap.name && !isNaN(tmpCap.durationInSeconds!) && tmpCap.languageRef && mongoose.isValidObjectId(tmpCap.languageRef.toString()) && tmpCap.description && tmpCap.uploadDate && tmpCap.publicationDate ? true : false;
+            return result;
         };
         if (!validateInput(req)) {
             return res.status(400).send("Datos de entrada inválidos.");

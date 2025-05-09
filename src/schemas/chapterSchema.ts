@@ -23,7 +23,7 @@ class Chapter {
     public hostsRef?: Ref<Host>[];
 
     @prop({ required: true })
-    public durationInSeconds!: Number;
+    public durationInSeconds!: number;
 
     @prop({ required: true, ref: getName(Language) })
     public languageRef!: Ref<Language>;
