@@ -89,13 +89,16 @@ export class ChapterController{
                 updateFields.collectionRef = tmpCap.collectionRef;
             }
         }
-        if (tmpCap.hostsRef) {
-            let emptyHost = false;
-            for (let i=0; i < tmpCap.hostsRef.length && !emptyHost; i++) {
-                emptyHost = !mongoose.isValidObjectId(tmpCap.hostsRef[i]);
-            }
-            if (!emptyHost) updateFields.hostsRef = tmpCap.hostsRef;
+        if (tmpCap.hostsRef && (tmpCap.authorsRef || tmpCap.narratorRef)) {
+            return res.status(400).send("Datos de entrada inválidos.");
         } else {
+            if (tmpCap.hostsRef) {
+                let emptyHost = false;
+                for (let i=0; i < tmpCap.hostsRef.length && !emptyHost; i++) {
+                    emptyHost = !mongoose.isValidObjectId(tmpCap.hostsRef[i]);
+                }
+                if (!emptyHost) updateFields.hostsRef = tmpCap.hostsRef;
+            }
             if (tmpCap.authorsRef) {
                 let emptyAuthor = false;
                 for (let i=0; i < tmpCap.authorsRef.length && !emptyAuthor; i++) {

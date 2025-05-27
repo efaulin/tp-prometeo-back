@@ -86,10 +86,10 @@ export class ChapterRepository{
                 }
             }
             if (isAudiobook) {
-                await ChapterModel.findByIdAndUpdate(id, { hosts: null });
+                await ChapterModel.findByIdAndUpdate(id, { hostsRef: null });
             }
             if (isPodcast) {
-                await ChapterModel.findByIdAndUpdate(id, { authors: null, narrator: null });
+                await ChapterModel.findByIdAndUpdate(id, { authorsRef: null, narratorRef: null });
             }
             const updatedCol = await ChapterModel.findByIdAndUpdate(id, updateFields, { new: true });
             if (updatedCol) await ChapterRepository.populateRelations(updatedCol);
