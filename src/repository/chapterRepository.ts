@@ -115,12 +115,18 @@ export class ChapterRepository{
         const language = await LanguageRepository.GetOne(tmp.languageRef!.toString());
         if (colection && language) {
             if (tmp.hostsRef) {
-                const hosts = await HostRepository.GetOne(tmp.hostsRef.toString());
-                if (hosts) return true;
+                let badHost = false;
+                for (let i=0; i < tmp.hostsRef.length && !badHost; i++) {
+                    if (!await HostRepository.GetOne(tmp.hostsRef[i].toString())) badHost = true;
+                }
+                return !badHost;
             } else if (tmp.narratorRef && tmp.authorsRef) {
                 const narrator = await NarratorRepository.GetOne(tmp.narratorRef!.toString());
-                const authors = await AuthorRepository.GetOne(tmp.authorsRef!.toString());
-                if (narrator && authors) return true;
+                let badAuthor = false;
+                for (let i=0; i < tmp.authorsRef.length && !badAuthor && narrator; i++) {
+                    if (!await AuthorRepository.GetOne(tmp.authorsRef[i].toString())) badAuthor = true;
+                }
+                if (narrator && !badAuthor) return true;
             }
         }
         return false;

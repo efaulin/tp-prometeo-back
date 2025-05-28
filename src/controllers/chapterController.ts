@@ -128,7 +128,7 @@ export class ChapterController{
             }
             return res.status(200).json(result);
         } catch (error) {
-            console.error("Error al actualizar colección:", error);
+            console.error("Error al actualizar capitulo:", error);
             return res.status(500).send("[Error] Update Chapter");
         }
     }
